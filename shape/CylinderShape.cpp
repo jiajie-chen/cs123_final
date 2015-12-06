@@ -46,8 +46,8 @@ void CylinderShape::makeShapeWithNormals()
 
     // initialize data
     int offset = 0;
-    int quadStride = 36;
-    int triStride = 18;
+    int quadStride = 48;
+    int triStride = 24;
 
     float dRad = 2*PI/m_shapeP2;
 
@@ -57,17 +57,29 @@ void CylinderShape::makeShapeWithNormals()
     glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.0f);
     for (int i = 0; i < m_shapeP2; i++) {
         glm::vec3 right = glm::rotateY(left, dRad);
+        GLfloat uL = 1.f / m_shapeP2 * i;
+        GLfloat uR =;
+        GLfloat uC;
+        GLfloat vL;
+        GLfloat vR;
+        GLfloat vC;
 
         makeTriangle(offset,
                      center, normal,
                      left, normal,
-                     right, normal);
+                     right, normal,
+                     uC, vC,
+                     uL, vL,
+                     uR, vR);
         offset += triStride;
 
         makeTriangle(offset,
                      glm::rotateZ(center, PI), glm::rotateZ(normal, PI),
                      glm::rotateZ(left, PI), glm::rotateZ(normal, PI),
-                     glm::rotateZ(right, PI), glm::rotateZ(normal, PI));
+                     glm::rotateZ(right, PI), glm::rotateZ(normal, PI),
+                     uC, vC,
+                     uL, vL,
+                     uR, vR);
         offset += triStride;
 
         left = right;

@@ -59,10 +59,10 @@ void CubeShape::makeShapeWithNormals()
             glm::vec3 bl = glm::vec3(  a1,   b1, 0.5f);
             glm::vec3 br = glm::vec3(  a2,   b1, 0.5f);
             glm::vec3 nm = glm::vec3(0.0f, 0.0f, 1.0f);
-            GLfloat uMin = 1 / m_shapeP1 * i;
-            GLfloat uMax = 1 / m_shapeP1 * (i + 1);
-            GLfloat vMin = 1 / m_shapeP1 * j;
-            GLfloat vMax = 1 / m_shapeP1 * (j + 1);
+            GLfloat uMin = 1.f / m_shapeP1 * i;
+            GLfloat uMax = 1.f / m_shapeP1 * (i + 1);
+            GLfloat vMin = 1.f / m_shapeP1 * j;
+            GLfloat vMax = 1.f / m_shapeP1 * (j + 1);
 
 
             makeQuad(offset,
