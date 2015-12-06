@@ -40,7 +40,7 @@ void CubeShape::makeShapeWithNormals()
     m_numVertices = numTriangles * 3;
 
     // make vertex array
-    m_vertexData = new GLfloat[2 * m_numVertices * m_dimensions];
+    m_vertexData = new GLfloat[m_numVertices * (2 * m_dimensions + m_texDimensions)];
 
     //initialize data, going by rows of subsquares
     int offset = 0;
