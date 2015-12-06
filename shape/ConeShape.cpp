@@ -100,7 +100,7 @@ void ConeShape::makeShapeWithNormals()
                         glm::vec3(0.0f, 0.5f, 1.0f));
 
         GLfloat uL = 0;
-        GLfloat vT = 1.f / m_shapeP1 * (i + 1);
+        GLfloat vL = 1.f / m_shapeP1 * (i + 1);
         GLfloat vR = 1.f / m_shapeP1 * (i + 1);
         // go by slices
         for (int j = 1; j <= m_shapeP2; j++) {
