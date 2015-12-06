@@ -58,11 +58,11 @@ void CylinderShape::makeShapeWithNormals()
     for (int i = 0; i < m_shapeP2; i++) {
         glm::vec3 right = glm::rotateY(left, dRad);
         GLfloat uL = 1.f / m_shapeP2 * i;
-        GLfloat uR =;
-        GLfloat uC;
-        GLfloat vL;
-        GLfloat vR;
-        GLfloat vC;
+        GLfloat uR = 1.f / m_shapeP2 * (i + 1);
+        GLfloat uC = 1.f / m_shapeP2 * (i + .5);
+        GLfloat vL = 0;
+        GLfloat vR = 0;
+        GLfloat vC = 1;
 
         makeTriangle(offset,
                      center, normal,
