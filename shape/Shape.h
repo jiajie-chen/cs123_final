@@ -41,7 +41,7 @@ protected:
 
     virtual void makeShapeWithNormals();
 
-    static const int m_dimensions = 3;
+    static const int m_dimensions = 5;
 
     OpenGLShape *m_shape;
     GLfloat *m_vertexData;
