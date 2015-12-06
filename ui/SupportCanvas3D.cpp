@@ -211,7 +211,8 @@ void SupportCanvas3D::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::RightButton)
     {
         getCamera()->mouseDown(event->x(), event->y());
-        m_isDragging = true;
+        m_isDragging = !m_isDragging;
+        this->setMouseTracking(m_isDragging);
         update();
     }
 }
@@ -230,7 +231,7 @@ void SupportCanvas3D::mouseReleaseEvent(QMouseEvent *event)
     if (m_isDragging && event->button() == Qt::RightButton)
     {
         getCamera()->mouseUp(event->x(), event->y());
-        m_isDragging = false;
+        //m_isDragging = false;
         update();
     }
 }
