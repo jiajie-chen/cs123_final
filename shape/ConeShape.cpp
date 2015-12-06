@@ -46,8 +46,8 @@ void ConeShape::makeShapeWithNormals()
 
     // initialize data
     int offset = 0;
-    int quadStride = 36;
-    int triStride = 18;
+    int quadStride = 48;
+    int triStride = 24;
 
     float dRad = 2*PI/m_shapeP2;
 
@@ -55,13 +55,22 @@ void ConeShape::makeShapeWithNormals()
     glm::vec3 bottom = glm::vec3(0.0f, -0.5f, 0.0f);
     glm::vec3 right = glm::vec3(0.0f, -0.5f, 0.5f);
     glm::vec3 normal = glm::vec3(0.0f, -1.0f, 0.0f);
+    GLfloat uB = 1;
+    GLfloat uR = 1;
+    GLfloat vB = 0;
+    GLfloat vR = 0;
     for (int i = 0; i < m_shapeP2; i++) {
         glm::vec3 left = glm::rotateY(right, dRad);
+        GLfloat uL = 1.f / m_shapeP2 * i;
+        GLflaot vL = 0;
 
         makeTriangle(offset,
                      bottom, normal,
                      left, normal,
-                     right, normal);
+                     right, normal,
+                     uB, vB,
+                     uL, vL,
+                     uR, vR);
         offset += triStride;
 
         right = left;
