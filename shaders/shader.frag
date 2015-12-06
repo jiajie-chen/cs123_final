@@ -5,7 +5,7 @@ in vec2 texc;
 out vec4 fragColor;
 
 uniform sampler2D tex;
-uniform int useTexture = 1;
+uniform int useTexture = 0;
 
 void main(){
     vec3 texColor = texture(tex, texc).rgb;
