@@ -111,13 +111,18 @@ void Scene::addPrimitive(const CS123ScenePrimitive &scenePrimitive, const glm::m
 
     // make sure the primitive texture is correctly defined
     if (n.primitive.material.textureMap->isUsed) {
-        QImage image(n.primitive.material.textureMap->filename);
-        glGenTextures(1, &n.primitive.material.textureMap->texid);
-        glBindTexture(GL_TEXTURE_2D, n.primitive.material.textureMap->texid);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        QString path(n.primitive.material.textureMap->filename.c_str());
+        QImage image(path);
+        if (image.isNull()) {
+            n.primitive.material.textureMap->isUsed = 0;
+        } else {
+            glGenTextures(1, &n.primitive.material.textureMap->texid);
+            glBindTexture(GL_TEXTURE_2D, n.primitive.material.textureMap->texid);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
     }
 
 
