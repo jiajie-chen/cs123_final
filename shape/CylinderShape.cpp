@@ -97,12 +97,18 @@ void CylinderShape::makeShapeWithNormals()
             glm::vec3 ur = glm::rotateY(ul, dRad);
             glm::vec3 br = glm::rotateY(bl, dRad);
             glm::vec3 rN = glm::rotateY(lN, dRad);
+            GLfloat uMin = 1.f / m_shapeP1 * j;
+            GLfloat uMax = 1.f / m_shapeP1 * (j + 1);
+            GLfloat vMin = 1.f / m_shapeP2 * i;
+            GLfloat vMax = 1.f / m_shapeP2 * (i + 1);
 
             makeQuad(offset,
                      ul, lN,
                      ur, rN,
                      bl, lN,
-                     br, rN);
+                     br, rN,
+                     uMin, uMax,
+                     vMin, vMax);
             offset += quadStride;
 
             ul = ur;
