@@ -88,6 +88,9 @@ protected:
     virtual void wheelEvent(QWheelEvent *event);
     virtual void resizeEvent(QResizeEvent *event);
 
+    virtual void keyPressEvent(QKeyEvent *event);
+
+
     float m_oldPosX, m_oldPosY, m_oldPosZ;
     float m_oldRotU, m_oldRotV, m_oldRotN;
 

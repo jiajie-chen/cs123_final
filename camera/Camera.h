@@ -43,6 +43,8 @@ public:
 
     // Called when the scroll wheel changes position.
     virtual void mouseScrolled(int delta)   {}
+
+    virtual void translate(glm::vec3 v) {}
 };
 
 #endif // CAMERA_H
