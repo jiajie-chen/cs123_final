@@ -105,8 +105,6 @@ void SceneviewScene::renderGeometry()
     for (CS123SceneFlattenedNode prim : m_primitives) {
         CS123SceneMaterial adjustedMat = prim.primitive.material;
 
-        adjustedMat.textureMap = 0;
-
         adjustedMat.cAmbient.r *= m_global.ka;
         adjustedMat.cAmbient.g *= m_global.ka;
         adjustedMat.cAmbient.b *= m_global.ka;
