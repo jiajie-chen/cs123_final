@@ -63,7 +63,7 @@ void Shape::makeShapeWithNormals()
     int dataSize = stride * m_numVertices;
 
     // bind array data
-    m_shape->setVertexData(m_vertexData.get(), dataSize, GL_TRIANGLES, m_numVertices);
+    m_shape->setVertexData(m_vertexData, dataSize, GL_TRIANGLES, m_numVertices);
     // set vertex attribute
     m_shape->setAttribute(m_vertexIndex, m_dimensions, GL_FLOAT, GL_FALSE, stride, 0);
     // set normal attribute
@@ -77,7 +77,7 @@ void Shape::setNormalRenderer(NormalRenderer *normalRenderer)
 
     // add normal rendering
     normalRenderer->generateArrays(
-                m_vertexData.get(),          // Pointer to vertex data
+                m_vertexData,          // Pointer to vertex data
                 stride,        // Stride (distance between consecutive vertices/normals in BYTES
                 0,             // Offset of first position in BYTES
                 vertexSize,    // Offset of first normal in BYTES

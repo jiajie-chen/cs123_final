@@ -42,7 +42,7 @@ void CylinderShape::makeShapeWithNormals()
     m_numVertices = numTriangles * 3;
 
     // make vertex array
-    m_vertexData.reset(new GLfloat[2 * m_numVertices * m_dimensions]);
+    m_vertexData = new GLfloat[2 * m_numVertices * m_dimensions];
 
     // initialize data
     int offset = 0;

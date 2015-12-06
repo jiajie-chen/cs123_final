@@ -38,8 +38,8 @@ protected:
 
     static const int m_dimensions = 3;
 
-    std::unique_ptr<OpenGLShape> m_shape;
-    std::unique_ptr<GLfloat[]> m_vertexData;
+    OpenGLShape *m_shape;
+    GLfloat *m_vertexData;
     int m_numVertices;
 
     int m_shapeP1;
