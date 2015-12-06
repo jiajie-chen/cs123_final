@@ -78,6 +78,8 @@ void Shape::makeShapeWithNormals()
     m_shape->setAttribute(m_vertexIndex, m_dimensions, GL_FLOAT, GL_FALSE, stride, 0);
     // set normal attribute
     m_shape->setAttribute(m_normalIndex, m_dimensions, GL_FLOAT, GL_TRUE, stride, vertexSize);
+    // set texCoord attribute
+    m_shape->setAttribute(m_texCoordIndex, m_texDimensions, GL_FLOAT, GL_FALSE, stride, 2 * vertexSize);
 }
 
 void Shape::setNormalRenderer(NormalRenderer *normalRenderer)
