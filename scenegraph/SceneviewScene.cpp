@@ -114,7 +114,6 @@ void SceneviewScene::renderGeometry()
         // apply transforms
         glUniformMatrix4fv(m_uniformLocs["m"], 1, GL_FALSE,
                 glm::value_ptr(prim.ctm));
-
         m_shapes[prim.primitive.type]->draw();
     }
 }
