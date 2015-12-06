@@ -67,7 +67,8 @@ void Shape::makeShapeWithNormals()
     // m_shape.reset(new OpenGLShape());
 
     int vertexSize = sizeof(GLfloat) * m_dimensions;
-    int stride = 2 * vertexSize + m_texDimensions;
+    int texSize = sizeof(GLfloat) * m_texDimensions;
+    int stride = 2 * vertexSize + texSize;
     int dataSize = stride * m_numVertices;
 
     // bind array data
