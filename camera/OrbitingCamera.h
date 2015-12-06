@@ -29,6 +29,7 @@ public:
     virtual void mouseDown(int x, int y);
     virtual void mouseDragged(int x, int y);
     virtual void mouseScrolled(int delta);
+    virtual void translate(glm::vec3 v);
 
     void updateMatrices();
 
@@ -40,6 +41,7 @@ private:
     glm::mat4x4 m_projectionMatrix;
     float m_aspectRatio, m_angleX, m_angleY, m_zoomZ;
     int m_oldX, m_oldY;
+    glm::vec3 m_position;
 };
 
 #endif // ORBITINGCAMERA_H

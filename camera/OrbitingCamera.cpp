@@ -23,6 +23,7 @@ OrbitingCamera::OrbitingCamera()
     m_aspectRatio = 1;
     m_angleX = m_angleY = 0;
     m_zoomZ = -5;
+    m_position = glm::vec3();
 }
 
 void OrbitingCamera::setAspectRatio(float aspectRatio)
@@ -108,7 +109,14 @@ void OrbitingCamera::updateProjectionMatrix()
 void OrbitingCamera::updateViewMatrix()
 {
     m_viewMatrix =
-            glm::translate(glm::vec3(0.f, 0.f, m_zoomZ)) *
+            glm::translate(glm::vec3(0.f, 0.f, m_zoomZ) + m_position) *
             glm::rotate(glm::radians(m_angleY), glm::vec3(0.f, 1.f, 0.f)) *
             glm::rotate(glm::radians(m_angleX), glm::vec3(1.f, 0.f, 0.f));
+}
+
+void OrbitingCamera::translate(glm::vec3 v)
+{
+    m_position +=v;
+
+    updateViewMatrix();
 }
