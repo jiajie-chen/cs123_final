@@ -26,17 +26,23 @@ protected:
     void makeTriangle(int dataOffset,
                       const glm::vec3 &up, const glm::vec3 &upN,
                       const glm::vec3 &bl, const glm::vec3 &blN,
-                      const glm::vec3 &br, const glm::vec3 &brN);
+                      const glm::vec3 &br, const glm::vec3 &brN,
+                      const GLfloat upU, const GLfloat upV,
+                      const GLfloat blU, const GLfloat blV,
+                      const GLfloat brU, const GLfloat brV);
 
     void makeQuad(int dataOffset,
                   const glm::vec3 &ul, const glm::vec3 &ulN,
                   const glm::vec3 &ur, const glm::vec3 &urN,
                   const glm::vec3 &bl, const glm::vec3 &blN,
-                  const glm::vec3 &br, const glm::vec3 &brN);
+                  const glm::vec3 &br, const glm::vec3 &brN,
+                  const GLfloat uMin, const GLfloat uMax,
+                  const GLfloat vMin, const GLfloat vMax);
 
     virtual void makeShapeWithNormals();
 
     static const int m_dimensions = 3;
+    static const int m_texDimensions = 2;
 
     OpenGLShape *m_shape;
     GLfloat *m_vertexData;
