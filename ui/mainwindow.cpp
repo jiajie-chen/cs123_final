@@ -26,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     QGridLayout *gridLayout = new QGridLayout(ui->canvas3D);
     m_canvas3D = new Canvas3D(qglFormat, this);
+
+    SceneviewScene *scene = new SceneviewScene;
+    if (m_canvas3D->isInitialized()) scene->init();
+    m_canvas3D->setScene(scene);
+
     gridLayout->addWidget(m_canvas3D, 0, 1);
 
     // Restore the UI settings
@@ -58,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Reset the contents of both canvas widgets (make a new 500x500 image for the 2D one)
     fileNew();
+    m_canvas3D->update();
 }
 
 MainWindow::~MainWindow()

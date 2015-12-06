@@ -57,7 +57,7 @@ void SceneviewScene::init()
                 0,
                 glGetAttribLocation(m_shader, "position"),
                 glGetAttribLocation(m_shader, "normal"));
-    m_shapes[PRIMITIVE_TORUS] = new SphereShape(
+    m_shapes[PRIMITIVE_LSYSTEM] = new SphereShape(
                 10,
                 10,
                 0,

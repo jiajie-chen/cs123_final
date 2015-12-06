@@ -24,6 +24,7 @@ CS123XmlSceneParser::CS123XmlSceneParser(const std::string& name)
     memset(&m_globalData, 0, sizeof(CS123SceneGlobalData));
     m_objects.clear();
     m_lights.clear();
+    m_lsystems.clear();
     m_nodes.clear();
 }
 
@@ -32,6 +33,11 @@ CS123XmlSceneParser::~CS123XmlSceneParser()
     std::vector<CS123SceneLightData*>::iterator lights;
     for (lights = m_lights.begin(); lights != m_lights.end(); lights++) {
         delete *lights;
+    }
+
+    std::map<std::string, LSystem*>::iterator lsystems;
+    for (lsystems = m_lsystems.begin(); lsystems != m_lsystems.end(); lsystems++) {
+        delete lsystems->second;
     }
 
     // Delete all Scene Nodes
@@ -52,6 +58,7 @@ CS123XmlSceneParser::~CS123XmlSceneParser()
 
     m_nodes.clear();
     m_lights.clear();
+    m_lsystems.clear();
     m_objects.clear();
 }
 
@@ -76,10 +83,27 @@ bool CS123XmlSceneParser::getLightData(int i, CS123SceneLightData& data) const
 {
     if (i < 0 || (unsigned int)i >= m_lights.size())
     {
-        cout << "invalid light index %d" << endl;
+        cout << "invalid light index" << endl;
         return false;
     }
     data = *m_lights[i];
+    return true;
+}
+
+int CS123XmlSceneParser::getNumLSystems() const
+{
+    return m_lsystems.size();
+}
+
+bool CS123XmlSceneParser::getLSystemData(std::string id, LSystem& data) const
+{
+    if (m_lsystems.find(id) == m_lsystems.end())
+    {
+        cout << "invalid lsystem index" << endl;
+        return false;
+    }
+    delete &data;
+    data = *m_lsystems[id];
     return true;
 }
 
@@ -152,6 +176,11 @@ bool CS123XmlSceneParser::parse()
         else if (e.tagName() == "cameradata")
         {
             if (!parseCameraData(e))
+                return false;
+        }
+        else if (e.tagName() == "lsystem")
+        {
+            if (!parseLSystemData(e))
                 return false;
         }
         else if (e.tagName() == "object")
@@ -641,6 +670,71 @@ bool CS123XmlSceneParser::parseCameraData(const QDomElement &cameradata)
 }
 
 /**
+ * Parse a <lsystem> tag and fill in m_lsystems.
+ */
+bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
+{
+    std::string id;
+    std::string initial;
+    std::map<std::string, std::string> rules;
+    rules.clear();
+
+    // Iterate over child elements
+    QDomNode childNode = lsystemdata.firstChild();
+    while (!childNode.isNull())
+    {
+        QDomElement e = childNode.toElement();
+        if (e.tagName() == "id")
+        {
+            if (!e.hasAttribute("v"))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+            id = e.attribute("v");
+        }
+        else if (e.tagName() == "initial")
+        {
+            if (!e.hasAttribute("v"))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+            initial = e.attribute("v");
+        }
+        else if (e.tagName() == "rule")
+        {
+            std::string sym;
+            std::string replace;
+            if (!e.hasAttribute("sym") || !e.hasAttribute("replace"))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+            sym = e.attribute("sym");
+            replace = e.attribute("replace");
+            rules[sym] = replace;
+        }
+        else if (!e.isNull())
+        {
+            UNSUPPORTED_ELEMENT(e);
+            return false;
+        }
+        childNode = childNode.nextSibling();
+    }
+
+    if (m_lsystems.find(id) != m_lsystems.end())
+    {
+        ERROR_AT(e);
+        cout << "duplicate lsystem index" << endl;
+        return false;
+    }
+
+    m_lsystems[id] = new LSystem(initial, rules);
+    return true;
+}
+
+/**
  * Parse an <object> tag and create a new CS123SceneNode in m_nodes.
  */
 bool CS123XmlSceneParser::parseObjectData(const QDomElement &object)
@@ -859,7 +953,29 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
     else if (primType == "cube") primitive->type = PRIMITIVE_CUBE;
     else if (primType == "cylinder") primitive->type = PRIMITIVE_CYLINDER;
     else if (primType == "cone") primitive->type = PRIMITIVE_CONE;
-    else if (primType == "torus") primitive->type = PRIMITIVE_TORUS;
+    else if (primType == "lsystem")
+    {
+        primitive->type = PRIMITIVE_LSYSTEM;
+        if (prim.hasAttribute("id"))
+        {
+            primitive->lsystemID = prim.attribute("id").toStdString();
+        }
+        else
+        {
+            cout << "lsystem must reference a type of lsystem" << endl;
+            return false;
+        }
+
+        if (prim.hasAttribute("depth"))
+        {
+            primitive->lsystemDepth = prim.attribute("depth").toUInt();
+        }
+        else
+        {
+            cout << "lsystem must specify a depth to iterate" << endl;
+            return false;
+        }
+    }
     else if (primType == "mesh")
     {
         primitive->type = PRIMITIVE_MESH;

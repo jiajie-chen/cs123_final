@@ -27,7 +27,6 @@ SOURCES += camera/OrbitingCamera.cpp \
     scenegraph/Scene.cpp \
     scenegraph/OpenGLScene.cpp \
     ui/SupportCanvas3D.cpp \
-    ui/SupportCanvas2D.cpp \
     ui/Settings.cpp \
     ui/mainwindow.cpp \
     ui/Databinding.cpp \
@@ -57,7 +56,6 @@ HEADERS += camera/OrbitingCamera.h \
     scenegraph/Scene.h \
     scenegraph/OpenGLScene.h \
     ui/SupportCanvas3D.h \
-    ui/SupportCanvas2D.h \
     ui/Settings.h \
     ui/mainwindow.h \
     ui/Databinding.h \

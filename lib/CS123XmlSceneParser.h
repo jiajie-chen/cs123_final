@@ -9,6 +9,8 @@
 
 #include <QtXml>
 
+class LSystem;
+
 /**
  * @class CS123XmlSceneParser
  *
@@ -51,6 +53,7 @@ class CS123XmlSceneParser : public CS123ISceneParser
       bool parseGlobalData(const QDomElement &globaldata);
       bool parseCameraData(const QDomElement &cameradata);
       bool parseLightData(const QDomElement &lightdata);
+      bool parseLSystemData(const QDomElement &lsystemdata);
       bool parseObjectData(const QDomElement &object);
       bool parseTransBlock(const QDomElement &transblock, CS123SceneNode* node);
       bool parsePrimitive(const QDomElement &prim, CS123SceneNode* node);
@@ -59,6 +62,7 @@ class CS123XmlSceneParser : public CS123ISceneParser
       mutable std::map<std::string, CS123SceneNode*> m_objects;
       CS123SceneCameraData m_cameraData;
       std::vector<CS123SceneLightData*> m_lights;
+      std::map<std::string, LSystem*> m_lsystems;
       CS123SceneGlobalData m_globalData;
       std::vector<CS123SceneNode*> m_nodes;
 };
