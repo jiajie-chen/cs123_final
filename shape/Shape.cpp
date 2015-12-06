@@ -3,7 +3,7 @@
 #include "OpenGLShape.h"
 #include "OpenGLScene.h"
 
-Shape::Shape(GLuint vertexAttribIndex, GLuint normalAttribIndex) :
+Shape::Shape(GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex) :
     m_shape(new OpenGLShape()),
     m_vertexData(new GLfloat[0]),
     m_numVertices(0),
@@ -11,7 +11,8 @@ Shape::Shape(GLuint vertexAttribIndex, GLuint normalAttribIndex) :
     m_shapeP2(0),
     m_shapeP3(0.f),
     m_vertexIndex(vertexAttribIndex),
-    m_normalIndex(normalAttribIndex)
+    m_normalIndex(normalAttribIndex),
+    m_texCoordIndex(texCoordAttribIndex)
 {
 }
 
@@ -77,6 +78,8 @@ void Shape::makeShapeWithNormals()
     m_shape->setAttribute(m_vertexIndex, m_dimensions, GL_FLOAT, GL_FALSE, stride, 0);
     // set normal attribute
     m_shape->setAttribute(m_normalIndex, m_dimensions, GL_FLOAT, GL_TRUE, stride, vertexSize);
+    // set texCoord attribute
+    m_shape->setAttribute(m_texCoordIndex, m_texDimensions, GL_FLOAT, GL_FALSE, stride, 2 * vertexSize);
 }
 
 void Shape::setNormalRenderer(NormalRenderer *normalRenderer)

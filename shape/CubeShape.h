@@ -7,7 +7,7 @@ class CubeShape : public Shape
 {
 public:
     CubeShape(int shapeParameter1, int shapeParameter2, float shapeParameter3,
-              GLuint vertexAttribIndex, GLuint normalAttribIndex);
+              GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
 
     virtual ~CubeShape();
 

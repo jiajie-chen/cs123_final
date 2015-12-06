@@ -40,6 +40,7 @@ void OpenGLScene::init()
 
     m_uniformLocs["position"] = glGetAttribLocation(m_shader, "position");
     m_uniformLocs["normal"] = glGetAttribLocation(m_shader, "normal");
+    m_uniformLocs["texCoord"] = glGetAttribLocation(m_shader, "texCoord");
 
     m_initialized = true;
 }
