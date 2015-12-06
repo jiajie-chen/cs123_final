@@ -7,7 +7,7 @@ class SphereShape : public Shape
 {
 public:
     SphereShape(int shapeParameter1, int shapeParameter2, float shapeParameter3,
-                GLuint vertexAttribIndex, GLuint normalAttribIndex);
+                GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
 
     virtual ~SphereShape();
 

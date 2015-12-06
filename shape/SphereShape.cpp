@@ -7,8 +7,8 @@
 #define PI 3.14159265f
 
 SphereShape::SphereShape(int shapeParameter1, int shapeParameter2, float shapeParameter3,
-                         GLuint vertexAttribIndex, GLuint normalAttribIndex)
-    : Shape(vertexAttribIndex, normalAttribIndex)
+                         GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex)
+    : Shape(vertexAttribIndex, normalAttribIndex, texCoordAttribIndex)
 {
     setTesselation(shapeParameter1, shapeParameter2, shapeParameter3);
 }
