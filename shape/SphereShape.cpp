@@ -20,8 +20,8 @@ SphereShape::~SphereShape()
 void SphereShape::setTesselation(int shapeParameter1, int shapeParameter2, float shapeParameter3)
 {
     // rectify parameters
-    int p1 = std::max(shapeParameter1, 4);
-    int p2 = std::max(shapeParameter2, 4);
+    int p1 = std::max(shapeParameter1, 2);
+    int p2 = std::max(shapeParameter2, 3);
     float p3 = shapeParameter3;
 
     // don't update values if haven't changed
@@ -50,28 +50,28 @@ void SphereShape::makeShapeWithNormals()
     int quadStride = 36;
     int triStride = 18;
 
-    float dLat = 2*PI/m_shapeP1;
+    float dLat = PI/m_shapeP1;
     float dLon = 2*PI/m_shapeP2;
 
     // go by horizontal slices
     for (int i = 0 ; i < m_shapeP1; i++) {
         // go by slices
         for (int j = 0; j < m_shapeP2; j++) {
-            float ulX = 0.5 * glm::sin(dLat*i) * glm::cos(dLon*j);
-            float ulY = 0.5 * glm::cos(dLat*i);
-            float ulZ = 0.5 * glm::sin(dLat*i) * glm::sin(dLon*j);
-
-            float blX = 0.5 * glm::sin(dLat*(i+1)) * glm::cos(dLon*j);
-            float blY = 0.5 * glm::cos(dLat*(i+1));
-            float blZ = 0.5 * glm::sin(dLat*(i+1)) * glm::sin(dLon*j);
-
-            float urX = 0.5 * glm::sin(dLat*i) * glm::cos(dLon*(j+1));
+            float urX = 0.5 * glm::sin(dLat*i) * glm::cos(dLon*j);
             float urY = 0.5 * glm::cos(dLat*i);
-            float urZ = 0.5 * glm::sin(dLat*i) * glm::sin(dLon*(j+1));
+            float urZ = 0.5 * glm::sin(dLat*i) * glm::sin(dLon*j);
 
-            float brX = 0.5 * glm::sin(dLat*(i+1)) * glm::cos(dLon*(j+1));
+            float brX = 0.5 * glm::sin(dLat*(i+1)) * glm::cos(dLon*j);
             float brY = 0.5 * glm::cos(dLat*(i+1));
-            float brZ = 0.5 * glm::sin(dLat*(i+1)) * glm::sin(dLon*(j+1));
+            float brZ = 0.5 * glm::sin(dLat*(i+1)) * glm::sin(dLon*j);
+
+            float ulX = 0.5 * glm::sin(dLat*i) * glm::cos(dLon*(j+1));
+            float ulY = 0.5 * glm::cos(dLat*i);
+            float ulZ = 0.5 * glm::sin(dLat*i) * glm::sin(dLon*(j+1));
+
+            float blX = 0.5 * glm::sin(dLat*(i+1)) * glm::cos(dLon*(j+1));
+            float blY = 0.5 * glm::cos(dLat*(i+1));
+            float blZ = 0.5 * glm::sin(dLat*(i+1)) * glm::sin(dLon*(j+1));
 
             glm::vec3 ul = glm::vec3(ulX, ulY, ulZ);
             glm::vec3 bl = glm::vec3(blX, blY, blZ);
