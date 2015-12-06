@@ -51,7 +51,8 @@ void OpenGLShape::setAttribute(
     glBindVertexArray(m_vaoID);
     glBindBuffer(GL_ARRAY_BUFFER, m_vboID);
     glEnableVertexAttribArray(index);
-    glVertexAttribPointer(index, size, type, normalized, stride, (void*) pointer);
+    glVertexAttribPointer(index, 3, type, normalized, stride, (GLvoid*) pointer);
+    glTexCoordPointer(2, type, stride, (GLvoid*) (pointer + 3));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }

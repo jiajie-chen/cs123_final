@@ -42,12 +42,12 @@ void CylinderShape::makeShapeWithNormals()
     m_numVertices = numTriangles * 3;
 
     // make vertex array
-    m_vertexData = new GLfloat[2 * m_numVertices * m_dimensions];
+    m_vertexData = new GLfloat[m_numVertices * (2 * m_dimensions + m_texDimensions)];
 
     // initialize data
     int offset = 0;
-    int quadStride = 36;
-    int triStride = 18;
+    int quadStride = 48;
+    int triStride = 24;
 
     float dRad = 2*PI/m_shapeP2;
 
@@ -57,17 +57,29 @@ void CylinderShape::makeShapeWithNormals()
     glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.0f);
     for (int i = 0; i < m_shapeP2; i++) {
         glm::vec3 right = glm::rotateY(left, dRad);
+        GLfloat uL = 1.f / m_shapeP2 * i;
+        GLfloat uR = 1.f / m_shapeP2 * (i + 1);
+        GLfloat uC = 1.f / m_shapeP2 * (i + .5);
+        GLfloat vL = 0;
+        GLfloat vR = 0;
+        GLfloat vC = 1;
 
         makeTriangle(offset,
                      center, normal,
                      left, normal,
-                     right, normal);
+                     right, normal,
+                     uC, vC,
+                     uL, vL,
+                     uR, vR);
         offset += triStride;
 
         makeTriangle(offset,
                      glm::rotateZ(center, PI), glm::rotateZ(normal, PI),
                      glm::rotateZ(left, PI), glm::rotateZ(normal, PI),
-                     glm::rotateZ(right, PI), glm::rotateZ(normal, PI));
+                     glm::rotateZ(right, PI), glm::rotateZ(normal, PI),
+                     uC, vC,
+                     uL, vL,
+                     uR, vR);
         offset += triStride;
 
         left = right;
@@ -85,12 +97,18 @@ void CylinderShape::makeShapeWithNormals()
             glm::vec3 ur = glm::rotateY(ul, dRad);
             glm::vec3 br = glm::rotateY(bl, dRad);
             glm::vec3 rN = glm::rotateY(lN, dRad);
+            GLfloat uMin = 1.f / m_shapeP1 * j;
+            GLfloat uMax = 1.f / m_shapeP1 * (j + 1);
+            GLfloat vMin = 1.f / m_shapeP2 * i;
+            GLfloat vMax = 1.f / m_shapeP2 * (i + 1);
 
             makeQuad(offset,
                      ul, lN,
                      ur, rN,
                      bl, lN,
-                     br, rN);
+                     br, rN,
+                     uMin, uMax,
+                     vMin, vMax);
             offset += quadStride;
 
             ul = ur;
