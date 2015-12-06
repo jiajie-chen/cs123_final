@@ -16,7 +16,7 @@ SupportCanvas3D::SupportCanvas3D(QGLFormat format, QWidget *parent) : QGLWidget(
 
     m_defaultPerspectiveCamera = new CamtransCamera;
     m_defaultOrbitingCamera = new OrbitingCamera;
-
+    this->setFocusPolicy(Qt::ClickFocus);
     settingsChanged();
 }
 
@@ -211,7 +211,8 @@ void SupportCanvas3D::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::RightButton)
     {
         getCamera()->mouseDown(event->x(), event->y());
-        m_isDragging = true;
+        m_isDragging = !m_isDragging;
+        this->setMouseTracking(m_isDragging);
         update();
     }
 }
@@ -230,7 +231,7 @@ void SupportCanvas3D::mouseReleaseEvent(QMouseEvent *event)
     if (m_isDragging && event->button() == Qt::RightButton)
     {
         getCamera()->mouseUp(event->x(), event->y());
-        m_isDragging = false;
+        //m_isDragging = false;
         update();
     }
 }
@@ -244,4 +245,22 @@ void SupportCanvas3D::wheelEvent(QWheelEvent *event)
 void SupportCanvas3D::resizeEvent(QResizeEvent *event)
 {
     emit aspectRatioChanged();
+}
+
+void SupportCanvas3D::keyPressEvent(QKeyEvent *event) {
+    switch(event->key()){
+    case Qt::Key_Up:
+    getCamera()->translate(glm::vec3(0, 0, .1f));
+    break;
+    case Qt::Key_Left:
+    getCamera()->translate(glm::vec3(.1f, 0, 0));
+    break;
+    case Qt::Key_Right:
+    getCamera()->translate(glm::vec3(-.1f, 0, 0));
+    break;
+    case Qt::Key_Down:
+    getCamera()->translate(glm::vec3(0, 0, -.1f));
+    break;
+    }
+    update();
 }
