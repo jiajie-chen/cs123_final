@@ -62,7 +62,7 @@ void ConeShape::makeShapeWithNormals()
     for (int i = 0; i < m_shapeP2; i++) {
         glm::vec3 left = glm::rotateY(right, dRad);
         GLfloat uL = 1.f / m_shapeP2 * i;
-        GLflaot vL = 0;
+        GLfloat vL = 0;
 
         makeTriangle(offset,
                      bottom, normal,
