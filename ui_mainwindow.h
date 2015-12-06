@@ -34,9 +34,7 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
-    QAction *actionNew;
     QAction *actionOpen;
-    QAction *actionSave;
     QAction *actionQuit;
     QWidget *centralWidget;
     QGridLayout *gridLayout_10;
@@ -95,12 +93,8 @@ public:
         MainWindow->resize(600, 3112);
         MainWindow->setDockNestingEnabled(true);
         MainWindow->setDockOptions(QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks|QMainWindow::ForceTabbedDocks|QMainWindow::VerticalTabs);
-        actionNew = new QAction(MainWindow);
-        actionNew->setObjectName(QStringLiteral("actionNew"));
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
-        actionSave = new QAction(MainWindow);
-        actionSave->setObjectName(QStringLiteral("actionSave"));
         actionQuit = new QAction(MainWindow);
         actionQuit->setObjectName(QStringLiteral("actionQuit"));
         centralWidget = new QWidget(MainWindow);
@@ -420,9 +414,7 @@ public:
 
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuToolbars->menuAction());
-        menuFile->addAction(actionNew);
         menuFile->addAction(actionOpen);
-        menuFile->addAction(actionSave);
         menuFile->addSeparator();
         menuFile->addAction(actionQuit);
 
@@ -445,9 +437,7 @@ public:
         QObject::connect(cameraFarTextbox, SIGNAL(textChanged(QString)), MainWindow, SLOT(updateCameraClip()));
         QObject::connect(cameraFovSlider, SIGNAL(valueChanged(int)), MainWindow, SLOT(updateCameraHeightAngle()));
         QObject::connect(cameraFovTextbox, SIGNAL(textChanged(QString)), MainWindow, SLOT(updateCameraHeightAngle()));
-        QObject::connect(actionSave, SIGNAL(triggered()), MainWindow, SLOT(fileSave()));
         QObject::connect(actionOpen, SIGNAL(triggered()), MainWindow, SLOT(fileOpen()));
-        QObject::connect(actionNew, SIGNAL(triggered()), MainWindow, SLOT(fileNew()));
         QObject::connect(resetUpVector, SIGNAL(clicked()), MainWindow, SLOT(resetUpVector()));
         QObject::connect(cameraOrbitCheckbox, SIGNAL(toggled(bool)), cameraResetAxis, SLOT(setDisabled(bool)));
         QObject::connect(zAxisButton, SIGNAL(clicked()), MainWindow, SLOT(setCameraAxisZ()));
@@ -458,12 +448,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "CS 123: Introduction to Computer Graphics", 0));
-        actionNew->setText(QApplication::translate("MainWindow", "New", 0));
-        actionNew->setShortcut(QApplication::translate("MainWindow", "Ctrl+N", 0));
         actionOpen->setText(QApplication::translate("MainWindow", "Open...", 0));
         actionOpen->setShortcut(QApplication::translate("MainWindow", "Ctrl+O", 0));
-        actionSave->setText(QApplication::translate("MainWindow", "Save...", 0));
-        actionSave->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", 0));
         actionQuit->setText(QApplication::translate("MainWindow", "Quit", 0));
         actionQuit->setShortcut(QApplication::translate("MainWindow", "Ctrl+Q", 0));
         camtransDock->setWindowTitle(QApplication::translate("MainWindow", "Camtrans", 0));

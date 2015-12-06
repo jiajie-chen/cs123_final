@@ -257,9 +257,7 @@ void MainWindow::setAllEnabled(bool enabled)
     widgets += ui->camtransDock;
 
     QList<QAction *> actions;
-    actions += ui->actionNew;
     actions += ui->actionOpen;
-    actions += ui->actionSave;
     actions += ui->actionQuit;
 
     foreach (QWidget *widget, widgets)
