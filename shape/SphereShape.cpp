@@ -47,8 +47,8 @@ void SphereShape::makeShapeWithNormals()
 
     //initialize data, going by rows of subsquares
     int offset = 0;
-    int quadStride = 36;
-    int triStride = 18;
+    int quadStride = 48;
+    int triStride = 24;
 
     float dLat = PI/m_shapeP1;
     float dLon = 2*PI/m_shapeP2;
@@ -56,6 +56,8 @@ void SphereShape::makeShapeWithNormals()
     // go by horizontal slices
     for (int i = 0 ; i < m_shapeP1; i++) {
         // go by slices
+        GLfloat vMin;
+        GLfloat vMax;
         for (int j = 0; j < m_shapeP2; j++) {
             float urX = 0.5 * glm::sin(dLat*i) * glm::cos(dLon*j);
             float urY = 0.5 * glm::cos(dLat*i);
@@ -78,25 +80,36 @@ void SphereShape::makeShapeWithNormals()
             glm::vec3 ur = glm::vec3(urX, urY, urZ);
             glm::vec3 br = glm::vec3(brX, brY, brZ);
 
+            GLfloat uMin;
+            GLfloat uMax;
+
             // handle top cap and bottom cap
             if (i == 0) {
                 makeTriangle(offset,
                              ul, glm::normalize(ul),
                              bl, glm::normalize(bl),
-                             br, glm::normalize(br));
+                             br, glm::normalize(br),
+                             uMin, vMin,
+                             uMin, vMax,
+                             uMax, vMax);
                 offset += triStride;
             } else if (i == m_shapeP1-1) {
                 makeTriangle(offset,
                              ul, glm::normalize(ul),
                              bl, glm::normalize(bl),
-                             ur, glm::normalize(ur));
+                             ur, glm::normalize(ur),
+                             uMin, vMin,
+                             uMin, vMax,
+                             uMax, vMin);
                 offset += triStride;
             } else {
                 makeQuad(offset,
                          ul, glm::normalize(ul),
                          ur, glm::normalize(ur),
                          bl, glm::normalize(bl),
-                         br, glm::normalize(br));
+                         br, glm::normalize(br),
+                         uMin, uMax,
+                         vMin, vMax);
                 offset += quadStride;
             }
         }
