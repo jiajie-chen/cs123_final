@@ -56,8 +56,8 @@ void SphereShape::makeShapeWithNormals()
     // go by horizontal slices
     for (int i = 0 ; i < m_shapeP1; i++) {
         // go by slices
-        GLfloat vMin;
-        GLfloat vMax;
+        GLfloat vMin = 1.f / m_shapeP1 * i;
+        GLfloat vMax = 1.f / m_shapeP1 * (i + 1);
         for (int j = 0; j < m_shapeP2; j++) {
             float urX = 0.5 * glm::sin(dLat*i) * glm::cos(dLon*j);
             float urY = 0.5 * glm::cos(dLat*i);
@@ -80,8 +80,8 @@ void SphereShape::makeShapeWithNormals()
             glm::vec3 ur = glm::vec3(urX, urY, urZ);
             glm::vec3 br = glm::vec3(brX, brY, brZ);
 
-            GLfloat uMin;
-            GLfloat uMax;
+            GLfloat uMin = 1.f / m_shapeP2 * j;
+            GLfloat uMax = 1.f / m_shapeP2 * (j + 1);
 
             // handle top cap and bottom cap
             if (i == 0) {
