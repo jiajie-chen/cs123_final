@@ -48,10 +48,14 @@ void CubeShape::makeShapeWithNormals()
     for (int i = 0 ; i < m_shapeP1; i++) {
         float a1 = static_cast<float>(i)/m_shapeP1 - 0.5;
         float a2 = static_cast<float>(i+1)/m_shapeP1 - 0.5;
+        GLfloat uMin = static_cast<float>(i)/m_shapeP1;
+        GLfloat uMax = static_cast<float>(i+1)/m_shapeP1;
 
         for (int j = 0; j < m_shapeP1; j++) {
             float b1 = static_cast<float>(j)/m_shapeP1 - 0.5;
             float b2 = static_cast<float>(j+1)/m_shapeP1 - 0.5;
+            GLfloat vMin = 1.f - static_cast<float>(j+1)/m_shapeP1;
+            GLfloat vMax = 1.f - static_cast<float>(j)/m_shapeP1;
 
             // +xy plane
             glm::vec3 ul = glm::vec3(  a1,   b2, 0.5f);
@@ -59,10 +63,6 @@ void CubeShape::makeShapeWithNormals()
             glm::vec3 bl = glm::vec3(  a1,   b1, 0.5f);
             glm::vec3 br = glm::vec3(  a2,   b1, 0.5f);
             glm::vec3 nm = glm::vec3(0.0f, 0.0f, 1.0f);
-            GLfloat uMin = (1.f / m_shapeP1) * i;
-            GLfloat uMax = (1.f / m_shapeP1) * (i + 1);
-            GLfloat vMin = (1.f / m_shapeP1) * j;
-            GLfloat vMax = (1.f / m_shapeP1) * (j + 1);
 
 
             makeQuad(offset,

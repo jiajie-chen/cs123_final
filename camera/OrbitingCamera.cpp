@@ -111,7 +111,8 @@ void OrbitingCamera::updateViewMatrix()
     m_viewMatrix =
             glm::translate(glm::vec3(0.f, 0.f, m_zoomZ) + m_position) *
             glm::rotate(glm::radians(m_angleY), glm::vec3(0.f, 1.f, 0.f)) *
-            glm::rotate(glm::radians(m_angleX), glm::vec3(1.f, 0.f, 0.f));
+            glm::rotate(glm::radians(m_angleX), glm::vec3(1.f, 0.f, 0.f)) *
+            glm::translate(-1.f * (glm::vec3(0.f, 0.f, m_zoomZ) + m_position));
 }
 
 void OrbitingCamera::translate(glm::vec3 v)

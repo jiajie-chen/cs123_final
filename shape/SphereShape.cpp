@@ -80,8 +80,8 @@ void SphereShape::makeShapeWithNormals()
             glm::vec3 ur = glm::vec3(urX, urY, urZ);
             glm::vec3 br = glm::vec3(brX, brY, brZ);
 
-            GLfloat uMin = 1.f / m_shapeP2 * j;
-            GLfloat uMax = 1.f / m_shapeP2 * (j + 1);
+            GLfloat uMin = 1.f - (1.f / m_shapeP2 * (j+1));
+            GLfloat uMax = 1.f - (1.f / m_shapeP2 * j);
 
             // handle top cap and bottom cap
             if (i == 0) {

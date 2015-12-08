@@ -85,7 +85,8 @@ void Shape::makeShapeWithNormals()
 void Shape::setNormalRenderer(NormalRenderer *normalRenderer)
 {
     int vertexSize = sizeof(GLfloat) * m_dimensions;
-    int stride = 2 * vertexSize;
+    int uvSize = sizeof(GLfloat) * m_texDimensions;
+    int stride = 2 * vertexSize + uvSize;
 
     // add normal rendering
     normalRenderer->generateArrays(

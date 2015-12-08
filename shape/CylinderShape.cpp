@@ -57,12 +57,14 @@ void CylinderShape::makeShapeWithNormals()
     glm::vec3 normal = glm::vec3(0.0f, 1.0f, 0.0f);
     for (int i = 0; i < m_shapeP2; i++) {
         glm::vec3 right = glm::rotateY(left, dRad);
-        GLfloat uL = 1.f / m_shapeP2 * i;
-        GLfloat uR = 1.f / m_shapeP2 * (i + 1);
-        GLfloat uC = 1.f / m_shapeP2 * (i + .5);
-        GLfloat vL = 0;
-        GLfloat vR = 0;
-        GLfloat vC = 1;
+        GLfloat uL = 0.5f + left.x;
+        GLfloat vL = 0.5f + left.z;
+
+        GLfloat uR = 0.5f + right.x;
+        GLfloat vR = 0.5f + right.z;
+
+        GLfloat uC = 0.5f;
+        GLfloat vC = 0.5f;
 
         makeTriangle(offset,
                      center, normal,
@@ -89,18 +91,19 @@ void CylinderShape::makeShapeWithNormals()
     for (int i = 0 ; i < m_shapeP1; i++) {
         float a1 = static_cast<float>(i)/m_shapeP1 - 0.5;
         float a2 = static_cast<float>(i+1)/m_shapeP1 - 0.5;
+        GLfloat vMin = 1.f - static_cast<float>(i+1)/m_shapeP1;
+        GLfloat vMax = 1.f - static_cast<float>(i)/m_shapeP1;
 
         glm::vec3 ul = glm::vec3(0.0f,   a2, 0.5f);
         glm::vec3 bl = glm::vec3(0.0f,   a1, 0.5f);
         glm::vec3 lN = glm::vec3(0.0f, 0.0f, 1.0f);
-        for (int j = 1; j <= m_shapeP2; j++) {
+        for (int j = 0; j < m_shapeP2; j++) {
             glm::vec3 ur = glm::rotateY(ul, dRad);
             glm::vec3 br = glm::rotateY(bl, dRad);
             glm::vec3 rN = glm::rotateY(lN, dRad);
-            GLfloat uMin = 1.f / m_shapeP1 * j;
-            GLfloat uMax = 1.f / m_shapeP1 * (j + 1);
-            GLfloat vMin = 1.f / m_shapeP2 * i;
-            GLfloat vMax = 1.f / m_shapeP2 * (i + 1);
+
+            GLfloat uMin = static_cast<float>(j)/m_shapeP2;
+            GLfloat uMax = static_cast<float>(j+1)/m_shapeP2;
 
             makeQuad(offset,
                      ul, lN,

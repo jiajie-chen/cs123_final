@@ -6,6 +6,7 @@
 #include "SceneviewScene.h"
 #include "OrbitingCamera.h"
 #include "CamtransCamera.h"
+#include "POVCamera.h"
 #include "Settings.h"
 
 SupportCanvas3D::SupportCanvas3D(QGLFormat format, QWidget *parent) : QGLWidget(format, parent)
@@ -16,6 +17,7 @@ SupportCanvas3D::SupportCanvas3D(QGLFormat format, QWidget *parent) : QGLWidget(
 
     m_defaultPerspectiveCamera = new CamtransCamera;
     m_defaultOrbitingCamera = new OrbitingCamera;
+    m_defaultPOVCamera = new POVCamera;
     this->setFocusPolicy(Qt::ClickFocus);
     settingsChanged();
 }
@@ -24,6 +26,7 @@ SupportCanvas3D::~SupportCanvas3D()
 {
     delete m_defaultPerspectiveCamera;
     delete m_defaultOrbitingCamera;
+    delete m_defaultPOVCamera;
     delete m_scene;
 }
 
@@ -35,7 +38,7 @@ Camera *SupportCanvas3D::getCamera()
         return m_defaultPerspectiveCamera;
 
     case CAMERAMODE_ORBIT:
-        return m_defaultOrbitingCamera;
+        return m_defaultPOVCamera;
 
     default:
         return NULL;
