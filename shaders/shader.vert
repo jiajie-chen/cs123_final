@@ -77,5 +77,5 @@ void main(){
     color = clamp(color, 0.0, 1.0) * allBlack;
 
     // color = abs(normal);
-    color = vec3(texCoord, 1.0);
+    // color = vec3(texCoord, 1.0);
 }
