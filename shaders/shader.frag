@@ -6,9 +6,15 @@ out vec4 fragColor;
 
 uniform sampler2D tex;
 uniform int useTexture = 0;
+uniform sampler2D bump;
+uniform int useBump;
 
 void main(){
     vec3 texColor = texture(tex, texc).rgb;
     texColor = clamp(texColor + vec3(1-useTexture), vec3(0), vec3(1));
-    fragColor = vec4(color * texColor, 1);
+    //fragColor = vec4((color * texColor), 1);
+    vec3 bumpColor = texture(bump, texc).rgb;
+    bumpColor = clamp(bumpColor + vec3(1-useBump), vec3(0), vec3(1));
+    fragColor = vec4(bumpColor, 1);
+    //bumpNormal = (2*bumpColor) - 1;
 }

@@ -26,7 +26,8 @@
 					<translate x="1" y="4" z="0"/>
 					<object type="primitive" name="cube" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/tex/bark.png" u="1" v="1"/>
+						<texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/bark.png" u="1" v="1"/>
+						<bumpmap file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/bump/bark.jpg" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
