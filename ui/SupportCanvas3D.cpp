@@ -253,16 +253,16 @@ void SupportCanvas3D::resizeEvent(QResizeEvent *event)
 void SupportCanvas3D::keyPressEvent(QKeyEvent *event) {
     switch(event->key()){
     case Qt::Key_Up:
-    getCamera()->translate(glm::vec3(0, 0, .1f));
+    getCamera()->translate(glm::vec3(0, 0, 1.f));
     break;
     case Qt::Key_Left:
-    getCamera()->translate(glm::vec3(.1f, 0, 0));
+    getCamera()->translate(glm::vec3(1.f, 0, 0));
     break;
     case Qt::Key_Right:
-    getCamera()->translate(glm::vec3(-.1f, 0, 0));
+    getCamera()->translate(glm::vec3(-1.f, 0, 0));
     break;
     case Qt::Key_Down:
-    getCamera()->translate(glm::vec3(0, 0, -.1f));
+    getCamera()->translate(glm::vec3(0, 0, -1.f));
     break;
     }
     update();
