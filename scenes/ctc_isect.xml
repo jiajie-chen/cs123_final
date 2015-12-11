@@ -33,6 +33,72 @@
     <color r="20" g="20" b="20"/>
   </lightdata>
 
+  <object type="tree" name="row">
+    <transblock>
+      <translate x="0" y="0" z="0"/>
+      <object type="primitive" name="sphere" >
+        <diffuse r=".2" g="1" b=".4"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="0" z="-10"/>
+      <object type="primitive" name="sphere" >
+        <diffuse r=".2" g="1" b=".4"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="0" z="-20"/>
+      <object type="primitive" name="sphere" >
+        <diffuse r=".2" g="1" b=".4"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="0" z="-30"/>
+      <object type="primitive" name="sphere" >
+        <diffuse r=".2" g="1" b=".4"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="0" z="-40"/>
+      <object type="primitive" name="sphere" >
+        <diffuse r=".2" g="1" b=".4"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="0" z="10"/>
+      <object type="primitive" name="sphere" >
+        <diffuse r=".2" g="1" b=".4"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="0" z="20"/>
+      <object type="primitive" name="sphere" >
+        <diffuse r=".2" g="1" b=".4"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="0" z="30"/>
+      <object type="primitive" name="sphere" >
+        <diffuse r=".2" g="1" b=".4"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="0" z="40"/>
+      <object type="primitive" name="sphere" >
+        <diffuse r=".2" g="1" b=".4"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      </object>
+    </transblock>
+  </object>
+
   <object type="tree" name="room">
     <transblock>
       <scale x="50" y="1" z="100"/>
@@ -89,11 +155,29 @@
         <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/ceiling.png" u="1" v="1"/>
       </object>
     </transblock>
+
     <transblock>
-      <translate x="0" y="0" z="0"/>
-      <object type="primitive" name="sphere" >
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      <translate x="0" y="1" z="0"/>
+      <object type="tree">
+        <transblock>
+          <object type="master" name="row"/>
+        </transblock>
+        <transblock>
+          <translate x="-10" y="0" z="0"/>
+          <object type="master" name="row"/>
+        </transblock>
+        <transblock>
+          <translate x="-20" y="0" z="0"/>
+          <object type="master" name="row"/>
+        </transblock>
+        <transblock>
+          <translate x="10" y="0" z="0"/>
+          <object type="master" name="row"/>
+        </transblock>
+        <transblock>
+          <translate x="20" y="0" z="0"/>
+          <object type="master" name="row"/>
+        </transblock>
       </object>
     </transblock>
   </object>
