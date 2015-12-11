@@ -125,6 +125,20 @@ void Scene::addPrimitive(const CS123ScenePrimitive &scenePrimitive, const glm::m
         }
     }
 
+    if (n.primitive.material.bumpMap->isUsed) {
+        QString path(n.primitive.material.bumpMap->filename.c_str());
+        QImage image(path);
+        if (image.isNull()) {
+            n.primitive.material.bumpMap->isUsed = 0;
+        } else {
+            glGenTextures(1, &n.primitive.material.bumpMap->texid);
+            glBindTexture(GL_TEXTURE_2D, n.primitive.material.bumpMap->texid);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+    }
 
     m_primitives.push_back(n);
 }
