@@ -26,22 +26,22 @@
 					<translate x="1" y="4" z="0"/>
 					<object type="primitive" name="cube" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/bark.png" u="1" v="1"/>
-						<bumpmap file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/bump/bark.jpg" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/tex/bark.png" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/tex/bark.png" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
 					<translate x="1" y="2" z="0"/>
 					<object type="primitive" name="cube" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/vandam.gif" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
 					<translate x="1" y="0" z="0"/>
 					<object type="primitive" name="cube" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/vandam.gif" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
@@ -67,7 +67,7 @@
 					<translate x="-1" y="2" z="0"/>
 					<object type="primitive" name="cylinder" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/tex/bark.png" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/tex/bark.png" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
@@ -80,14 +80,14 @@
 					<translate x="-1" y="-2" z="0"/>
 					<object type="primitive" name="cylinder" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/vandam.gif" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
 					<translate x="-1" y="-4" z="0"/>
 					<object type="primitive" name="cylinder" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/vandam.gif" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
@@ -95,7 +95,7 @@
 					<rotate x="1" y="0" z="0" angle="0"/>
 					<object type="primitive" name="cone" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/tex/bark.png" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/tex/bark.png" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
@@ -110,7 +110,7 @@
 					<rotate x="1" y="0" z="0" angle="90"/>
 					<object type="primitive" name="cone" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/vandam.gif" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
@@ -131,21 +131,21 @@
 					<translate x="-3" y="4" z="0"/>
 					<object type="primitive" name="sphere" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/tex/bark.png" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/tex/bark.png" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
 					<translate x="-3" y="2" z="0"/>
 					<object type="primitive" name="sphere" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/vandam.gif" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>
 					<translate x="-3" y="0" z="0"/>
 					<object type="primitive" name="sphere" >
 						<diffuse r="1" g="1" b="1"/>
-						<texture file="/home/jchen/course/cs123_final/textures/vandam.gif" u="1" v="1"/>
+						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
 					</object>
 				</transblock>
 				<transblock>

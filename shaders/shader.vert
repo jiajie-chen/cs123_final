@@ -28,12 +28,15 @@ uniform vec3 specular_color;
 uniform float shininess;
 
 uniform bool useLighting;     // Whether to calculate lighting using lighting equation
+uniform sampler2D bump;
+uniform int useBump = 0;
+
 uniform bool useArrowOffsets; // True if rendering the arrowhead of a normal for Shapes
 uniform vec3 allBlack = vec3(1);
 
 void main(){
     texc = texCoord;
-
+    //vec3 normal = (texture(tex, texc).rgb*2)-1;
     vec4 position_cameraSpace = v * m * vec4(position, 1.0);
     vec4 normal_cameraSpace = vec4(normalize(mat3(transpose(inverse(v * m))) * normal), 0);
 
