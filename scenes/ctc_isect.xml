@@ -89,6 +89,13 @@
         <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/ceiling.png" u="1" v="1"/>
       </object>
     </transblock>
+    <transblock>
+      <translate x="0" y="0" z="0"/>
+      <object type="primitive" name="sphere" >
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/leaf.png" u="1" v="1"/>
+      </object>
+    </transblock>
   </object>
 
   <object type="tree" name="root">
