@@ -96,13 +96,13 @@ void Scene::addPrimitive(const CS123ScenePrimitive &scenePrimitive, const glm::m
     // why are we given support code that has structs with pointers in an OO language?
     CS123SceneFileMap *texMap = new CS123SceneFileMap();
     texMap->isUsed = n.primitive.material.textureMap->isUsed;
-    texMap->filename = n.primitive.material.textureMap->filename;
+    texMap->filename = "../cs123_final/textures/tex/" + n.primitive.material.textureMap->filename;
     texMap->repeatU = n.primitive.material.textureMap->repeatU;
     texMap->repeatV = n.primitive.material.textureMap->repeatV;
 
     CS123SceneFileMap *bumpMap = new CS123SceneFileMap();
     bumpMap->isUsed = n.primitive.material.bumpMap->isUsed;
-    bumpMap->filename = n.primitive.material.bumpMap->filename;
+    bumpMap->filename = "../cs123_final/textures/bump/" + n.primitive.material.bumpMap->filename;
     bumpMap->repeatU = n.primitive.material.bumpMap->repeatU;
     bumpMap->repeatV = n.primitive.material.bumpMap->repeatV;
 
