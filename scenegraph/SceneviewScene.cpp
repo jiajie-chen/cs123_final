@@ -34,29 +34,29 @@ void SceneviewScene::init()
     }
 
     m_shapes[PRIMITIVE_CUBE] = new CubeShape(
-                16,
-                0,
+                32,
+                32,
                 0,
                 glGetAttribLocation(m_shader, "position"),
                 glGetAttribLocation(m_shader, "normal"),
                 glGetAttribLocation(m_shader, "texCoord"));
     m_shapes[PRIMITIVE_CONE] = new ConeShape(
-                2,
+                32,
                 32,
                 0,
                 glGetAttribLocation(m_shader, "position"),
                 glGetAttribLocation(m_shader, "normal"),
                 glGetAttribLocation(m_shader, "texCoord"));
     m_shapes[PRIMITIVE_CYLINDER] = new CylinderShape(
-                8,
+                32,
                 32,
                 0,
                 glGetAttribLocation(m_shader, "position"),
                 glGetAttribLocation(m_shader, "normal"),
                 glGetAttribLocation(m_shader, "texCoord"));
     m_shapes[PRIMITIVE_SPHERE] = new SphereShape(
-                16,
-                16,
+                32,
+                32,
                 0,
                 glGetAttribLocation(m_shader, "position"),
                 glGetAttribLocation(m_shader, "normal"),

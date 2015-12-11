@@ -1,168 +1,107 @@
 <scenefile>
-	<globaldata>
-		<diffusecoeff v="0.5"/>
-		<specularcoeff v="0.5"/>
-		<ambientcoeff v="0.5"/>
-	</globaldata>
+  <globaldata>
+    <diffusecoeff v="1"/>
+    <specularcoeff v="0.5"/>
+    <ambientcoeff v="1"/>
+  </globaldata>
 
-	<cameradata>
-		<pos x="0" y="0" z="10"/>
-		<look x="0" y="0" z="-1"/>
-		<up x="0" y="1" z="0"/>
-		<heightangle v="45"/>
-	</cameradata>
+  <cameradata>
+    <pos x="0" y="5" z="0"/>
+    <look x="0" y="0" z="-1"/>
+    <up x="0" y="1" z="0"/>
+    <heightangle v="45"/>
+  </cameradata>
 
-	<lightdata>
-		<id v="1"/>
-		<position x="0" y="0" z="0"/>
-		<color r="1" g="1" b="1"/>
-	</lightdata>
+  <lightdata>
+    <id v="1"/>
+    <position x="0" y="10" z="0"/>
+    <color r="20" g="20" b="20"/>
+  </lightdata>
+  <lightdata>
+    <id v="1"/>
+    <position x="0" y="10" z="0"/>
+    <color r="2" g="2" b="2"/>
+  </lightdata>
+  <lightdata>
+    <id v="1"/>
+    <position x="-50" y="10" z="0"/>
+    <color r="10" g="10" b="10"/>
+  </lightdata>
+  <lightdata>
+    <id v="1"/>
+    <position x="50" y="10" z="0"/>
+    <color r="20" g="20" b="20"/>
+  </lightdata>
 
-	<object type="tree" name="root">
-		<transblock>
-			<translate x="0" y="0" z="-2"/>
-			<object type="tree">
-				<transblock>
-					<translate x="1" y="4" z="0"/>
-					<object type="primitive" name="cube" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/tex/bark.png" u="1" v="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/tex/bark.png" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="1" y="2" z="0"/>
-					<object type="primitive" name="cube" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="1" y="0" z="0"/>
-					<object type="primitive" name="cube" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="1" y="-2" z="0"/>
-					<object type="primitive" name="cube" >
-						<diffuse r="1" g="1" b="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="1" y="-4" z="0"/>
-					<object type="primitive" name="cube" >
-						<diffuse r="1" g="1" b="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="-1" y="4" z="0"/>
-					<object type="primitive" name="cylinder" >
-						<diffuse r="1" g="1" b="1"/>
-						<ambient r="0.25" g="0" b="0"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="-1" y="2" z="0"/>
-					<object type="primitive" name="cylinder" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/tex/bark.png" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="-1" y="0" z="0"/>
-					<object type="primitive" name="cylinder" >
-						<diffuse r="1" g="1" b="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="-1" y="-2" z="0"/>
-					<object type="primitive" name="cylinder" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="-1" y="-4" z="0"/>
-					<object type="primitive" name="cylinder" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="3" y="4" z="0"/>
-					<rotate x="1" y="0" z="0" angle="0"/>
-					<object type="primitive" name="cone" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/tex/bark.png" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="3" y="2" z="0"/>
-					<rotate x="1" y="0" z="0" angle="45"/>
-					<object type="primitive" name="cone" >
-						<diffuse r="1" g="1" b="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="3" y="0" z="0"/>
-					<rotate x="1" y="0" z="0" angle="90"/>
-					<object type="primitive" name="cone" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="3" y="-2" z="0"/>
-					<rotate x="1" y="0" z="0" angle="135"/>
-					<object type="primitive" name="cone" >
-						<diffuse r="1" g="1" b="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="3" y="-4" z="0"/>
-					<rotate x="1" y="0" z="0" angle="180"/>
-					<object type="primitive" name="cone" >
-						<diffuse r="1" g="1" b="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="-3" y="4" z="0"/>
-					<object type="primitive" name="sphere" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/tex/bark.png" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="-3" y="2" z="0"/>
-					<object type="primitive" name="sphere" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="-3" y="0" z="0"/>
-					<object type="primitive" name="sphere" >
-						<diffuse r="1" g="1" b="1"/>
-						<texture file="/Users/toastygoast/Dropbox/Brown/cs123/cs123_final/textures/vandam.gif" u="1" v="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="-3" y="-2" z="0"/>
-					<object type="primitive" name="sphere" >
-						<diffuse r="1" g="1" b="1"/>
-					</object>
-				</transblock>
-				<transblock>
-					<translate x="-3" y="-4" z="0"/>
-					<object type="primitive" name="sphere" >
-						<diffuse r="1" g="1" b="1"/>
-					</object>
-				</transblock>
-			</object>
-		</transblock>
-	</object>
+  <object type="tree" name="room">
+    <transblock>
+      <scale x="50" y="1" z="100"/>
+      <object type="primitive" name="cube" >
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/floor.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="25" z="-50"/>
+      <scale x="50" y="50" z="1"/>
+      <object type="primitive" name="cube" >
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/wall.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="-25" y="25" z="27"/>
+      <scale x="1" y="50" z="46"/>
+      <object type="primitive" name="cube" >
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/wall.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="-25" y="25" z="-27"/>
+      <scale x="1" y="50" z="46"/>
+      <object type="primitive" name="cube" >
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/wall.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="25" z="50"/>
+      <scale x="50" y="50" z="1"/>
+      <object type="primitive" name="cube" >
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/wall.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="25" y="25" z="0"/>
+      <scale x="1" y="50" z="100"/>
+      <object type="primitive" name="cube" >
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/wall.png" u="1" v="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="0" y="50" z="0"/>
+      <scale x="50" y="1" z="100"/>
+      <object type="primitive" name="cube" >
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="/Users/Joseph/Dropbox/Brown/CS123/realFinal/cs123_final/textures/tex/ceiling.png" u="1" v="1"/>
+      </object>
+    </transblock>
+  </object>
+
+  <object type="tree" name="root">
+    <transblock>
+      <object type="master" name="room"/>
+    </transblock>
+    <transblock>
+      <translate x="-50" y="0" z="0"/>
+      <rotate x="0" y="1" z="0" angle="180"/>
+      <object type="master" name="room"/>
+    </transblock>
+  </object>
+
 
 </scenefile>
 

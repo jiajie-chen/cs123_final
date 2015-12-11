@@ -7,7 +7,7 @@ out vec4 fragColor;
 uniform sampler2D tex;
 uniform int useTexture = 0;
 uniform sampler2D bump;
-uniform int useBump;
+uniform int useBump = 0;
 
 void main(){
     vec3 texColor = texture(tex, texc).rgb;
