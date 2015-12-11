@@ -90,13 +90,19 @@ void Scene::addPrimitive(const CS123ScenePrimitive &scenePrimitive, const glm::m
     CS123SceneFlattenedNode n = CS123SceneFlattenedNode();
     n.primitive = scenePrimitive;
     n.ctm = matrix;
+    std::string prePath;
+#ifdef __APPLE__
+    prePath = "../../../..";
+        #else
+    prePath = "..";
+        #endif
 
     // copy the material because XmlParser will delete the pointer when it goes out of scope in mainwindow.cpp
     // lol why do we have to manage crappy pointer code using structs?
     // why are we given support code that has structs with pointers in an OO language?
     CS123SceneFileMap *texMap = new CS123SceneFileMap();
     texMap->isUsed = n.primitive.material.textureMap->isUsed;
-    texMap->filename = "../cs123_final/textures/tex/" + n.primitive.material.textureMap->filename;
+    texMap->filename = prePath + "/cs123_final/textures/tex/" + n.primitive.material.textureMap->filename;
     texMap->repeatU = n.primitive.material.textureMap->repeatU;
     texMap->repeatV = n.primitive.material.textureMap->repeatV;
 
