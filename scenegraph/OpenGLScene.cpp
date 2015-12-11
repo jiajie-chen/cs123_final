@@ -126,9 +126,9 @@ void OpenGLScene::applyMaterial(const CS123SceneMaterial &material)
 
     if (material.bumpMap && material.bumpMap->isUsed && material.bumpMap->texid) {
         glUniform1i(m_uniformLocs["useBump"], 1);
-        glUniform1i(m_uniformLocs["bump"], 1);
+        glUniform1i(m_uniformLocs["bump"], 2);
 
-        glActiveTexture(GL_TEXTURE1);
+        glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, material.bumpMap->texid);
         glActiveTexture(GL_TEXTURE0);
     } else {
