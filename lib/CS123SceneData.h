@@ -21,7 +21,7 @@ enum PrimitiveType {
     PRIMITIVE_CUBE,
     PRIMITIVE_CONE,
     PRIMITIVE_CYLINDER,
-    PRIMITIVE_TORUS,
+    PRIMITIVE_LSYSTEM,
     PRIMITIVE_SPHERE,
     PRIMITIVE_MESH,
     NUM_PRIMITIVE_TYPES
@@ -135,6 +135,11 @@ struct CS123ScenePrimitive
 {
    PrimitiveType type;
    std::string meshfile;     // Only applicable to meshes
+
+   // only applicable to lsystems
+   std::string lsystemID;
+   unsigned int lsystemDepth;
+
    CS123SceneMaterial material;
 };
 

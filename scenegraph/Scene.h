@@ -18,7 +18,6 @@ class Scene
 {
 public:
     Scene();
-    Scene(const Scene &copy);
     virtual ~Scene();
 
     static void parse(Scene *sceneToFill, CS123ISceneParser *parser);

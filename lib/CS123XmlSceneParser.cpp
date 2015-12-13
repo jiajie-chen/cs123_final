@@ -5,6 +5,7 @@
 #include "CS123XmlSceneParser.h"
 #include "CS123SceneData.h"
 
+#include "lsystem/LSystemData.h"
 #include <CS123Common.h>
 #include <assert.h>
 #include <string.h>
@@ -20,10 +21,18 @@ CS123XmlSceneParser::CS123XmlSceneParser(const std::string& name)
 {
     file_name = name;
 
+    unsigned int relIdx = file_name.find_last_of('/');
+    if (relIdx != std::string::npos)
+        file_path = QDir::cleanPath(
+                    QString(file_name.substr(0, relIdx+1).c_str())).toStdString();
+    else
+        file_path = "";
+
     memset(&m_cameraData, 0, sizeof(CS123SceneCameraData));
     memset(&m_globalData, 0, sizeof(CS123SceneGlobalData));
     m_objects.clear();
     m_lights.clear();
+    m_lsystems.clear();
     m_nodes.clear();
 }
 
@@ -32,6 +41,11 @@ CS123XmlSceneParser::~CS123XmlSceneParser()
     std::vector<CS123SceneLightData*>::iterator lights;
     for (lights = m_lights.begin(); lights != m_lights.end(); lights++) {
         delete *lights;
+    }
+
+    std::map<std::string, LSystemData*>::iterator lsystems;
+    for (lsystems = m_lsystems.begin(); lsystems != m_lsystems.end(); lsystems++) {
+        delete lsystems->second;
     }
 
     // Delete all Scene Nodes
@@ -52,6 +66,7 @@ CS123XmlSceneParser::~CS123XmlSceneParser()
 
     m_nodes.clear();
     m_lights.clear();
+    m_lsystems.clear();
     m_objects.clear();
 }
 
@@ -76,10 +91,26 @@ bool CS123XmlSceneParser::getLightData(int i, CS123SceneLightData& data) const
 {
     if (i < 0 || (unsigned int)i >= m_lights.size())
     {
-        cout << "invalid light index %d" << endl;
+        cout << "invalid light index" << endl;
         return false;
     }
     data = *m_lights[i];
+    return true;
+}
+
+int CS123XmlSceneParser::getNumLSystems() const
+{
+    return m_lsystems.size();
+}
+
+bool CS123XmlSceneParser::getLSystemData(std::string id, LSystemData& data) const
+{
+    if (m_lsystems.find(id) == m_lsystems.end())
+    {
+        cout << "invalid lsystem index" << endl;
+        return false;
+    }
+    data = *m_lsystems[id];
     return true;
 }
 
@@ -152,6 +183,11 @@ bool CS123XmlSceneParser::parse()
         else if (e.tagName() == "cameradata")
         {
             if (!parseCameraData(e))
+                return false;
+        }
+        else if (e.tagName() == "lsystem")
+        {
+            if (!parseLSystemData(e))
                 return false;
         }
         else if (e.tagName() == "object")
@@ -308,14 +344,21 @@ bool parseColor(const QDomElement &color, CS123SceneColor &c)
  * Helper function to parse a texture map tag.  Example texture map tag:
  * <texture file="/course/cs123/data/image/andyVanDam.jpg" u="1" v="1"/>
  */
-bool parseMap(const QDomElement &e, CS123SceneFileMap *map)
+bool parseMap(const QDomElement &e, CS123SceneFileMap *map, std::string relPath)
 {
     if (!e.hasAttribute("file"))
         return false;
-    map->filename = e.attribute("file").toStdString();
+    std::string fn = e.attribute("file").toStdString();
+    if (fn.length() > 0 && fn.at(0) != '/')
+        fn = relPath + "/" + fn;
+
+    map->filename = QDir::cleanPath(QString(fn.c_str())).toStdString();
     map->repeatU = e.hasAttribute("u") ? e.attribute("u").toFloat() : 1;
     map->repeatV = e.hasAttribute("v") ? e.attribute("v").toFloat() : 1;
     map->isUsed = true;
+
+    std::cout << "parsed texture file at: " << map->filename << std::endl;
+
     return true;
 }
 
@@ -641,6 +684,74 @@ bool CS123XmlSceneParser::parseCameraData(const QDomElement &cameradata)
 }
 
 /**
+ * Parse a <lsystem> tag and fill in m_lsystems.
+ */
+bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
+{
+    LSystemData* lsystem = new LSystemData;
+
+    std::string id;
+
+    // Iterate over child elements
+    QDomNode childNode = lsystemdata.firstChild();
+    while (!childNode.isNull())
+    {
+        QDomElement e = childNode.toElement();
+        if (e.tagName() == "id")
+        {
+            if (!e.hasAttribute("v"))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+            id = e.attribute("v").toStdString();
+
+            if (m_lsystems.find(id) != m_lsystems.end())
+            {
+                cout << ERROR_AT(e) << "duplicate lsystem index" << endl;
+                return false;
+            }
+        }
+        else if (e.tagName() == "initial")
+        {
+            if (!e.hasAttribute("v"))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+            lsystem->initial = e.attribute("v").toStdString();
+        }
+        else if (e.tagName() == "rule")
+        {
+            std::string sym;
+            std::string replace;
+            if (!e.hasAttribute("sym") || !e.hasAttribute("replace"))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+            sym = e.attribute("sym").toStdString();
+            replace = e.attribute("replace").toStdString();
+
+            if (sym.length() != 1) {
+                cout << ERROR_AT(e) << "expected char for sym" << endl;
+                return false;
+            }
+            lsystem->rules[sym.at(0)] = replace;
+        }
+        else if (!e.isNull())
+        {
+            UNSUPPORTED_ELEMENT(e);
+            return false;
+        }
+        childNode = childNode.nextSibling();
+    }
+
+    m_lsystems[id] = lsystem;
+    return true;
+}
+
+/**
  * Parse an <object> tag and create a new CS123SceneNode in m_nodes.
  */
 bool CS123XmlSceneParser::parseObjectData(const QDomElement &object)
@@ -859,7 +970,29 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
     else if (primType == "cube") primitive->type = PRIMITIVE_CUBE;
     else if (primType == "cylinder") primitive->type = PRIMITIVE_CYLINDER;
     else if (primType == "cone") primitive->type = PRIMITIVE_CONE;
-    else if (primType == "torus") primitive->type = PRIMITIVE_TORUS;
+    else if (primType == "lsystem")
+    {
+        primitive->type = PRIMITIVE_LSYSTEM;
+        if (prim.hasAttribute("id"))
+        {
+            primitive->lsystemID = prim.attribute("id").toStdString();
+        }
+        else
+        {
+            cout << "lsystem must reference a type of lsystem" << endl;
+            return false;
+        }
+
+        if (prim.hasAttribute("depth"))
+        {
+            primitive->lsystemDepth = prim.attribute("depth").toUInt();
+        }
+        else
+        {
+            cout << "lsystem must specify a depth to iterate" << endl;
+            return false;
+        }
+    }
     else if (primType == "mesh")
     {
         primitive->type = PRIMITIVE_MESH;
@@ -949,7 +1082,7 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
         }
         else if (e.tagName() == "texture")
         {
-            if (!parseMap(e, mat.textureMap))
+            if (!parseMap(e, mat.textureMap, file_path))
             {
                 PARSE_ERROR(e);
                 return false;
@@ -957,7 +1090,7 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
         }
         else if (e.tagName() == "bumpmap")
         {
-            if (!parseMap(e, mat.bumpMap))
+            if (!parseMap(e, mat.bumpMap, file_path))
             {
                 PARSE_ERROR(e);
                 return false;
