@@ -37,7 +37,7 @@ uniform float shininess;
 //uniform bool useArrowOffsets; // True if rendering the arrowhead of a normal for Shapes
 
 uniform bool useLighting;     // Whether to calculate lighting using lighting equation
-uniform vec3 allBlack = vec3(1);
+uniform vec4 allBlack = vec4(1);
 
 
 mat3 cotangent_frame(vec3 N, vec3 p, vec2 uv) {
@@ -65,8 +65,8 @@ vec3 perturb_normal(vec3 N, vec3 V) {
 void main() {
     vec2 uv = texc;
 
-    vec3 N = normalize(vec3(normal_cameraSpace));
-    vec3 eyeDirection = normalize(vec3(-position_cameraSpace));
+    vec3 N = normalize(vec3(alsoNormal));
+    vec3 eyeDirection = normalize(vec3(-alsoNormal));
     vec3 V = normalize(eyeDirection);
     vec3 PN = perturb_normal(N, V);
 
@@ -74,7 +74,7 @@ void main() {
     fragColor = vec4(.2, .15, .15, 1) * texColor;
 
     for (int i = 0; i < MAX_LIGHTS; i++) {
-        vec4 vertexToLight = normalize(v * vec4(lightPositions[i], 1) - position_cameraSpace);
+        vec4 vertexToLight = normalize(v * vec4(lightPositions[i], 1) - vec4(alsoPosition, 1));
         vec3 L = normalize(vec3(vertexToLight));
         float lambertTerm = dot(PN, L);
         if (lambertTerm > 0.0) {
@@ -88,9 +88,11 @@ void main() {
             fragColor += vec4(lightColors[i] * specular_color * specular, 0);
         }
     }
+    fragColor = clamp(fragColor, 0.0, 1.0);
     fragColor.a = 1;
 }
 
+// not used
  void main2(){
     vec3 color;
     vec3 position = alsoPosition;
@@ -143,7 +145,7 @@ void main() {
     } else {
         color = ambient_color + diffuse_color;
     }
-    color = clamp(color, 0.0, 1.0) * allBlack;
+    color = clamp(color, 0.0, 1.0) * vec3(1);
 
     vec3 texColor = texture(tex, texc).rgb;
 
