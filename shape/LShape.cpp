@@ -202,42 +202,44 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
 
         // tesselate the sides
         for (int j = 0; j < M_SHAPE_P2; j++) {
+            float uStride = 1.f / M_SHAPE_P2;
+            float vStride = 1.f / M_SHAPE_P2;
 
             double x1 = cos(angleStep * i) * width;
             double y1 = (j * stackStep) - length;
             double z1 = sin(angleStep * i) * width;
-            u1 = 0;
-            v1 = 0;
+            u1 = j * uStride;
+            v1 = i * vStride;
 
             double x2 = cos(angleStep * (i+1)) * width;
             double y2 = (j  * stackStep) - length;
             double z2 = sin(angleStep * (i+1)) * width;
-            u2 = 0;
-            v2 = 0;
+            u2 = j * uStride;
+            v2 = (i + 1) * vStride;
 
             double x3 = cos(angleStep * (i+1)) * width;
             double y3 = ((j+1) * stackStep) - length;
             double z3 = sin(angleStep * (i+1)) * width;
-            u3 = 0;
-            v3 = 0;
+            u3 = (j + 1) * uStride;
+            v3 = (i + 1) * vStride;
 
             double x4 = cos(angleStep * i) * width;
             double y4 = ((j+1) * stackStep) - length;
             double z4 = sin(angleStep * i) * width;
-            u4 = 0;
-            v4 = 0;
+            u4 = (j + 1) * uStride;
+            v4 = i * vStride;
 
             double x5 = cos(angleStep * i) * width;
             double y5 = (j * stackStep) - length;
             double z5 = sin(angleStep * i) * width;
-            u5 = 0;
-            v5 = 0;
+            u5 = j * uStride;
+            v5 = i * vStride;
 
             double x6 = cos(angleStep * (i+1)) * width;
             double y6 = ((j+1) * stackStep) - length;
             double z6 = sin(angleStep * (i+1)) * width;
-            u6 = 0;
-            v6 = 0;
+            u6 = (j + 1) * uStride;
+            v6 = (i + 1) * vStride;
 
             normal *n1 = new normal(x1, y1, z1);
             normal *n2 = new normal(x2, y2, z2);
