@@ -283,7 +283,7 @@
       <object type="master" name="room"/>
     </transblock>
     <transblock>
-      <translate x="-75" y="25" z="0"/>
+      <translate x="-74" y="25" z="0"/>
       <object type="master" name="longWall"/>
     </transblock>
   </object>
