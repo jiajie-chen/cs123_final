@@ -136,6 +136,7 @@ public:
     void addStateToShape(int materialIdx);
     std::vector<triangle *> getCylinder(float length, float width);
     void prepareShapes();
+    void draw();
 
 
 private:

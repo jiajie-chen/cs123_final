@@ -22,20 +22,26 @@ LShape::LShape(state start_state,
     m_texCoordIndex(texCoordAttribIndex)
 
 {
-    m_state_stack = std::vector<state>();
-    m_shapes = std::vector<LMaterialShape*>();
-    m_current_state = start_state;
+    // the number of openglshapes to work with
     int numMaterials = lsg->getNumMaterials();
 
+    // init the shapes
     for (int i = 0; i < numMaterials; i++) {
         CS123SceneMaterial m = lsg->getMaterial(i);
         m_shapes.push_back(new LMaterialShape(m));
     }
-    std::string rules = lsg->makeLSystem(depth);
+
+    //*********BEGIN PARSING RULES***********\\
+    m_state_stack = std::vector<state>();
+    m_shapes = std::vector<LMaterialShape*>();
+    m_current_state = start_state;
+
+    std::string rules = lsg->makeLSystem(depth); //finish the math for the l-system, outputs a string of rules
+    // loop through the rules and execute each
     for(char& command : rules) {
         switch(command){
         case 'F':
-            //add to shape and move forward
+            //adds a geometric representation of the current state to the appropriate openglshape in m_shapes
             addStateToShape(m_current_state.materialIdx);
             m_current_state.position += m_current_state.heading*m_current_state.length;
         break;
@@ -122,14 +128,19 @@ LShape::LShape(state start_state,
         break;
         }
     }
+    //*********END PARSING RULES***********\\
+
+    // pass to opengl, now ready to call draw()
+    prepareShapes();
+
 }
 
 LShape::~LShape() {
     m_state_stack.clear();
 }
 
+// add the geometery for the current state to the appropriate shape
 void LShape::addStateToShape(int materialIdx){
-    // create verticies or polygons to the geometery represented by the LShape at shapeIdx
     LMaterialShape *lmshape = m_shapes.at(materialIdx);
     // add the triangles to the shape
     std::vector<triangle *> newTris = getCylinder(m_current_state.length, m_current_state.width);
@@ -143,6 +154,7 @@ void LShape::addStateToShape(int materialIdx){
 }
 
 
+// returns the triangles for the cylinder representation of the current state
 std::vector<triangle *> LShape::getCylinder(float length, float width) {
     std::vector<triangle *> triangles = std::vector<triangle *>();
     double angleStep = 2 * (M_PI / M_SHAPE_P1);
@@ -250,7 +262,7 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
     return triangles;
 }
 
-/*
+// go from triangles to vertexData for OpenGLShape to consume.
 void LShape::prepareShapes(){
 
     int vertexSize = sizeof(GLfloat) * 3; // *dimensions
@@ -259,8 +271,8 @@ void LShape::prepareShapes(){
 
     for (LMaterialShape *lmshape : m_shapes) {
         float numVerts = lmshape->m_triangles.size() * 3;
-        float dataSize = numVerts * stride;
-        GLfloat vertexData[] = new GLfloat[dataSize];
+        int dataSize = numVerts * stride;
+        GLfloat vertexData[dataSize];
         for (int i = 0; i < lmshape->m_triangles.size() / 3; i++) {
              triangle* tri = lmshape->m_triangles[i];
              vertexData[i* stride * 3 + 0] = tri->v1->x;
@@ -293,13 +305,17 @@ void LShape::prepareShapes(){
         // bind array data
         lmshape->shape->setVertexData(vertexData, dataSize, GL_TRIANGLES, numVerts);
         // set vertex attribute
-        m_shape->setAttribute(m_vertexIndex, 3, GL_FLOAT, GL_FALSE, stride, 0);
+        lmshape->shape->setAttribute(m_vertexIndex, 3, GL_FLOAT, GL_FALSE, stride, 0);
         // set normal attribute
-        m_shape->setAttribute(m_normalIndex, 3, GL_FLOAT, GL_TRUE, stride, vertexSize);
+        lmshape->shape->setAttribute(m_normalIndex, 3, GL_FLOAT, GL_TRUE, stride, vertexSize);
         // set texCoord attribute
-        m_shape->setAttribute(m_texCoordIndex, 2, GL_FLOAT, GL_FALSE, stride, 2 * vertexSize);
+        lmshape->shape->setAttribute(m_texCoordIndex, 2, GL_FLOAT, GL_FALSE, stride, 2 * vertexSize);
     }
 }
 
-*/
+void LShape::draw(){
+    for (LMaterialShape *lmshape : m_shapes) {
+        lmshape->shape->draw();
+    }
+}
 
