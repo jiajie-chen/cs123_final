@@ -7,7 +7,7 @@
 
   <cameradata>
     <pos x="0" y="5" z="0"/>
-    <look x="1" y="0" z="0"/>
+    <look x="-.7" y="0" z=".7"/>
     <up x="0" y="1" z="0"/>
     <heightangle v="45"/>
   </cameradata>
@@ -17,21 +17,14 @@
     <position x="0" y="10" z="0"/>
     <color r="1" g="1" b="1"/>
   </lightdata>
-  <lightdata>
-    <id v="1"/>
-    <position x="0" y="10" z="0"/>
-    <color r="1" g="1" b="1"/>
-  </lightdata>
-  <lightdata>
-    <id v="1"/>
-    <position x="-50" y="10" z="0"/>
-    <color r="1" g="1" b="1"/>
-  </lightdata>
-  <lightdata>
-    <id v="1"/>
-    <position x="50" y="10" z="0"/>
-    <color r="1" g="1" b="1"/>
-  </lightdata>
+
+  <object type="tree" name="lamp">
+    <transblock>
+      <object type="primitive" name="sphere">
+        <diffuse r="1" g=".5" b="0"/>
+      </object>
+    </transblock>
+  </object>
 
   <object type="tree" name="row">
     <transblock>
@@ -106,6 +99,10 @@
         <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
+    <transblock>
+      <translate x="0" y="0" z="35"/>
+      <object type="master" name="lamp"/>
+    </transblock>
   </object>
 
   <object type="tree" name="room">
@@ -171,7 +168,6 @@
         <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
-
     <transblock>
       <translate x="0" y="1" z="0"/>
       <object type="tree">
