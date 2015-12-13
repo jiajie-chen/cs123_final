@@ -109,5 +109,14 @@ std::string LSystemGenerator::makeLSystem(int depth)
 
 CS123SceneMaterial LSystemGenerator::getMaterial(int index)
 {
+    if (m_mats.size() > 0) {
+        return m_mats[index % m_mats.size()];
+    }
+
     return m_defaultMat;
+}
+
+int LSystemGenerator::getNumMaterials()
+{
+    return m_mats.size();
 }

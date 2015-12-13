@@ -62,7 +62,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // Reset the contents of both canvas widgets (make a new 500x500 image for the 2D one)
-    fileNew();
+    QString prePath;
+    #ifdef __APPLE__
+    prePath = "../../../..";
+        #else
+    prePath = "..";
+        #endif
+
+    QString path = prePath + "/cs123_final/scenes/scene.xml";
+    fileOpen(path);
     m_canvas3D->update();
 }
 
@@ -175,22 +183,10 @@ void MainWindow::fileNew()
 {
 }
 
-void MainWindow::fileOpen()
+void MainWindow::fileOpen(QString file_path)
 {
-
-    QString prePath;
-#ifdef __APPLE__
-    prePath = "../../../..";
-        #else
-    prePath = "..";
-        #endif
-
-    QString path = prePath + "/cs123_final/scenes/scene.xml";
-    // This opens the 3D tab to initialize OGL so parsing
-    // the scene doesn't crash. If you can find a better solution
-    // feel free to change this.
     activateCanvas3D();
-    QString file = path;
+    QString file(file_path);
     if (!file.isNull())
     {
         if (file.endsWith(".xml"))
@@ -234,6 +230,12 @@ void MainWindow::fileOpen()
             QMessageBox::critical(this, "Ayy", "LMAO");
         }
     }
+}
+
+void MainWindow::fileOpen()
+{
+    QString file = QFileDialog::getOpenFileName(this, QString(), "/course/cs123/data/");
+    fileOpen(file);
 }
 
 void MainWindow::fileSave()

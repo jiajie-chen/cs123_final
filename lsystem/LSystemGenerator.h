@@ -16,6 +16,7 @@ public:
 
     std::string makeLSystem(int depth);
     CS123SceneMaterial getMaterial(int index);
+    int getNumMaterials();
 
 private:
     std::string m_initial;
