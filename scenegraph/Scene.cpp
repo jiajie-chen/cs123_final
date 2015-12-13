@@ -107,6 +107,7 @@ void Scene::addPrimitive(const CS123ScenePrimitive &scenePrimitive, const glm::m
         QString path(n.primitive.material.textureMap->filename.c_str());
         QImage image(path);
         if (image.isNull()) {
+            std::cout << "failed loading texture file at: " << n.primitive.material.textureMap->filename << std::endl;
             n.primitive.material.textureMap->isUsed = 0;
         } else {
             glGenTextures(1, &n.primitive.material.textureMap->texid);

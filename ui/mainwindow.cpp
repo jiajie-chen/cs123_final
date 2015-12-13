@@ -62,15 +62,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // Reset the contents of both canvas widgets (make a new 500x500 image for the 2D one)
-    QString prePath;
-    #ifdef __APPLE__
-    prePath = "../../../..";
-        #else
-    prePath = "..";
-        #endif
-
-    QString path = prePath + "/cs123_final/scenes/scene.xml";
-    fileOpen(path);
     m_canvas3D->update();
 }
 
@@ -111,13 +102,13 @@ void MainWindow::dataBind()
     BIND( FloatBinding::bindDial(ui->rotU,   settings.cameraRotU, -20, 20, true) )
     BIND( FloatBinding::bindDial(ui->rotV,   settings.cameraRotV, -20, 20, true) )
     BIND( FloatBinding::bindDial(ui->rotW,   settings.cameraRotN, -180, 180, false) )
+    */
     BIND( FloatBinding::bindSliderAndTextbox(
               ui->cameraFovSlider, ui->cameraFovTextbox, settings.cameraFov, 1, 179) )
     BIND( FloatBinding::bindSliderAndTextbox(
               ui->cameraNearSlider, ui->cameraNearTextbox, settings.cameraNear, 0.1, 50) )
     BIND( FloatBinding::bindSliderAndTextbox(
-              ui->cameraFarSlider, ui->cameraFarTextbox, settings.cameraFar, 0.1, 50) )
-              */
+              ui->cameraFarSlider, ui->cameraFarTextbox, settings.cameraFar, 0.1, 128) )
     BIND( BoolBinding::bindCheckbox(ui->cameraOrbitCheckbox, settings.useOrbitCamera) )
 
 #undef BIND
@@ -183,10 +174,27 @@ void MainWindow::fileNew()
 {
 }
 
+void MainWindow::fileOpenDefaultScene()
+{
+    QString prePath;
+    #ifdef __APPLE__
+    prePath = "../../../..";
+    #else
+    prePath = "..";
+    #endif
+
+    QString path = prePath + "/cs123_final/scenes/scene.xml";
+    QDir dir(path);
+    QString file = dir.absolutePath();
+
+    fileOpen(file);
+}
+
+
 void MainWindow::fileOpen(QString file_path)
 {
     activateCanvas3D();
-    QString file(file_path);
+    QString file(QDir::cleanPath(file_path));
     if (!file.isNull())
     {
         if (file.endsWith(".xml"))

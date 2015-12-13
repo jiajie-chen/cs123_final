@@ -125,7 +125,7 @@ LShape::LShape(state start_state,
 }
 
 LShape::~LShape() {
-
+    m_state_stack.clear();
 }
 
 void LShape::addStateToShape(int materialIdx){
