@@ -66,8 +66,6 @@ void main() {
     vec2 uv = texc;
 
     vec3 N = normalize(vec3(normal_cameraSpace));
-    vec4 vertexToLight = normalize(v * vec4(lightPositions[0], 1) - position_cameraSpace);
-    vec3 L = normalize(vec3(vertexToLight));
     vec3 eyeDirection = normalize(vec3(-position_cameraSpace));
     vec3 V = normalize(eyeDirection);
     vec3 PN = perturb_normal(N, V);
@@ -75,16 +73,20 @@ void main() {
     vec4 texColor = texture(tex, texc).rgba;
     fragColor = vec4(.2, .15, .15, 1) * texColor;
 
-    float lambertTerm = dot(PN, L);
-    if (lambertTerm > 0.0) {
-        vec3 lightDiffuse = lightColors[0];
-        vec3 materialDiffuse = diffuse_color;
-        fragColor += vec4(lightDiffuse * materialDiffuse * lambertTerm * vec3(texColor), 0);
+    for (int i = 0; i < MAX_LIGHTS; i++) {
+        vec4 vertexToLight = normalize(v * vec4(lightPositions[i], 1) - position_cameraSpace);
+        vec3 L = normalize(vec3(vertexToLight));
+        float lambertTerm = dot(PN, L);
+        if (lambertTerm > 0.0) {
+            vec3 lightDiffuse = lightColors[i];
+            vec3 materialDiffuse = diffuse_color;
+            fragColor += vec4(lightDiffuse * materialDiffuse * lambertTerm * vec3(texColor), 0);
 
-        vec3 E = V;
-        vec3 R = reflect(-L, PN);
-        float specular = pow(max(dot(R, E), 0.0), shininess);
-        fragColor += vec4(lightColors[0] * specular_color * specular, 0);
+            vec3 E = V;
+            vec3 R = reflect(-L, PN);
+            float specular = pow(max(dot(R, E), 0.0), shininess);
+            fragColor += vec4(lightColors[i] * specular_color * specular, 0);
+        }
     }
     fragColor.a = 1;
 }
