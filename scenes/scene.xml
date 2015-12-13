@@ -1,6 +1,6 @@
 <scenefile>
   <globaldata>
-    <diffusecoeff v=".1"/>
+    <diffusecoeff v=".3"/>
     <specularcoeff v="0.5"/>
     <ambientcoeff v="1"/>
   </globaldata>
