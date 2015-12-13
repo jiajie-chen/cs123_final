@@ -170,7 +170,7 @@
   <object type="tree" name="medWall">
     <transblock>
       <rotate x="0" y="1" z="0" angle="-90"/>
-      <scale x="25" y="25" z="1"/>
+      <scale x="1" y="25" z="25"/>
       <object type="master" name="wallTile"/>
     </transblock>
   </object>
