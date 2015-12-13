@@ -44,9 +44,10 @@ void main(){
     vec3 color;
     vec3 position = alsoPosition;
     vec3 normal = alsoNormal;
-    vec3 bump     = texture(bump, texc).rgb;
-    normal_cameraSpace = normal_cameraSpace * bump;
+    vec4 bumpVec   = normalize(vec4(texture(bump, texc).rgb * 2 - 1, 0));
+    bumpVec / 2;
 
+    vec4 bumpedNormal_cameraSpace = normal_cameraSpace + bumpVec;
 
     // lol arrow mode
     /*
@@ -70,11 +71,11 @@ void main(){
             }
 
             // Add diffuse component
-            float diffuseIntensity = max(0.0, dot(vertexToLight, normal_cameraSpace));
+            float diffuseIntensity = max(0.0, dot(vertexToLight, bumpedNormal_cameraSpace));
             color += max(vec3(0), lightColors[i] * diffuse_color * diffuseIntensity);
 
             // Add specular component
-            vec4 lightReflection = normalize(-reflect(vertexToLight, normal_cameraSpace));
+            vec4 lightReflection = normalize(-reflect(vertexToLight, bumpedNormal_cameraSpace));
             vec4 eyeDirection = normalize(vec4(0,0,0,1) - position_cameraSpace);
             float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
             color += max (vec3(0), lightColors[i] * specular_color * specIntensity);
@@ -88,8 +89,7 @@ void main(){
 
     texColor = clamp(texColor + vec3(1-useTexture), vec3(0), vec3(1));
     fragColor = vec4((color * texColor), 1);
-    // TODO:
+    //vec3 bumpColor = texture(bump, texc).rgb;
     //fragColor = vec4(bumpColor, 1);
-    //bumpNormal = (2*bumpColor) - 1;
 }
 
