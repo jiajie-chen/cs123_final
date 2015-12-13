@@ -22,6 +22,6 @@ int main(int argc, char *argv[])
     timer->start(10);*/
 
     // this was an alternative fix that avoids lambda (clang/qt w/ clang had issues)
-    QTimer::singleShot(10, &w, SLOT(fileOpenDefaultScene()));
+    QTimer::singleShot(100, &w, SLOT(fileOpenDefaultScene()));
     return app.exec();
 }
