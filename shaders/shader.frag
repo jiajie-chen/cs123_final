@@ -44,7 +44,9 @@ void main(){
     vec3 color;
     vec3 position = alsoPosition;
     vec3 normal = alsoNormal;
-    //vec3 normal = (texture(tex, texc).rgb*2)-1;
+    vec3 bump     = texture(bump, texc).rgb;
+    normal_cameraSpace = normal_cameraSpace * bump;
+
 
     // lol arrow mode
     /*
@@ -83,10 +85,10 @@ void main(){
     color = clamp(color, 0.0, 1.0) * allBlack;
 
     vec3 texColor = texture(tex, texc).rgb;
+
     texColor = clamp(texColor + vec3(1-useTexture), vec3(0), vec3(1));
     fragColor = vec4((color * texColor), 1);
-    vec3 bumpColor = texture(bump, texc).rgb;
-    bumpColor = clamp(bumpColor + vec3(1-useBump), vec3(0), vec3(1));
+    // TODO:
     //fragColor = vec4(bumpColor, 1);
     //bumpNormal = (2*bumpColor) - 1;
 }

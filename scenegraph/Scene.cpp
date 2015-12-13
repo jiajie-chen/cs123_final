@@ -108,7 +108,7 @@ void Scene::addPrimitive(const CS123ScenePrimitive &scenePrimitive, const glm::m
 
     CS123SceneFileMap *bumpMap = new CS123SceneFileMap();
     bumpMap->isUsed = n.primitive.material.bumpMap->isUsed;
-    bumpMap->filename = "../cs123_final/textures/bump/" + n.primitive.material.bumpMap->filename;
+    bumpMap->filename = prePath + "/cs123_final/textures/bump/" + n.primitive.material.bumpMap->filename;
     bumpMap->repeatU = n.primitive.material.bumpMap->repeatU;
     bumpMap->repeatV = n.primitive.material.bumpMap->repeatV;
 

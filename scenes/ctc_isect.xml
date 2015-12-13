@@ -39,6 +39,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r=".2" g="1" b=".4"/>
         <texture file="leaf.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -46,6 +47,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r=".2" g="1" b=".4"/>
         <texture file="leaf.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -53,6 +55,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r=".2" g="1" b=".4"/>
         <texture file="leaf.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -60,6 +63,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r=".2" g="1" b=".4"/>
         <texture file="leaf.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -67,6 +71,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r=".2" g="1" b=".4"/>
         <texture file="leaf.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -74,6 +79,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r=".2" g="1" b=".4"/>
         <texture file="leaf.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -81,6 +87,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r=".2" g="1" b=".4"/>
         <texture file="leaf.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -88,6 +95,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r=".2" g="1" b=".4"/>
         <texture file="leaf.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -95,6 +103,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r=".2" g="1" b=".4"/>
         <texture file="leaf.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
   </object>
@@ -105,6 +114,7 @@
       <object type="primitive" name="cube" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="floor.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -113,6 +123,7 @@
       <object type="primitive" name="cube" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="wall.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -121,6 +132,7 @@
       <object type="primitive" name="cube" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="wall.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -129,6 +141,7 @@
       <object type="primitive" name="cube" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="wall.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -137,6 +150,7 @@
       <object type="primitive" name="cube" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="wall.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -145,6 +159,7 @@
       <object type="primitive" name="cube" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="wall.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -153,6 +168,7 @@
       <object type="primitive" name="cube" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="ceiling.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
 
@@ -199,6 +215,7 @@
       <object type="primitive" name="cube" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="wall.png" u="1" v="1"/>
+        <bumpmap file="bark.png" u="1" v="1"/>
       </object>
     </transblock>
   </object>
