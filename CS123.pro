@@ -41,7 +41,8 @@ SOURCES += camera/OrbitingCamera.cpp \
     lib/ErrorChecker.cpp \
     shape/ConeShape.cpp \
     shape/SphereShape.cpp \
-    camera/POVCamera.cpp
+    camera/POVCamera.cpp \
+    shape/LShape.cpp
 
 
 HEADERS += camera/OrbitingCamera.h \
@@ -72,7 +73,8 @@ HEADERS += camera/OrbitingCamera.h \
     lib/ErrorChecker.h \
     shape/ConeShape.h \
     shape/SphereShape.h \
-    camera/POVCamera.h
+    camera/POVCamera.h \
+    shape/LShape.h
 
 
 FORMS += ui/mainwindow.ui
