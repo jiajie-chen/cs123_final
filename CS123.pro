@@ -15,6 +15,7 @@ macx {
 }
 win32 {
     DEFINES += GLEW_STATIC
+    LIBS += -lopengl32 -lglu32 -lgdi32
 }
 
 SOURCES += camera/OrbitingCamera.cpp \
@@ -101,3 +102,4 @@ macx {
 
 RESOURCES += \
     resources.qrc
+CONFIG += c++11
