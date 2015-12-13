@@ -112,6 +112,7 @@ void OpenGLScene::applyMaterial(const CS123SceneMaterial &material)
     glUniform3fv(m_uniformLocs["diffuse_color"], 1, &material.cDiffuse.r);
     glUniform3fv(m_uniformLocs["specular_color"], 1, &material.cSpecular.r);
     glUniform1f(m_uniformLocs["shininess"], material.shininess);
+    std::cout << material.textureMap->texid << std::endl;
     if (material.textureMap && material.textureMap->isUsed && material.textureMap->texid) {
         glUniform1i(m_uniformLocs["useTexture"], 1);
         glUniform1i(m_uniformLocs["tex"], 1);

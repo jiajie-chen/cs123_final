@@ -211,7 +211,7 @@ void SupportCanvas3D::updateCameraClip()
 
 void SupportCanvas3D::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::RightButton)
+    if (event->button() == Qt::LeftButton)
     {
         getCamera()->mouseDown(event->x(), event->y());
         m_isDragging = !m_isDragging;
@@ -231,7 +231,7 @@ void SupportCanvas3D::mouseMoveEvent(QMouseEvent *event)
 
 void SupportCanvas3D::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (m_isDragging && event->button() == Qt::RightButton)
+    if (m_isDragging && event->button() == Qt::LeftButton)
     {
         getCamera()->mouseUp(event->x(), event->y());
         //m_isDragging = false;
@@ -253,16 +253,16 @@ void SupportCanvas3D::resizeEvent(QResizeEvent *event)
 void SupportCanvas3D::keyPressEvent(QKeyEvent *event) {
     switch(event->key()){
     case Qt::Key_Up:
-    getCamera()->translate(glm::vec3(0, 0, .1f));
+    getCamera()->translate(glm::vec3(0, 0, 1.f));
     break;
     case Qt::Key_Left:
-    getCamera()->translate(glm::vec3(.1f, 0, 0));
+    getCamera()->translate(glm::vec3(1.f, 0, 0));
     break;
     case Qt::Key_Right:
-    getCamera()->translate(glm::vec3(-.1f, 0, 0));
+    getCamera()->translate(glm::vec3(-1.f, 0, 0));
     break;
     case Qt::Key_Down:
-    getCamera()->translate(glm::vec3(0, 0, -.1f));
+    getCamera()->translate(glm::vec3(0, 0, -1.f));
     break;
     }
     update();

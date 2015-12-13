@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[26];
-    char stringdata[410];
+    QByteArrayData data[28];
+    char stringdata[441];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,29 +36,32 @@ QT_MOC_LITERAL(3, 30, 15),
 QT_MOC_LITERAL(4, 46, 14),
 QT_MOC_LITERAL(5, 61, 7),
 QT_MOC_LITERAL(6, 69, 8),
-QT_MOC_LITERAL(7, 78, 8),
-QT_MOC_LITERAL(8, 87, 19),
-QT_MOC_LITERAL(9, 107, 21),
-QT_MOC_LITERAL(10, 129, 11),
-QT_MOC_LITERAL(11, 141, 11),
-QT_MOC_LITERAL(12, 153, 10),
-QT_MOC_LITERAL(13, 164, 16),
-QT_MOC_LITERAL(14, 181, 16),
-QT_MOC_LITERAL(15, 198, 14),
-QT_MOC_LITERAL(16, 213, 14),
-QT_MOC_LITERAL(17, 228, 14),
-QT_MOC_LITERAL(18, 243, 23),
-QT_MOC_LITERAL(19, 267, 21),
-QT_MOC_LITERAL(20, 289, 21),
-QT_MOC_LITERAL(21, 311, 21),
-QT_MOC_LITERAL(22, 333, 13),
-QT_MOC_LITERAL(23, 347, 16),
-QT_MOC_LITERAL(24, 364, 23),
-QT_MOC_LITERAL(25, 388, 20)
+QT_MOC_LITERAL(7, 78, 9),
+QT_MOC_LITERAL(8, 88, 20),
+QT_MOC_LITERAL(9, 109, 8),
+QT_MOC_LITERAL(10, 118, 19),
+QT_MOC_LITERAL(11, 138, 21),
+QT_MOC_LITERAL(12, 160, 11),
+QT_MOC_LITERAL(13, 172, 11),
+QT_MOC_LITERAL(14, 184, 10),
+QT_MOC_LITERAL(15, 195, 16),
+QT_MOC_LITERAL(16, 212, 16),
+QT_MOC_LITERAL(17, 229, 14),
+QT_MOC_LITERAL(18, 244, 14),
+QT_MOC_LITERAL(19, 259, 14),
+QT_MOC_LITERAL(20, 274, 23),
+QT_MOC_LITERAL(21, 298, 21),
+QT_MOC_LITERAL(22, 320, 21),
+QT_MOC_LITERAL(23, 342, 21),
+QT_MOC_LITERAL(24, 364, 13),
+QT_MOC_LITERAL(25, 378, 16),
+QT_MOC_LITERAL(26, 395, 23),
+QT_MOC_LITERAL(27, 419, 20)
     },
     "MainWindow\0updateAspectRatio\0\0"
     "settingsChanged\0fileCopy3Dto2D\0fileNew\0"
-    "fileOpen\0fileSave\0checkAllRayFeatures\0"
+    "fileOpen\0file_path\0fileOpenDefaultScene\0"
+    "fileSave\0checkAllRayFeatures\0"
     "uncheckAllRayFeatures\0filterImage\0"
     "renderImage\0clearImage\0activateCanvas2D\0"
     "activateCanvas3D\0setCameraAxisX\0"
@@ -76,7 +79,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      24,   14, // methods
+      26,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -84,36 +87,40 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  134,    2, 0x0a,
-       3,    0,  135,    2, 0x0a,
-       4,    0,  136,    2, 0x0a,
-       5,    0,  137,    2, 0x0a,
-       6,    0,  138,    2, 0x0a,
-       7,    0,  139,    2, 0x0a,
-       8,    0,  140,    2, 0x0a,
-       9,    0,  141,    2, 0x0a,
-      10,    0,  142,    2, 0x0a,
-      11,    0,  143,    2, 0x0a,
-      12,    0,  144,    2, 0x0a,
-      13,    0,  145,    2, 0x0a,
-      14,    0,  146,    2, 0x0a,
-      15,    0,  147,    2, 0x0a,
-      16,    0,  148,    2, 0x0a,
-      17,    0,  149,    2, 0x0a,
-      18,    0,  150,    2, 0x0a,
-      19,    0,  151,    2, 0x0a,
-      20,    0,  152,    2, 0x0a,
-      21,    0,  153,    2, 0x0a,
-      22,    0,  154,    2, 0x0a,
-      23,    0,  155,    2, 0x0a,
-      24,    0,  156,    2, 0x0a,
-      25,    0,  157,    2, 0x0a,
+       1,    0,  144,    2, 0x0a,
+       3,    0,  145,    2, 0x0a,
+       4,    0,  146,    2, 0x0a,
+       5,    0,  147,    2, 0x0a,
+       6,    0,  148,    2, 0x0a,
+       6,    1,  149,    2, 0x0a,
+       8,    0,  152,    2, 0x0a,
+       9,    0,  153,    2, 0x0a,
+      10,    0,  154,    2, 0x0a,
+      11,    0,  155,    2, 0x0a,
+      12,    0,  156,    2, 0x0a,
+      13,    0,  157,    2, 0x0a,
+      14,    0,  158,    2, 0x0a,
+      15,    0,  159,    2, 0x0a,
+      16,    0,  160,    2, 0x0a,
+      17,    0,  161,    2, 0x0a,
+      18,    0,  162,    2, 0x0a,
+      19,    0,  163,    2, 0x0a,
+      20,    0,  164,    2, 0x0a,
+      21,    0,  165,    2, 0x0a,
+      22,    0,  166,    2, 0x0a,
+      23,    0,  167,    2, 0x0a,
+      24,    0,  168,    2, 0x0a,
+      25,    0,  169,    2, 0x0a,
+      26,    0,  170,    2, 0x0a,
+      27,    0,  171,    2, 0x0a,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,    7,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -148,29 +155,30 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 2: _t->fileCopy3Dto2D(); break;
         case 3: _t->fileNew(); break;
         case 4: _t->fileOpen(); break;
-        case 5: _t->fileSave(); break;
-        case 6: _t->checkAllRayFeatures(); break;
-        case 7: _t->uncheckAllRayFeatures(); break;
-        case 8: _t->filterImage(); break;
-        case 9: _t->renderImage(); break;
-        case 10: _t->clearImage(); break;
-        case 11: _t->activateCanvas2D(); break;
-        case 12: _t->activateCanvas3D(); break;
-        case 13: _t->setCameraAxisX(); break;
-        case 14: _t->setCameraAxisY(); break;
-        case 15: _t->setCameraAxisZ(); break;
-        case 16: _t->updateCameraTranslation(); break;
-        case 17: _t->updateCameraRotationN(); break;
-        case 18: _t->updateCameraRotationV(); break;
-        case 19: _t->updateCameraRotationU(); break;
-        case 20: _t->resetUpVector(); break;
-        case 21: _t->updateCameraClip(); break;
-        case 22: _t->updateCameraHeightAngle(); break;
-        case 23: _t->setCameraAxonometric(); break;
+        case 5: _t->fileOpen((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 6: _t->fileOpenDefaultScene(); break;
+        case 7: _t->fileSave(); break;
+        case 8: _t->checkAllRayFeatures(); break;
+        case 9: _t->uncheckAllRayFeatures(); break;
+        case 10: _t->filterImage(); break;
+        case 11: _t->renderImage(); break;
+        case 12: _t->clearImage(); break;
+        case 13: _t->activateCanvas2D(); break;
+        case 14: _t->activateCanvas3D(); break;
+        case 15: _t->setCameraAxisX(); break;
+        case 16: _t->setCameraAxisY(); break;
+        case 17: _t->setCameraAxisZ(); break;
+        case 18: _t->updateCameraTranslation(); break;
+        case 19: _t->updateCameraRotationN(); break;
+        case 20: _t->updateCameraRotationV(); break;
+        case 21: _t->updateCameraRotationU(); break;
+        case 22: _t->resetUpVector(); break;
+        case 23: _t->updateCameraClip(); break;
+        case 24: _t->updateCameraHeightAngle(); break;
+        case 25: _t->setCameraAxonometric(); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -198,13 +206,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 24)
+        if (_id < 26)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 24;
+        _id -= 26;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 24)
+        if (_id < 26)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 24;
+        _id -= 26;
     }
     return _id;
 }

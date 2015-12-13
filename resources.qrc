@@ -3,4 +3,7 @@
         <file alias="default.frag">shaders/shader.frag</file>
         <file alias="default.vert">shaders/shader.vert</file>
     </qresource>
+    <qresource prefix="/textures">
+        <file alias="scene.xml">scenes/ctc_isect.xml</file>
+    </qresource>
 </RCC>

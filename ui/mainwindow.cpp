@@ -26,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     QGridLayout *gridLayout = new QGridLayout(ui->canvas3D);
     m_canvas3D = new Canvas3D(qglFormat, this);
+
+    SceneviewScene *scene = new SceneviewScene;
+    if (m_canvas3D->isInitialized()) scene->init();
+    m_canvas3D->setScene(scene);
+
     gridLayout->addWidget(m_canvas3D, 0, 1);
 
     // Restore the UI settings
@@ -57,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // Reset the contents of both canvas widgets (make a new 500x500 image for the 2D one)
-    fileNew();
+    m_canvas3D->update();
 }
 
 MainWindow::~MainWindow()
@@ -88,22 +93,23 @@ void MainWindow::dataBind()
     BIND(BoolBinding::bindCheckbox(ui->useLightingCheckbox, settings.useLighting))
     BIND(BoolBinding::bindCheckbox(ui->drawWireframeCheckbox, settings.drawWireframe))
     BIND(BoolBinding::bindCheckbox(ui->drawNormalsCheckbox, settings.drawNormals))
-    */
+
 
     // Camtrans dock
-    BIND( BoolBinding::bindCheckbox(ui->cameraOrbitCheckbox, settings.useOrbitCamera) )
     BIND( FloatBinding::bindDial(ui->transX, settings.cameraPosX, -2, 2, true) )
     BIND( FloatBinding::bindDial(ui->transY, settings.cameraPosY, -2, 2, true) )
     BIND( FloatBinding::bindDial(ui->transZ, settings.cameraPosZ, -2, 2, true) )
     BIND( FloatBinding::bindDial(ui->rotU,   settings.cameraRotU, -20, 20, true) )
     BIND( FloatBinding::bindDial(ui->rotV,   settings.cameraRotV, -20, 20, true) )
     BIND( FloatBinding::bindDial(ui->rotW,   settings.cameraRotN, -180, 180, false) )
+    */
     BIND( FloatBinding::bindSliderAndTextbox(
               ui->cameraFovSlider, ui->cameraFovTextbox, settings.cameraFov, 1, 179) )
     BIND( FloatBinding::bindSliderAndTextbox(
               ui->cameraNearSlider, ui->cameraNearTextbox, settings.cameraNear, 0.1, 50) )
     BIND( FloatBinding::bindSliderAndTextbox(
-              ui->cameraFarSlider, ui->cameraFarTextbox, settings.cameraFar, 0.1, 50) )
+              ui->cameraFarSlider, ui->cameraFarTextbox, settings.cameraFar, 0.1, 128) )
+    BIND( BoolBinding::bindCheckbox(ui->cameraOrbitCheckbox, settings.useOrbitCamera) )
 
 #undef BIND
 
@@ -168,13 +174,27 @@ void MainWindow::fileNew()
 {
 }
 
-void MainWindow::fileOpen()
+void MainWindow::fileOpenDefaultScene()
 {
-    // This opens the 3D tab to initialize OGL so parsing
-    // the scene doesn't crash. If you can find a better solution
-    // feel free to change this.
+    QString prePath;
+    #ifdef __APPLE__
+    prePath = "../../../..";
+    #else
+    prePath = "..";
+    #endif
+
+    QString path = prePath + "/cs123_final/scenes/scene.xml";
+    QDir dir(path);
+    QString file = dir.absolutePath();
+
+    fileOpen(file);
+}
+
+
+void MainWindow::fileOpen(QString file_path)
+{
     activateCanvas3D();
-    QString file = QFileDialog::getOpenFileName(this, QString(), "/course/cs123/data/");
+    QString file(QDir::cleanPath(file_path));
     if (!file.isNull())
     {
         if (file.endsWith(".xml"))
@@ -203,7 +223,7 @@ void MainWindow::fileOpen()
                 }
 
                 if (settings.useOrbitCamera) {
-                    ui->cameraOrbitCheckbox->setChecked(false);
+                    ui->cameraOrbitCheckbox->setChecked(true);
                 }
 
                 activateCanvas3D();
@@ -218,6 +238,12 @@ void MainWindow::fileOpen()
             QMessageBox::critical(this, "Ayy", "LMAO");
         }
     }
+}
+
+void MainWindow::fileOpen()
+{
+    QString file = QFileDialog::getOpenFileName(this, QString(), "/course/cs123/data/");
+    fileOpen(file);
 }
 
 void MainWindow::fileSave()
