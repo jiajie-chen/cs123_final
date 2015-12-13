@@ -5,6 +5,7 @@
 #include "CS123XmlSceneParser.h"
 #include "CS123SceneData.h"
 
+#include "lsystem/LSystemData.h"
 #include <CS123Common.h>
 #include <assert.h>
 #include <string.h>
@@ -35,7 +36,7 @@ CS123XmlSceneParser::~CS123XmlSceneParser()
         delete *lights;
     }
 
-    std::map<std::string, LSystem*>::iterator lsystems;
+    std::map<std::string, LSystemData*>::iterator lsystems;
     for (lsystems = m_lsystems.begin(); lsystems != m_lsystems.end(); lsystems++) {
         delete lsystems->second;
     }
@@ -95,14 +96,13 @@ int CS123XmlSceneParser::getNumLSystems() const
     return m_lsystems.size();
 }
 
-bool CS123XmlSceneParser::getLSystemData(std::string id, LSystem& data) const
+bool CS123XmlSceneParser::getLSystemData(std::string id, LSystemData& data) const
 {
     if (m_lsystems.find(id) == m_lsystems.end())
     {
         cout << "invalid lsystem index" << endl;
         return false;
     }
-    delete &data;
     data = *m_lsystems[id];
     return true;
 }
@@ -674,10 +674,9 @@ bool CS123XmlSceneParser::parseCameraData(const QDomElement &cameradata)
  */
 bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
 {
+    LSystemData* lsystem = new LSystemData;
+
     std::string id;
-    std::string initial;
-    std::map<std::string, std::string> rules;
-    rules.clear();
 
     // Iterate over child elements
     QDomNode childNode = lsystemdata.firstChild();
@@ -692,6 +691,13 @@ bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
                 return false;
             }
             id = e.attribute("v");
+
+            if (m_lsystems.find(id) != m_lsystems.end())
+            {
+                ERROR_AT(e);
+                cout << "duplicate lsystem index" << endl;
+                return false;
+            }
         }
         else if (e.tagName() == "initial")
         {
@@ -700,7 +706,7 @@ bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
                 PARSE_ERROR(e);
                 return false;
             }
-            initial = e.attribute("v");
+            lsystem->initial = e.attribute("v");
         }
         else if (e.tagName() == "rule")
         {
@@ -713,7 +719,7 @@ bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
             }
             sym = e.attribute("sym");
             replace = e.attribute("replace");
-            rules[sym] = replace;
+            lsystem->rules[sym] = replace;
         }
         else if (!e.isNull())
         {
@@ -723,14 +729,7 @@ bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
         childNode = childNode.nextSibling();
     }
 
-    if (m_lsystems.find(id) != m_lsystems.end())
-    {
-        ERROR_AT(e);
-        cout << "duplicate lsystem index" << endl;
-        return false;
-    }
-
-    m_lsystems[id] = new LSystem(initial, rules);
+    m_lsystems[id] = lsystem;
     return true;
 }
 

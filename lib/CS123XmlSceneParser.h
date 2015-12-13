@@ -9,7 +9,7 @@
 
 #include <QtXml>
 
-class LSystem;
+struct LSystemData;
 
 /**
  * @class CS123XmlSceneParser
@@ -62,7 +62,7 @@ class CS123XmlSceneParser : public CS123ISceneParser
       mutable std::map<std::string, CS123SceneNode*> m_objects;
       CS123SceneCameraData m_cameraData;
       std::vector<CS123SceneLightData*> m_lights;
-      std::map<std::string, LSystem*> m_lsystems;
+      std::map<std::string, LSystemData*> m_lsystems;
       CS123SceneGlobalData m_globalData;
       std::vector<CS123SceneNode*> m_nodes;
 };
