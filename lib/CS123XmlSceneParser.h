@@ -43,9 +43,12 @@ class CS123XmlSceneParser : public CS123ISceneParser
       // Returns number of lights in the scene
       virtual int getNumLights() const;
 
+      virtual int getNumLSystems() const;
+
       // Returns the ith light data
       virtual bool getLightData(int i, CS123SceneLightData& data) const;
 
+      virtual bool getLSystemData(std::string id, LSystemData& data) const;
 
    private:
       // The filename should be contained within this parser implementation.
@@ -59,10 +62,11 @@ class CS123XmlSceneParser : public CS123ISceneParser
       bool parsePrimitive(const QDomElement &prim, CS123SceneNode* node);
       
       std::string file_name;
+      std::string file_path;
       mutable std::map<std::string, CS123SceneNode*> m_objects;
       CS123SceneCameraData m_cameraData;
       std::vector<CS123SceneLightData*> m_lights;
-      std::map<std::string, LSystemData*> m_lsystems;
+      mutable std::map<std::string, LSystemData*> m_lsystems;
       CS123SceneGlobalData m_globalData;
       std::vector<CS123SceneNode*> m_nodes;
 };

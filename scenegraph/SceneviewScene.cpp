@@ -59,7 +59,8 @@ void SceneviewScene::init()
                 32,
                 0,
                 glGetAttribLocation(m_shader, "position"),
-                glGetAttribLocation(m_shader, "normal"));
+                glGetAttribLocation(m_shader, "normal"),
+                glGetAttribLocation(m_shader, "texCoord"));
     m_shapes[PRIMITIVE_LSYSTEM] = new SphereShape(
                 10,
                 10,

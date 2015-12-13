@@ -10,7 +10,7 @@
 struct LSystemData
 {
    std::string initial;
-   std::map<std::string, std::string> rules;
+   std::map<char, std::string> rules;
    std::vector<CS123SceneMaterial> mats;
 };
 

@@ -21,6 +21,12 @@ CS123XmlSceneParser::CS123XmlSceneParser(const std::string& name)
 {
     file_name = name;
 
+    unsigned int relIdx = file_name.find_last_of('/');
+    if (relIdx != std::string::npos)
+        file_path = file_name.substr(0, relIdx+1);
+    else
+        file_path = "";
+
     memset(&m_cameraData, 0, sizeof(CS123SceneCameraData));
     memset(&m_globalData, 0, sizeof(CS123SceneGlobalData));
     m_objects.clear();
@@ -337,11 +343,15 @@ bool parseColor(const QDomElement &color, CS123SceneColor &c)
  * Helper function to parse a texture map tag.  Example texture map tag:
  * <texture file="/course/cs123/data/image/andyVanDam.jpg" u="1" v="1"/>
  */
-bool parseMap(const QDomElement &e, CS123SceneFileMap *map)
+bool parseMap(const QDomElement &e, CS123SceneFileMap *map, std::string relPath)
 {
     if (!e.hasAttribute("file"))
         return false;
-    map->filename = e.attribute("file").toStdString();
+    std::string fn = e.attribute("file").toStdString();
+    if (fn.length() > 0 && fn.at(0) != '/')
+        fn = relPath + fn;
+
+    map->filename = fn;
     map->repeatU = e.hasAttribute("u") ? e.attribute("u").toFloat() : 1;
     map->repeatV = e.hasAttribute("v") ? e.attribute("v").toFloat() : 1;
     map->isUsed = true;
@@ -690,12 +700,11 @@ bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
                 PARSE_ERROR(e);
                 return false;
             }
-            id = e.attribute("v");
+            id = e.attribute("v").toStdString();
 
             if (m_lsystems.find(id) != m_lsystems.end())
             {
-                ERROR_AT(e);
-                cout << "duplicate lsystem index" << endl;
+                cout << ERROR_AT(e) << "duplicate lsystem index" << endl;
                 return false;
             }
         }
@@ -706,7 +715,7 @@ bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
                 PARSE_ERROR(e);
                 return false;
             }
-            lsystem->initial = e.attribute("v");
+            lsystem->initial = e.attribute("v").toStdString();
         }
         else if (e.tagName() == "rule")
         {
@@ -717,9 +726,14 @@ bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
                 PARSE_ERROR(e);
                 return false;
             }
-            sym = e.attribute("sym");
-            replace = e.attribute("replace");
-            lsystem->rules[sym] = replace;
+            sym = e.attribute("sym").toStdString();
+            replace = e.attribute("replace").toStdString();
+
+            if (sym.length() != 1) {
+                cout << ERROR_AT(e) << "expected char for sym" << endl;
+                return false;
+            }
+            lsystem->rules[sym.at(0)] = replace;
         }
         else if (!e.isNull())
         {
@@ -1064,7 +1078,7 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
         }
         else if (e.tagName() == "texture")
         {
-            if (!parseMap(e, mat.textureMap))
+            if (!parseMap(e, mat.textureMap, file_path))
             {
                 PARSE_ERROR(e);
                 return false;
@@ -1072,7 +1086,7 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
         }
         else if (e.tagName() == "bumpmap")
         {
-            if (!parseMap(e, mat.bumpMap))
+            if (!parseMap(e, mat.bumpMap, file_path))
             {
                 PARSE_ERROR(e);
                 return false;
