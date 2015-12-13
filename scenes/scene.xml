@@ -6,8 +6,8 @@
   </globaldata>
 
   <cameradata>
-    <pos x="-30" y="5" z="0"/>
-    <look x="1" y="0" z="0"/>
+    <pos x="0" y="5" z="40"/>
+    <look x="0" y="0" z="-1"/>
     <up x="0" y="1" z="0"/>
     <heightangle v="45"/>
   </cameradata>
@@ -15,12 +15,12 @@
   <lightdata>
     <id v="1"/>
     <position x="-20" y="20" z="35"/>
-    <color r=".8" g=".2" b=".4"/>
+    <color r=".8" g=".8" b=".8"/>
   </lightdata>
   <lightdata>
     <id v="2"/>
     <position x="-10" y="20" z="-35"/>
-    <color r=".2" g=".1" b=".8"/>
+    <color r=".8" g=".8" b=".8"/>
   </lightdata>
   <lightdata>
     <id v="3"/>
@@ -64,37 +64,72 @@
     <color r=".8" g=".2" b=".4"/>
   </lightdata>
 
-  <object type="tree" name="tile">
+  <object type="tree" name="wallTile">
     <transblock>
       <translate x="0" y=".5" z=".5"/>
       <object type="primitive" name="cube">
         <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/wall.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/bark.png" u="4" v="4"/>
+        <texture file="../textures/tex/wall.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/wall.png" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
       <translate x="0" y="-.5" z=".5"/>
       <object type="primitive" name="cube">
         <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/wall.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/bark.png" u="4" v="4"/>
+        <texture file="../textures/tex/wall.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/wall.png" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
       <translate x="0" y="-.5" z="-.5"/>
       <object type="primitive" name="cube">
         <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/wall.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/bark.png" u="4" v="4"/>
+        <texture file="../textures/tex/wall.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/wall.png" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
       <translate x="0" y=".5" z="-.5"/>
       <object type="primitive" name="cube">
         <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/wall.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/bark.png" u="4" v="4"/>
+        <texture file="../textures/tex/wall.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/wall.png" u="4" v="4"/>
+      </object>
+    </transblock>
+  </object>
+
+  <object type="tree" name="floorTile">
+    <transblock>
+      <translate x=".5" y="0" z=".5"/>
+      <object type="primitive" name="cube">
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="../textures/tex/floor.png" u="4" v="4"/>
+        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="-.5" y="0" z=".5"/>
+      <object type="primitive" name="cube">
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="../textures/tex/floor.png" u="4" v="4"/>
+        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="-.5" y="0" z="-.5"/>
+      <object type="primitive" name="cube">
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="../textures/tex/floor.png" u="4" v="4"/>
+        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x=".5" y="0" z="-.5"/>
+      <object type="primitive" name="cube">
+        <diffuse r="1" g="1" b="1"/>
+        <texture file="../textures/tex/floor.png" u="4" v="4"/>
+        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
       </object>
     </transblock>
   </object>
@@ -103,20 +138,40 @@
     <transblock>
       <translate x="0" y="0" z="25"/>
       <scale x="1" y="25" z="25"/>
-      <object type="master" name="tile" />
+      <object type="master" name="wallTile" />
     </transblock>
     <transblock>
       <translate x="0" y="0" z="-25"/>
       <scale x="1" y="25" z="25"/>
-      <object type="master" name="tile" />
+      <object type="master" name="wallTile" />
+    </transblock>
+  </object>
+
+  <object type="tree" name="floor">
+    <transblock>
+      <translate x="0" y="0" z="25"/>
+      <scale x="25" y="1" z="25"/>
+      <object type="master" name="floorTile" />
+    </transblock>
+    <transblock>
+      <translate x="0" y="0" z="-25"/>
+      <scale x="25" y="1" z="25"/>
+      <object type="master" name="floorTile" />
     </transblock>
   </object>
 
   <object type="tree" name="shortWall">
     <transblock>
-      <rotate x="0" y="1" z="0" angle="90"/>
-      <scale x="1" y="25" z="25"/>
-      <object type="master" name="tile"/>
+      <scale x="1" y="25" z="23"/>
+      <object type="master" name="wallTile"/>
+    </transblock>
+  </object>
+
+  <object type="tree" name="medWall">
+    <transblock>
+      <rotate x="0" y="1" z="0" angle="-90"/>
+      <scale x="25" y="25" z="1"/>
+      <object type="master" name="wallTile"/>
     </transblock>
   </object>
 
@@ -125,18 +180,21 @@
       <translate x="0" y="-.4" z="0"/>
       <scale x="4" y=".2" z="4"/>
       <object type="primitive" name="cylinder">
+        <diffuse r=".5" g=".5" b=".5"/>
       </object>
     </transblock>
     <transblock>
       <translate x="0" y="7" z="0"/>
       <scale x=".3" y="15" z=".3"/>
       <object type="primitive" name="cylinder">
+        <diffuse r=".5" g=".5" b=".5"/>
       </object>
     </transblock>
     <transblock>
-      <translate x="0" y="15" z="0"/>
-      <scale x="2" y="2" z="2"/>
-      <object type="primitive" name="sphere">
+      <translate x="0" y="13" z="0"/>
+      <scale x="5" y="4" z="5"/>
+      <object type="primitive" name="cylinder">
+        <diffuse r="1" g="1" b="1"/>
       </object>
     </transblock>
   </object>
@@ -147,7 +205,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -155,7 +213,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -163,7 +221,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -171,7 +229,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -179,7 +237,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -187,7 +245,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -195,7 +253,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -203,7 +261,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -211,7 +269,7 @@
       <object type="primitive" name="sphere" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -222,48 +280,23 @@
 
   <object type="tree" name="room">
     <transblock>
-      <scale x="50" y="1" z="100"/>
-      <object type="primitive" name="cube" >
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/floor.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
-      </object>
+      <object type="master" name="floor"/>
     </transblock>
     <transblock>
       <translate x="0" y="25" z="-50"/>
-      <scale x="50" y="50" z="1"/>
-      <object type="primitive" name="cube" >
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/wall.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
-      </object>
+      <object type="master" name="medWall"/>
     </transblock>
     <transblock>
       <translate x="-25" y="25" z="27"/>
-      <scale x="1" y="50" z="46"/>
-      <object type="primitive" name="cube" >
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/wall.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
-      </object>
+      <object type="master" name="shortWall"/>
     </transblock>
     <transblock>
       <translate x="-25" y="25" z="-27"/>
-      <scale x="1" y="50" z="46"/>
-      <object type="primitive" name="cube" >
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/wall.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
-      </object>
+      <object type="master" name="shortWall"/>
     </transblock>
     <transblock>
       <translate x="0" y="25" z="50"/>
-      <scale x="50" y="50" z="1"/>
-      <object type="primitive" name="cube" >
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/wall.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
-      </object>
+      <object type="master" name="medWall"/>
     </transblock>
     <transblock>
       <translate x="25" y="25" z="0"/>
@@ -275,7 +308,7 @@
       <object type="primitive" name="cube" >
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/ceiling.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/bark.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
@@ -286,7 +319,7 @@
         </transblock>
         <transblock>
           <rotate x="0" y="1" z="0" angle="180"/>
-          <translate x="-10" y="0" z="0"/>
+          <translate x="-10" y="0" z="5"/>
           <object type="master" name="row"/>
         </transblock>
         <transblock>
@@ -295,7 +328,7 @@
         </transblock>
         <transblock>
           <rotate x="0" y="1" z="0" angle="180"/>
-          <translate x="10" y="0" z="0"/>
+          <translate x="10" y="0" z="5"/>
           <object type="master" name="row"/>
         </transblock>
         <transblock>
