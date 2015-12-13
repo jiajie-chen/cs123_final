@@ -35,56 +35,70 @@ LShape::LShape(state start_state,
     m_state_stack = std::vector<state>();
     m_shapes = std::vector<LMaterialShape*>();
     m_current_state = start_state;
+    // axes in untransformed objectspace
+    glm::vec3 turn_axis = glm::vec3(0, 0, 1);
+    glm::vec3 pitch_axis = glm::vec3(1, 0, 0);
+    glm::vec3 roll_axis = glm::vec3(0, 1, 0);
 
     std::string rules = lsg->makeLSystem(depth); //finish the math for the l-system, outputs a string of rules
     // loop through the rules and execute each
     for(char& command : rules) {
+        glm::mat4x4 ctm2 = glm::mat4x4(1.0);
         switch(command){
         case 'F':
             //adds a geometric representation of the current state to the appropriate openglshape in m_shapes
             addStateToShape(m_current_state.materialIdx);
-            m_current_state.position += m_current_state.heading*m_current_state.length;
+            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state.length, 0));
+            //m_current_state.position += m_current_state.heading*m_current_state.length;
         break;
         case 'f':
             //move forward
-            m_current_state.position += m_current_state.heading*m_current_state.length;
+            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state.length, 0));
+            //m_current_state.position += m_current_state.heading*m_current_state.length;
         break;
         case '+':
             //turn left by UP_THETA
-            m_current_state.heading = glm::rotate(m_current_state.heading, UP_THETA, m_current_state.up);
-            m_current_state.left = glm::rotate(m_current_state.left, UP_THETA, m_current_state.up);
+            ctm2 *= glm::rotate(glm::mat4x4(1.0), UP_THETA, turn_axis);
+            //m_current_state.heading = glm::rotate(m_current_state.heading, UP_THETA, m_current_state.up);
+            //m_current_state.left = glm::rotate(m_current_state.left, UP_THETA, m_current_state.up);
         break;
         case '-':
             //turn right by -UP_THETA
-            m_current_state.heading = glm::rotate(m_current_state.heading, -UP_THETA, m_current_state.up);
-            m_current_state.left = glm::rotate(m_current_state.left, -UP_THETA, m_current_state.up);
+            ctm2 *= glm::rotate(glm::mat4x4(1.0), -UP_THETA, turn_axis);
+            //m_current_state.heading = glm::rotate(m_current_state.heading, -UP_THETA, m_current_state.up);
+            //m_current_state.left = glm::rotate(m_current_state.left, -UP_THETA, m_current_state.up);
         break;
         case '&':
             // pitch down by LEFT_THETA
-            m_current_state.heading = glm::rotate(m_current_state.heading, LEFT_THETA, m_current_state.left);
-            m_current_state.up = glm::rotate(m_current_state.up, LEFT_THETA, m_current_state.left);
+            ctm2 *= glm::rotate(glm::mat4x4(1.0), LEFT_THETA, pitch_axis);
+           //m_current_state.heading = glm::rotate(m_current_state.heading, LEFT_THETA, m_current_state.left);
+            //m_current_state.up = glm::rotate(m_current_state.up, LEFT_THETA, m_current_state.left);
         break;
         case '^':
             // pitch up by LEFT_THETA
-            m_current_state.heading = glm::rotate(m_current_state.heading, -LEFT_THETA, m_current_state.left);
-            m_current_state.up = glm::rotate(m_current_state.up, -LEFT_THETA, m_current_state.left);
+             ctm2 *= glm::rotate(glm::mat4x4(1.0), -LEFT_THETA, pitch_axis);
+            //m_current_state.heading = glm::rotate(m_current_state.heading, -LEFT_THETA, m_current_state.left);
+            //m_current_state.up = glm::rotate(m_current_state.up, -LEFT_THETA, m_current_state.left);
         break;
         case '\\':
             // roll left by H_THETA
-            m_current_state.left = glm::rotate(m_current_state.left, H_THETA, m_current_state.heading);
-            m_current_state.up = glm::rotate(m_current_state.up, H_THETA, m_current_state.heading);
+             ctm2 *= glm::rotate(glm::mat4x4(1.0), H_THETA, roll_axis);
+            //m_current_state.left = glm::rotate(m_current_state.left, H_THETA, m_current_state.heading);
+            //m_current_state.up = glm::rotate(m_current_state.up, H_THETA, m_current_state.heading);
         break;
         case '/':
             // roll right by -H_THETA
-            m_current_state.left = glm::rotate(m_current_state.left, -H_THETA, m_current_state.heading);
-            m_current_state.up = glm::rotate(m_current_state.up, -H_THETA, m_current_state.heading);
+            ctm2 *= glm::rotate(glm::mat4x4(1.0), -H_THETA, roll_axis);
+            //m_current_state.left = glm::rotate(m_current_state.left, -H_THETA, m_current_state.heading);
+            //m_current_state.up = glm::rotate(m_current_state.up, -H_THETA, m_current_state.heading);
         break;
         case '|':
             // rotate 180ºaround up.
 
             //lmao can't definte M_PI/float because it makes it a double
-            m_current_state.heading = glm::rotate(m_current_state.heading, (float)M_PI, m_current_state.up);
-            m_current_state.left = glm::rotate(m_current_state.left, (float) M_PI, m_current_state.up);
+            ctm2 *= glm::rotate(glm::mat4x4(1.0),(float) M_PI, turn_axis);
+            //m_current_state.heading = glm::rotate(m_current_state.heading, (float)M_PI, m_current_state.up);
+            //m_current_state.left = glm::rotate(m_current_state.left, (float) M_PI, m_current_state.up);
         break;
         case '"':
             // increase length by D_LENGTH
@@ -104,6 +118,7 @@ LShape::LShape(state start_state,
         break;
         case '<':
             // increment the materialIdx (material selection is handled by the lsystem generator)
+            // loop around at the ends
             m_current_state.materialIdx++;
             if (m_current_state.materialIdx > numMaterials - 1){
                 m_current_state.materialIdx = 0;
@@ -127,6 +142,8 @@ LShape::LShape(state start_state,
             m_state_stack.pop_back();
         break;
         }
+        // update the current state's ctm
+        m_current_state.ctm *= ctm2;
     }
     //*********END PARSING RULES***********\\
 
@@ -142,8 +159,9 @@ LShape::~LShape() {
 // add the geometery for the current state to the appropriate shape
 void LShape::addStateToShape(int materialIdx){
     LMaterialShape *lmshape = m_shapes.at(materialIdx);
-    // add the triangles to the shape
+    // get the triangles for the new shape
     std::vector<triangle *> newTris = getCylinder(m_current_state.length, m_current_state.width);
+
     // store the combined triangles in the LMaterialShape
     std::vector<triangle *> combinedTris;
     combinedTris.reserve(lmshape->m_triangles.size() + newTris.size()); // preallocate memory
@@ -197,8 +215,15 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
         vertex *botv2 = new vertex(topx2, -topy2, topz2, botn2, u2, v2);
         vertex *botv3 = new vertex(topx3, -topy3, topz3, botn3, u3, v3);
 
-        triangles.push_back(new triangle(topv3, topv2, topv1));
-        triangles.push_back(new triangle(botv1, botv2, botv3));
+        triangle * t1 = new triangle(topv3, topv2, topv1);
+        triangle * t2 = new triangle(botv1, botv2, botv3);
+
+        // apply the transformation for this state to the triangles
+        t1->transform(m_current_state.ctm);
+        t2->transform(m_current_state.ctm);
+
+        triangles.push_back(t1);
+        triangles.push_back(t2);
 
         // tesselate the sides
         for (int j = 0; j < M_SHAPE_P2; j++) {
@@ -257,8 +282,15 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
             vertex *vert5 = new vertex(x5, y5, z5, n5, u5, v5);
             vertex *vert6 = new vertex(x6, y6, z6, n6, u6, v6);
 
-            triangles.push_back(new triangle(vert3, vert2, vert1));
-            triangles.push_back(new triangle(vert6, vert5, vert4));
+            t1 = new triangle(vert3, vert2, vert1);
+            t2 = new triangle(vert6, vert5, vert4);
+
+            // apply the transformation for this state to the triangles
+            t1->transform(m_current_state.ctm);
+            t2->transform(m_current_state.ctm);
+
+            triangles.push_back(t1);
+            triangles.push_back(t2);
         }
     }
     return triangles;
@@ -270,7 +302,6 @@ void LShape::prepareShapes(){
     int vertexSize = sizeof(GLfloat) * 3; // *dimensions
     int texSize = sizeof(GLfloat) * 2; //*texcoords
     int stride = 2 * vertexSize + texSize;
-
     for (LMaterialShape *lmshape : m_shapes) {
         float numVerts = lmshape->m_triangles.size() * 3;
         int dataSize = numVerts * stride;

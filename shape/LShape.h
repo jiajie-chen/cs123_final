@@ -10,16 +10,6 @@
 #include <sstream>
 #include <iostream>
 
-struct state {
-    glm::vec3 heading;
-    glm::vec3 position;
-    glm::vec3 left;
-    glm::vec3 up;
-    float length;
-    float width;
-    int materialIdx;
-};
-
 struct normal {
     GLfloat x;
     GLfloat y;
@@ -46,6 +36,20 @@ struct normal {
         y = v.y;
         z = v.z;
     }
+
+    void rotateZ(float angle) {
+        glm::vec3 v = glm::rotateZ(glm::vec3(x, y, z), angle);
+        x = v.x;
+        y = v.y;
+        z = v.z;
+    }
+
+     void transform(glm::mat4x4 cfm) {
+         glm::vec4 v = cfm * glm::vec4(x, y, z, 0);
+         x = v.x;
+         y = v.y;
+         z = v.z;
+     }
 };
 
 // vertex struct for easier indexiing and automatic normal creation
@@ -86,6 +90,22 @@ struct vertex {
         z = v.z;
         n->rotateY(angle);
     }
+
+    void rotateZ(float angle) {
+        glm::vec3 v = glm::rotateZ(glm::vec3(x, y, z), angle);
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        n->rotateZ(angle);
+    }
+
+    void transform(glm::mat4x4 cfm) {
+        glm::vec4 v = cfm * glm::vec4(x, y, z, 0);
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        n->transform(cfm);
+    }
 };
 
 struct triangle {
@@ -113,6 +133,29 @@ struct triangle {
         v2->rotateY(angle);
         v3->rotateY(angle);
     }
+
+    void rotateZ(float angle) {
+        v1->rotateZ(angle);
+        v2->rotateZ(angle);
+        v3->rotateZ(angle);
+    }
+
+    void transform(glm::mat4x4 ctm) {
+        v1->transform(ctm);
+        v2->transform(ctm);
+        v3->transform(ctm);
+    }
+};
+
+struct state {
+    glm::vec3 position;
+    glm::vec3 heading;
+    glm::vec3 left;
+    glm::vec3 up;
+    glm::mat4x4 ctm;
+    float length;
+    float width;
+    int materialIdx;
 };
 
 struct LMaterialShape {
