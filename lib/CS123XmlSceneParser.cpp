@@ -23,7 +23,8 @@ CS123XmlSceneParser::CS123XmlSceneParser(const std::string& name)
 
     unsigned int relIdx = file_name.find_last_of('/');
     if (relIdx != std::string::npos)
-        file_path = file_name.substr(0, relIdx+1);
+        file_path = QDir::cleanPath(
+                    QString(file_name.substr(0, relIdx+1).c_str())).toStdString();
     else
         file_path = "";
 
@@ -349,12 +350,15 @@ bool parseMap(const QDomElement &e, CS123SceneFileMap *map, std::string relPath)
         return false;
     std::string fn = e.attribute("file").toStdString();
     if (fn.length() > 0 && fn.at(0) != '/')
-        fn = relPath + fn;
+        fn = relPath + "/" + fn;
 
-    map->filename = fn;
+    map->filename = QDir::cleanPath(QString(fn.c_str())).toStdString();
     map->repeatU = e.hasAttribute("u") ? e.attribute("u").toFloat() : 1;
     map->repeatV = e.hasAttribute("v") ? e.attribute("v").toFloat() : 1;
     map->isUsed = true;
+
+    std::cout << "parsed texture file at: " << map->filename << std::endl;
+
     return true;
 }
 
