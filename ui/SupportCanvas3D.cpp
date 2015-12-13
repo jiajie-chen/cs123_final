@@ -211,7 +211,7 @@ void SupportCanvas3D::updateCameraClip()
 
 void SupportCanvas3D::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::RightButton)
+    if (event->button() == Qt::LeftButton)
     {
         getCamera()->mouseDown(event->x(), event->y());
         m_isDragging = !m_isDragging;
@@ -231,7 +231,7 @@ void SupportCanvas3D::mouseMoveEvent(QMouseEvent *event)
 
 void SupportCanvas3D::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (m_isDragging && event->button() == Qt::RightButton)
+    if (m_isDragging && event->button() == Qt::LeftButton)
     {
         getCamera()->mouseUp(event->x(), event->y());
         //m_isDragging = false;

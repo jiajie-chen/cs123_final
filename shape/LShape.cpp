@@ -89,18 +89,18 @@ LShape::LShape(state start_state, std::string rules, GLuint vertexAttribIndex, G
         break;
         case '[':
             // push the current state onto the stack
-            m_state_stack.push_back(&m_current_state);
+         // TODO:   m_state_stack.push_back(&m_current_state);
         break;
         case ']':
             // pop the state stack and set to the current state
-            this->m_current_state = m_state_stack.pop_back();
+           // TOOD: this->m_current_state = m_state_stack.pop_back();
         break;
         }
     }
 }
 
 LShape::~LShape() {
-    delete m_state_stack
+    // TODO: delete m_state_stack
 
 }
 
