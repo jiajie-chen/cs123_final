@@ -39,60 +39,36 @@ uniform float shininess;
 uniform bool useLighting;     // Whether to calculate lighting using lighting equation
 uniform vec4 allBlack = vec4(1);
 
+mat3 cotangent_frame(vec3 N, vec3 p, vec2 uv)
+{
+    // get edge vectors of the pixel triangle
+    vec3 dp1 = dFdx( p );
+    vec3 dp2 = dFdy( p );
+    vec2 duv1 = dFdx( uv );
+    vec2 duv2 = dFdy( uv );
 
-mat3 cotangent_frame(vec3 N, vec3 p, vec2 uv) {
-    vec3 dp1 = dFdx(p);
-    vec3 dp2 = dFdy(p);
-    vec2 duv1 = dFdx(uv);
-    vec2 duv2 = dFdy(uv);
-
-    vec3 dp2perp = cross(dp2, N);
-    vec3 dp1perp = cross(N, dp1);
+    // solve the linear system
+    vec3 dp2perp = cross( dp2, N );
+    vec3 dp1perp = cross( N, dp1 );
     vec3 T = dp2perp * duv1.x + dp1perp * duv2.x;
     vec3 B = dp2perp * duv1.y + dp1perp * duv2.y;
 
-    float invmax = inversesqrt(max(dot(T, T), dot(B, B)));
-    return mat3(T * invmax, B * invmax, N);
+    // construct a scale-invariant frame
+    float invmax = inversesqrt( max( dot(T,T), dot(B,B) ) );
+    return mat3( T * invmax, B * invmax, N );
 }
 
-vec3 perturb_normal(vec3 N, vec3 V) {
-    vec3 map = texture(bump, texc).xyz;
-    map = map * 255.f/127.f - 128.f/127.f;
-    mat3 TBN = cotangent_frame(N, -V, texc);
+vec3 perturb_normal( vec3 N, vec3 V, vec2 texcoord )
+{
+    // assume N, the interpolated vertex normal and
+    // V, the view vector (vertex to eye)
+   vec3 map = texture(bump, texcoord ).xyz;
+   map = map * 255./127. - 128./127.;
+    mat3 TBN = cotangent_frame(N, -V, texcoord);
     return normalize(TBN * map);
 }
 
-void main() {
-    vec2 uv = texc;
-
-    vec3 N = normalize(vec3(alsoNormal));
-    vec3 eyeDirection = normalize(vec3(-alsoNormal));
-    vec3 V = normalize(eyeDirection);
-    vec3 PN = perturb_normal(N, V);
-
-    vec4 texColor = texture(tex, texc).rgba;
-    fragColor = vec4(.2, .15, .15, 1) * texColor;
-
-    for (int i = 0; i < MAX_LIGHTS; i++) {
-        vec4 vertexToLight = normalize(v * vec4(lightPositions[i], 1) - vec4(alsoPosition, 1));
-        vec3 L = normalize(vec3(vertexToLight));
-        float lambertTerm = dot(PN, L);
-        if (lambertTerm > 0.0) {
-            vec3 lightDiffuse = lightColors[i];
-            vec3 materialDiffuse = diffuse_color;
-            fragColor += vec4(lightDiffuse * materialDiffuse * lambertTerm * vec3(texColor), 0);
-
-            vec3 E = V;
-            vec3 R = reflect(-L, PN);
-            float specular = pow(max(dot(R, E), 0.0), shininess);
-            fragColor += vec4(lightColors[i] * specular_color * specular, 0);
-        }
-    }
-    fragColor = clamp(fragColor, 0.0, 1.0);
-    fragColor.a = 1;
-}
-
-// not used
+// used for object that are not normal-mapped
  void main2(){
     vec3 color;
     vec3 position = alsoPosition;
@@ -154,4 +130,49 @@ void main() {
     //vec3 bumpColor = texture(bump, texc).rgb;
     //fragColor = vec4(bumpColor, 1);
 }
+
+ void main() {
+     if (useBump == 0) {
+         main2();
+         return;
+     }
+     vec2 uv = texc;
+
+     vec3 N = normalize(normal_cameraSpace.xyz);
+     vec3 eyeDirection = -vec3(position_cameraSpace); // TODO: incorrect
+     vec3 V = normalize(eyeDirection);
+     vec4 bumpedNormal_cameraSpace = vec4(perturb_normal(N, V, texc), 0);
+     vec3 color;
+
+
+     color = ambient_color.xyz; // Add ambient component
+
+     for (int i = 0; i < MAX_LIGHTS; i++) {
+
+         vec4 vertexToLight = vec4(0);
+         // Point Light
+         if (lightTypes[i] == 0) {
+             vertexToLight = normalize(v * vec4(lightPositions[i], 1) - position_cameraSpace);
+         } else if (lightTypes[i] == 1) {
+             // Dir Light
+             vertexToLight = normalize(v * vec4(-lightDirections[i], 0));
+         }
+
+         // Add diffuse component
+         float diffuseIntensity = max(0.0, dot(vertexToLight, bumpedNormal_cameraSpace));
+         color += max(vec3(0), lightColors[i] * diffuse_color * diffuseIntensity);
+
+         // Add specular component
+         vec4 lightReflection = normalize(-reflect(vertexToLight, bumpedNormal_cameraSpace));
+         vec4 eyeDirection = normalize(vec4(0,0,0,1) - position_cameraSpace);
+         float specIntensity = pow(max(0.0, dot(eyeDirection, lightReflection)), shininess);
+         color += max (vec3(0), lightColors[i] * specular_color * specIntensity);
+     }
+     color = clamp(color, 0.0, 1.0) * vec3(1);
+
+     vec3 texColor = texture(tex, texc).rgb;
+
+     texColor = clamp(texColor + vec3(1-useTexture), vec3(0), vec3(1));
+     fragColor = vec4((color * texColor), 1);
+ }
 
