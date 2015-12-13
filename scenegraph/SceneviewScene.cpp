@@ -34,26 +34,29 @@ void SceneviewScene::init()
     }
 
     m_shapes[PRIMITIVE_CUBE] = new CubeShape(
-                8,
-                8,
+                32,
+                32,
                 0,
                 glGetAttribLocation(m_shader, "position"),
-                glGetAttribLocation(m_shader, "normal"));
+                glGetAttribLocation(m_shader, "normal"),
+                glGetAttribLocation(m_shader, "texCoord"));
     m_shapes[PRIMITIVE_CONE] = new ConeShape(
-                8,
-                8,
+                32,
+                32,
                 0,
                 glGetAttribLocation(m_shader, "position"),
-                glGetAttribLocation(m_shader, "normal"));
+                glGetAttribLocation(m_shader, "normal"),
+                glGetAttribLocation(m_shader, "texCoord"));
     m_shapes[PRIMITIVE_CYLINDER] = new CylinderShape(
-                8,
-                8,
+                32,
+                32,
                 0,
                 glGetAttribLocation(m_shader, "position"),
-                glGetAttribLocation(m_shader, "normal"));
+                glGetAttribLocation(m_shader, "normal"),
+                glGetAttribLocation(m_shader, "texCoord"));
     m_shapes[PRIMITIVE_SPHERE] = new SphereShape(
-                10,
-                10,
+                32,
+                32,
                 0,
                 glGetAttribLocation(m_shader, "position"),
                 glGetAttribLocation(m_shader, "normal"));
@@ -62,13 +65,15 @@ void SceneviewScene::init()
                 10,
                 0,
                 glGetAttribLocation(m_shader, "position"),
-                glGetAttribLocation(m_shader, "normal"));
+                glGetAttribLocation(m_shader, "normal"),
+                glGetAttribLocation(m_shader, "texCoord"));
     m_shapes[PRIMITIVE_MESH] = new SphereShape(
-                10,
-                10,
+                64,
+                64,
                 0,
                 glGetAttribLocation(m_shader, "position"),
-                glGetAttribLocation(m_shader, "normal"));
+                glGetAttribLocation(m_shader, "normal"),
+                glGetAttribLocation(m_shader, "texCoord"));
 }
 
 void SceneviewScene::settingsChanged()
@@ -98,8 +103,6 @@ void SceneviewScene::renderGeometry()
     //
     for (CS123SceneFlattenedNode prim : m_primitives) {
         CS123SceneMaterial adjustedMat = prim.primitive.material;
-
-        adjustedMat.textureMap = 0;
 
         adjustedMat.cAmbient.r *= m_global.ka;
         adjustedMat.cAmbient.g *= m_global.ka;

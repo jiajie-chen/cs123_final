@@ -35,11 +35,14 @@ void OpenGLScene::init()
     m_uniformLocs["shininess"] = glGetUniformLocation(m_shader, "shininess");
     m_uniformLocs["useTexture"] = glGetUniformLocation(m_shader, "useTexture");
     m_uniformLocs["tex"] = glGetUniformLocation(m_shader, "tex");
+    m_uniformLocs["useBump"] = glGetUniformLocation(m_shader, "useBump");
+    m_uniformLocs["bump"] = glGetUniformLocation(m_shader, "bump");
     m_uniformLocs["useArrowOffsets"] = glGetUniformLocation(m_shader, "useArrowOffsets");
     m_uniformLocs["blend"] = glGetUniformLocation(m_shader, "blend");
 
     m_uniformLocs["position"] = glGetAttribLocation(m_shader, "position");
     m_uniformLocs["normal"] = glGetAttribLocation(m_shader, "normal");
+    m_uniformLocs["texCoord"] = glGetAttribLocation(m_shader, "texCoord");
 
     m_initialized = true;
 }
@@ -119,6 +122,17 @@ void OpenGLScene::applyMaterial(const CS123SceneMaterial &material)
         glActiveTexture(GL_TEXTURE0);
     } else {
         glUniform1i(m_uniformLocs["useTexture"], 0);
+    }
+
+    if (material.bumpMap && material.bumpMap->isUsed && material.bumpMap->texid) {
+        glUniform1i(m_uniformLocs["useBump"], 1);
+        glUniform1i(m_uniformLocs["bump"], 2);
+
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, material.bumpMap->texid);
+        glActiveTexture(GL_TEXTURE0);
+    } else {
+        glUniform1i(m_uniformLocs["useBump"], 0);
     }
 }
 

@@ -94,10 +94,9 @@ void MainWindow::dataBind()
     BIND(BoolBinding::bindCheckbox(ui->useLightingCheckbox, settings.useLighting))
     BIND(BoolBinding::bindCheckbox(ui->drawWireframeCheckbox, settings.drawWireframe))
     BIND(BoolBinding::bindCheckbox(ui->drawNormalsCheckbox, settings.drawNormals))
-    */
+
 
     // Camtrans dock
-    BIND( BoolBinding::bindCheckbox(ui->cameraOrbitCheckbox, settings.useOrbitCamera) )
     BIND( FloatBinding::bindDial(ui->transX, settings.cameraPosX, -2, 2, true) )
     BIND( FloatBinding::bindDial(ui->transY, settings.cameraPosY, -2, 2, true) )
     BIND( FloatBinding::bindDial(ui->transZ, settings.cameraPosZ, -2, 2, true) )
@@ -110,6 +109,8 @@ void MainWindow::dataBind()
               ui->cameraNearSlider, ui->cameraNearTextbox, settings.cameraNear, 0.1, 50) )
     BIND( FloatBinding::bindSliderAndTextbox(
               ui->cameraFarSlider, ui->cameraFarTextbox, settings.cameraFar, 0.1, 50) )
+              */
+    BIND( BoolBinding::bindCheckbox(ui->cameraOrbitCheckbox, settings.useOrbitCamera) )
 
 #undef BIND
 
@@ -180,7 +181,7 @@ void MainWindow::fileOpen()
     // the scene doesn't crash. If you can find a better solution
     // feel free to change this.
     activateCanvas3D();
-    QString file = QFileDialog::getOpenFileName(this, QString(), "/course/cs123/data/");
+    QString file = QFileDialog::getOpenFileName(this, QString(), "../cs123_final/scenes/");
     if (!file.isNull())
     {
         if (file.endsWith(".xml"))
@@ -209,7 +210,7 @@ void MainWindow::fileOpen()
                 }
 
                 if (settings.useOrbitCamera) {
-                    ui->cameraOrbitCheckbox->setChecked(false);
+                    ui->cameraOrbitCheckbox->setChecked(true);
                 }
 
                 activateCanvas3D();

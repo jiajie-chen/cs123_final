@@ -1,6 +1,8 @@
 #ifndef LSYSTEMGENERATOR_H
 #define LSYSTEMGENERATOR_H
 
+
+
 class LSystemGenerator
 {
 public:

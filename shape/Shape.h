@@ -12,7 +12,7 @@ class NormalRenderer;
 class Shape
 {
 public:
-    Shape(GLuint vertexAttribIndex, GLuint normalAttribIndex);
+    Shape(GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
 
     virtual ~Shape();
 
@@ -55,6 +55,7 @@ protected:
 private:
     GLuint m_vertexIndex;
     GLuint m_normalIndex;
+    GLuint m_texCoordIndex;
 };
 
 #endif // SHAPE_H

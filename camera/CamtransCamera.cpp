@@ -345,9 +345,7 @@ void CamtransCamera::rotateW(float degrees)
 void CamtransCamera::setClip(float nearPlane, float farPlane)
 {
     m_near = nearPlane;
-    m_far = farPlane <= nearPlane ?
-                nearPlane + 0.0001 :
-                farPlane;
+    m_far = 30000;
 
     buildProjection();
 }

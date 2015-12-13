@@ -2,13 +2,14 @@
 
 #define GLM_FORCE_RADIANS
 #include <algorithm>
+#include <iostream>
 #include <glm/gtx/rotate_vector.hpp>
 
 #define PI 3.14159265f
 
 ConeShape::ConeShape(int shapeParameter1, int shapeParameter2, float shapeParameter3,
-                     GLuint vertexAttribIndex, GLuint normalAttribIndex)
-    : Shape(vertexAttribIndex, normalAttribIndex)
+                     GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex)
+    : Shape(vertexAttribIndex, normalAttribIndex, texCoordAttribIndex)
 {
     setTesselation(shapeParameter1, shapeParameter2, shapeParameter3);
 }
@@ -55,20 +56,22 @@ void ConeShape::makeShapeWithNormals()
     glm::vec3 bottom = glm::vec3(0.0f, -0.5f, 0.0f);
     glm::vec3 right = glm::vec3(0.0f, -0.5f, 0.5f);
     glm::vec3 normal = glm::vec3(0.0f, -1.0f, 0.0f);
-    GLfloat uB = 1;
-    GLfloat uR = 1;
-    GLfloat vB = 0;
-    GLfloat vR = 0;
     for (int i = 0; i < m_shapeP2; i++) {
         glm::vec3 left = glm::rotateY(right, dRad);
-        GLfloat uL = 1.f / m_shapeP2 * i;
-        GLfloat vL = 0;
+        GLfloat uL = 0.5f + left.x;
+        GLfloat vL = 0.5f + left.z;
+
+        GLfloat uR = 0.5f + right.x;
+        GLfloat vR = 0.5f + right.z;
+
+        GLfloat uC = 0.5f;
+        GLfloat vC = 0.5f;
 
         makeTriangle(offset,
                      bottom, normal,
                      left, normal,
                      right, normal,
-                     uB, vB,
+                     uC, vC,
                      uL, vL,
                      uR, vR);
         offset += triStride;
@@ -92,36 +95,35 @@ void ConeShape::makeShapeWithNormals()
                     glm::normalize(
                         glm::vec3(0.0f, 0.5f, 1.0f)),
                     dRad/2);
-        GLfloat vT = 1.f / m_shapeP1 * i;
 
         glm::vec3 ulN = glm::normalize(
                     glm::vec3(0.0f, 0.5f, 1.0f));
         glm::vec3 blN = glm::normalize(
                         glm::vec3(0.0f, 0.5f, 1.0f));
-
-        GLfloat uL = 0;
-        GLfloat vL = 1.f / m_shapeP1 * (i + 1);
-        GLfloat vR = 1.f / m_shapeP1 * (i + 1);
         // go by slices
-        for (int j = 1; j <= m_shapeP2; j++) {
+        for (int j = 0; j < m_shapeP2; j++) {
             glm::vec3 ur = glm::rotateY(ul, dRad);
             glm::vec3 br = glm::rotateY(bl, dRad);
 
             glm::vec3 urN = glm::rotateY(ulN, dRad);
             glm::vec3 brN = glm::rotateY(blN, dRad);
 
-            GLfloat uT = uL + .5 / m_shapeP2;
-            GLfloat uR = uL + 1.f / m_shapeP2;
+            GLfloat vMin = static_cast<float>(i)/m_shapeP1;
+            GLfloat vMax = static_cast<float>(i+1)/m_shapeP1;
+
+            GLfloat uMin = static_cast<float>(j)/m_shapeP2;
+            GLfloat uMax = static_cast<float>(j+1)/m_shapeP2;
 
             // handle top cap
             if (i == 0) {
+                GLfloat uT = (uMin + uMax) / 2.f;
                 makeTriangle(offset,
                              top, topN,
                              bl, blN,
                              br, brN,
-                             uT, vT,
-                             uL, vL,
-                             uR, vR);
+                             uT, vMin,
+                             uMin, vMax,
+                             uMax, vMax);
                 offset += triStride;
 
                 topN = glm::rotateY(topN, dRad);
@@ -131,8 +133,8 @@ void ConeShape::makeShapeWithNormals()
                          ur, urN,
                          bl, blN,
                          br, brN,
-                         uL, uL,
-                         vT, vL);
+                         uMin, uMax,
+                         vMin, vMax);
                 offset += quadStride;
             }
 
@@ -140,7 +142,6 @@ void ConeShape::makeShapeWithNormals()
             bl = br;
             ulN = urN;
             blN = brN;
-            uL = uR;
         }
     }
 

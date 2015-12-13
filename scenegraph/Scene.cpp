@@ -19,7 +19,13 @@ Scene::Scene(const Scene &copy) :
 Scene::~Scene()
 {
     // Do not delete m_camera, it is owned by SupportCanvas3D
+    for (CS123SceneFlattenedNode n : m_primitives) {
+        glDeleteTextures(1, &n.primitive.material.textureMap->texid);
+        glDeleteTextures(1, &n.primitive.material.bumpMap->texid);
 
+        delete (n.primitive.material.textureMap);
+        delete (n.primitive.material.bumpMap);
+    }
 }
 
 void Scene::parse(Scene *sceneToFill, CS123ISceneParser *parser)
@@ -84,19 +90,61 @@ void Scene::addPrimitive(const CS123ScenePrimitive &scenePrimitive, const glm::m
     CS123SceneFlattenedNode n = CS123SceneFlattenedNode();
     n.primitive = scenePrimitive;
     n.ctm = matrix;
+    std::string prePath;
+#ifdef __APPLE__
+    prePath = "../../../..";
+        #else
+    prePath = "..";
+        #endif
 
-    // make sure the primitive material is correctly defined
-    /*
-    n.primitive.material.textureMap = 0;
+    // copy the material because XmlParser will delete the pointer when it goes out of scope in mainwindow.cpp
+    // lol why do we have to manage crappy pointer code using structs?
+    // why are we given support code that has structs with pointers in an OO language?
+    CS123SceneFileMap *texMap = new CS123SceneFileMap();
+    texMap->isUsed = n.primitive.material.textureMap->isUsed;
+    texMap->filename = prePath + "/cs123_final/textures/tex/" + n.primitive.material.textureMap->filename;
+    texMap->repeatU = n.primitive.material.textureMap->repeatU;
+    texMap->repeatV = n.primitive.material.textureMap->repeatV;
 
-    n.primitive.material.cAmbient.r *= m_global.ka;
-    n.primitive.material.cAmbient.g *= m_global.ka;
-    n.primitive.material.cAmbient.b *= m_global.ka;
+    CS123SceneFileMap *bumpMap = new CS123SceneFileMap();
+    bumpMap->isUsed = n.primitive.material.bumpMap->isUsed;
+    bumpMap->filename = "../cs123_final/textures/bump/" + n.primitive.material.bumpMap->filename;
+    bumpMap->repeatU = n.primitive.material.bumpMap->repeatU;
+    bumpMap->repeatV = n.primitive.material.bumpMap->repeatV;
 
-    n.primitive.material.cDiffuse.r *= m_global.kd;
-    n.primitive.material.cDiffuse.g *= m_global.kd;
-    n.primitive.material.cDiffuse.b *= m_global.kd;
-    */
+    n.primitive.material.textureMap = texMap;
+    n.primitive.material.bumpMap = bumpMap;
+
+    // make sure the primitive texture is correctly defined
+    if (n.primitive.material.textureMap->isUsed) {
+        QString path(n.primitive.material.textureMap->filename.c_str());
+        QImage image(path);
+        if (image.isNull()) {
+            n.primitive.material.textureMap->isUsed = 0;
+        } else {
+            glGenTextures(1, &n.primitive.material.textureMap->texid);
+            glBindTexture(GL_TEXTURE_2D, n.primitive.material.textureMap->texid);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+    }
+
+    if (n.primitive.material.bumpMap->isUsed) {
+        QString path(n.primitive.material.bumpMap->filename.c_str());
+        QImage image(path);
+        if (image.isNull()) {
+            n.primitive.material.bumpMap->isUsed = 0;
+        } else {
+            glGenTextures(1, &n.primitive.material.bumpMap->texid);
+            glBindTexture(GL_TEXTURE_2D, n.primitive.material.bumpMap->texid);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+    }
 
     m_primitives.push_back(n);
 }

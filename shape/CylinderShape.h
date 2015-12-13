@@ -7,7 +7,7 @@ class CylinderShape : public Shape
 {
 public:
     CylinderShape(int shapeParameter1, int shapeParameter2, float shapeParameter3,
-                  GLuint vertexAttribIndex, GLuint normalAttribIndex);
+                  GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordIndex);
 
     virtual ~CylinderShape();
 

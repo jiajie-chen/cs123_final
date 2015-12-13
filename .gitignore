@@ -2,3 +2,6 @@
 *.pro
 *.pro.*
 ./CS123
+moc_*.cpp
+Makefile
+

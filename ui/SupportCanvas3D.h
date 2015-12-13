@@ -11,6 +11,7 @@ class ShapesScene;
 class SceneviewScene;
 class OrbitingCamera;
 class CamtransCamera;
+class POVCamera;
 
 /**
  * @class  SupportCanvas3D
@@ -102,6 +103,7 @@ private:
 
     CamtransCamera *m_defaultPerspectiveCamera;
     OrbitingCamera *m_defaultOrbitingCamera;
+    POVCamera *m_defaultPOVCamera;
     OpenGLScene    *m_scene;
 };
 

@@ -58,25 +58,29 @@ void ShapesScene::init()
                                          settings.shapeParameter2,
                                          settings.shapeParameter3,
                                          glGetAttribLocation(m_shader, "position"),
-                                         glGetAttribLocation(m_shader, "normal"));
+                                         glGetAttribLocation(m_shader, "normal"),
+                                         glGetAttribLocation(m_shader, "texCoord"));
 
     m_shapes[SHAPE_CYLINDER] = new CylinderShape(settings.shapeParameter1,
                                                  settings.shapeParameter2,
                                                  settings.shapeParameter3,
                                                  glGetAttribLocation(m_shader, "position"),
-                                                 glGetAttribLocation(m_shader, "normal"));
+                                                 glGetAttribLocation(m_shader, "normal"),
+                                                 glGetAttribLocation(m_shader, "texCoord"));
 
     m_shapes[SHAPE_SPHERE] = new SphereShape(settings.shapeParameter1,
                                              settings.shapeParameter2,
                                              settings.shapeParameter3,
                                              glGetAttribLocation(m_shader, "position"),
-                                             glGetAttribLocation(m_shader, "normal"));
+                                             glGetAttribLocation(m_shader, "normal"),
+                                             glGetAttribLocation(m_shader, "texCoord"));
 
     m_shapes[SHAPE_CONE] = new ConeShape(settings.shapeParameter1,
                                          settings.shapeParameter2,
                                          settings.shapeParameter3,
                                          glGetAttribLocation(m_shader, "position"),
-                                         glGetAttribLocation(m_shader, "normal"));
+                                         glGetAttribLocation(m_shader, "normal"),
+                                         glGetAttribLocation(m_shader, "texCoord"));
 
     m_shapes[settings.shapeType]->setNormalRenderer(m_normalRenderer);
 }
