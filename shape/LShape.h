@@ -156,14 +156,24 @@ struct state {
     float length;
     float width;
     int materialIdx;
+
+    state() :
+      position(glm::vec3(0,0,0)),
+      heading(glm::vec3(0,1,0)),
+      left(glm::vec3(1,0,0)),
+      up(glm::vec3(0,0,-1)),
+      ctm(glm::mat4x4(1.0)),
+      length(.5),
+      width(.5),
+      materialIdx(0){}
 };
 
 struct LMaterialShape {
     OpenGLShape *shape;
     std::vector<triangle *> m_triangles;
     int numVertices;
-    CS123SceneMaterial material;
-    LMaterialShape(CS123SceneMaterial material)
+    CS123SceneMaterial *material;
+    LMaterialShape(CS123SceneMaterial *material)
         : shape(new OpenGLShape()), m_triangles(std::vector<triangle *>()), material(material) {}
     ~LMaterialShape() {
         delete shape;
@@ -174,7 +184,7 @@ struct LMaterialShape {
 class LShape
 {
 public:
-    LShape(state start_state, LSystemGenerator *lsg, int depth, GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
+    LShape(std::string rules, std::vector<CS123SceneMaterial *> materials, GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
     virtual ~LShape();
     void addStateToShape(int materialIdx);
     std::vector<triangle *> getCylinder(float length, float width);
@@ -184,8 +194,8 @@ public:
 
 private:
     std::vector<LMaterialShape*> m_shapes;
-    std::vector<state> m_state_stack;
-    state m_current_state;
+    std::vector<state *> m_state_stack;
+    state *m_current_state;
 
 
     // gl stuff
