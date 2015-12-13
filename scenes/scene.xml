@@ -1,6 +1,6 @@
 <scenefile>
   <globaldata>
-    <diffusecoeff v=".5"/>
+    <diffusecoeff v=".1"/>
     <specularcoeff v="0.5"/>
     <ambientcoeff v="1"/>
   </globaldata>
@@ -38,7 +38,7 @@
       <translate x="0" y=".5" z=".5"/>
       <object type="primitive" name="cube">
         <diffuse r="1" g="1" b="1"/>
-        <texture file="textures/tex/leaf.png" u="1" v="1"/>
+        <texture file="textures/tex/wall.png" u="1" v="1"/>
         <bumpmap file="textures/bump/bark.png" u="1" v="1"/>
       </object>
     </transblock>
@@ -46,7 +46,7 @@
       <translate x="0" y="-.5" z=".5"/>
       <object type="primitive" name="cube">
         <diffuse r="1" g="1" b="1"/>
-        <texture file="textures/tex/leaf.png" u="1" v="1"/>
+        <texture file="textures/tex/wall.png" u="1" v="1"/>
         <bumpmap file="textures/bump/bark.png" u="1" v="1"/>
       </object>
     </transblock>
@@ -54,7 +54,7 @@
       <translate x="0" y="-.5" z="-.5"/>
       <object type="primitive" name="cube">
         <diffuse r="1" g="1" b="1"/>
-        <texture file="textures/tex/leaf.png" u="1" v="1"/>
+        <texture file="textures/tex/wall.png" u="1" v="1"/>
         <bumpmap file="textures/bump/bark.png" u="1" v="1"/>
       </object>
     </transblock>
@@ -62,7 +62,7 @@
       <translate x="0" y=".5" z="-.5"/>
       <object type="primitive" name="cube">
         <diffuse r="1" g="1" b="1"/>
-        <texture file="textures/tex/leaf.png" u="1" v="1"/>
+        <texture file="textures/tex/wall.png" u="1" v="1"/>
         <bumpmap file="textures/bump/bark.png" u="1" v="1"/>
       </object>
     </transblock>
