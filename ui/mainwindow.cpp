@@ -58,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Reset the contents of both canvas widgets (make a new 500x500 image for the 2D one)
     fileNew();
+    //fileOpen();
 }
 
 MainWindow::~MainWindow()
@@ -171,11 +172,20 @@ void MainWindow::fileNew()
 
 void MainWindow::fileOpen()
 {
+
+    QString prePath;
+#ifdef __APPLE__
+    prePath = "../../../..";
+        #else
+    prePath = "..";
+        #endif
+
+    QString path = prePath + "/cs123_final/scenes/scene.xml";
     // This opens the 3D tab to initialize OGL so parsing
     // the scene doesn't crash. If you can find a better solution
     // feel free to change this.
     activateCanvas3D();
-    QString file = QFileDialog::getOpenFileName(this, QString(), "../cs123_final/scenes/");
+    QString file = path;
     if (!file.isNull())
     {
         if (file.endsWith(".xml"))
