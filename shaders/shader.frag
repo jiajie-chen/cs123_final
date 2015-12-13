@@ -45,7 +45,6 @@ void main(){
     vec3 position = alsoPosition;
     vec3 normal = alsoNormal;
     vec4 bumpVec   = normalize(vec4(texture(bump, texc).rgb * 2 - 1, 0));
-    bumpVec / 2;
 
     vec4 bumpedNormal_cameraSpace = normal_cameraSpace + bumpVec;
 
