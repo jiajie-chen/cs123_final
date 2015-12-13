@@ -1,12 +1,15 @@
 #ifndef LSHAPE_H
 #define LSHAPE_H
 #define GLM_FORCE_RADIANS
-#include "Shape.h"
+#include "lsystem/LSystemGenerator.h"
+#include "OpenGLShape.h"
+#include "CS123SceneData.h"
 #include <glm/gtx/rotate_vector.hpp>
 #include <vector>;
 #include <string>
 #include <sstream>
 #include <iostream>
+
 struct state {
     glm::vec3 heading;
     glm::vec3 position;
@@ -50,11 +53,15 @@ struct vertex {
     GLfloat x;
     GLfloat y;
     GLfloat z;
+
+    GLfloat u;
+    GLfloat v;
+
     normal* n;
 
     vertex() : x(0), y(0), z(0), n(NULL) {}
-    vertex(GLfloat a, GLfloat b, GLfloat c, normal* norm)
-        :x(a), y(b), z(c), n(norm)
+    vertex(GLfloat a, GLfloat b, GLfloat c, normal* norm, GLfloat d, GLfloat e)
+        :x(a), y(b), z(c), n(norm), u(d), v(e)
     {
 
     }
@@ -108,17 +115,39 @@ struct triangle {
     }
 };
 
-class LShape : Shape
+struct LMaterialShape {
+    OpenGLShape *shape;
+    std::vector<triangle *> m_triangles;
+    int numVertices;
+    CS123SceneMaterial material;
+    LMaterialShape(CS123SceneMaterial material)
+        : shape(new OpenGLShape()), m_triangles(std::vector<triangle *>()), material(material) {}
+    ~LMaterialShape() {
+        delete shape;
+        m_triangles.clear();
+    }
+};
+
+class LShape
 {
 public:
-    LShape(state start_state, std::string rules, GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
+    LShape(state start_state, LSystemGenerator *lsg, int depth, GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
     virtual ~LShape();
-    void addStateToShape();
+    void addStateToShape(int materialIdx);
+    std::vector<triangle *> getCylinder(float length, float width);
+    void prepareShapes();
 
 
 private:
+    std::vector<LMaterialShape*> m_shapes;
     std::vector<state> m_state_stack;
     state m_current_state;
+
+
+    // gl stuff
+    GLuint m_vertexIndex;
+    GLuint m_normalIndex;
+    GLuint m_texCoordIndex;
 
 };
 
