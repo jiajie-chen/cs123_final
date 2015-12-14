@@ -111,7 +111,7 @@ LShape::LShape(std::string rules,
             m_current_state->materialIdx--;
 
             if (m_current_state->materialIdx < 0){
-                m_current_state->materialIdx = numMaterials;
+                m_current_state->materialIdx = numMaterials-1;
             }
         break;
         case '[': {

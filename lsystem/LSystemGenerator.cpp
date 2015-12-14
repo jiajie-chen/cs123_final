@@ -103,6 +103,8 @@ std::string LSystemGenerator::makeLSystem(int depth)
         }
         currSystem = nextSystem;
     }
+
+    std::cout << currSystem << std::endl;
     return currSystem;
 }
 
