@@ -43,17 +43,12 @@ protected:
     virtual void renderGeometry();
 
     std::vector<Shape *> m_shapes;
+    // Caching for lshapes
     std::map<std::string, LShape *> m_lshapes;
 
 public:
-    // Use this method to set an internal selection, based on the (x, y) position of the mouse
-    // pointer.  This will be used during the "modeler" lab, so don't worry about it for now.
-    void setSelection(int x, int y);
 
 private:
-    // This will help you during the "modeler" lab, so don't worry about it for now.
-    SelectionRecorder m_selectionRecorder;
-    int m_selectionIndex;
 
 };
 

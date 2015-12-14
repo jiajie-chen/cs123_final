@@ -15,7 +15,7 @@ public:
     ~LSystemGenerator();
 
     float getAngle();
-    std::string makeLSystem(int depth);
+    std::string makeLSystem(int current_depth, int max_depth);
     CS123SceneMaterial getMaterial(int index);
     std::vector<CS123SceneMaterial> getMaterials();
 

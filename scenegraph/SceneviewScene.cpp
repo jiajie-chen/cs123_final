@@ -11,21 +11,19 @@
 #include "shape/SphereShape.h"
 #include "shape/LShape.h"
 #include "lsystem/LSystemGenerator.h"
+#include "Settings.h"
 
 SceneviewScene::SceneviewScene()
 {
-    // TODO: [SCENEVIEW] Set up anything you need for your Sceneview scene here...
     m_shapes.reserve(NUM_PRIMITIVE_TYPES);
 }
 
 SceneviewScene::~SceneviewScene()
 {
-    // TODO: [SCENEVIEW] Don't leak memory!
     for (unsigned int i = 0; i < m_shapes.size(); i++) {
         delete m_shapes[i];
     }
 }
-
 
 void SceneviewScene::init()
 {
@@ -99,14 +97,9 @@ void SceneviewScene::setLights(const glm::mat4 viewMatrix)
 
 void SceneviewScene::renderGeometry()
 {
-    // TODO: [SCENEVIEW] Fill this in...
-    //
-    // This is where you should render the geometry of the scene. Use what you
-    // know about OpenGL and leverage your Shapes classes to get the job done.
-    //
     for (CS123SceneFlattenedNode prim : m_primitives) {
         if (prim.primitive.type == PRIMITIVE_LSYSTEM) {
-            std::string rules = m_lsystems[prim.primitive.lsystemID]->makeLSystem(prim.primitive.lsystemDepth);//"FFFF[+++FFF[]------FFF";
+            std::string rules = m_lsystems[prim.primitive.lsystemID]->makeLSystem(settings.lsystemDepth, prim.primitive.lsystemDepth);//"FFFF[+++FFF[]------FFF";
             // cout << rules << endl;
             if( m_lshapes.find(rules) == m_lshapes.end()) {
                 std::vector<CS123SceneMaterial> materials = m_lsystems[prim.primitive.lsystemID]->getMaterials();
@@ -154,7 +147,7 @@ void SceneviewScene::renderGeometry()
 
             applyMaterial(adjustedMat);
 
-            // apply transforms
+            // apply global transforms
             glUniformMatrix4fv(m_uniformLocs["m"], 1, GL_FALSE,
                     glm::value_ptr(prim.ctm));
             m_shapes[prim.primitive.type]->draw();
@@ -163,24 +156,3 @@ void SceneviewScene::renderGeometry()
 
 }
 
-
-void SceneviewScene::setSelection(int x, int y)
-{
-    // TODO: [MODELER LAB] Fill this in...
-    //
-    // Using m_selectionRecorder, set m_selectionIndex to the index in your
-    // flattened parse tree of the object under the mouse pointer.  The
-    // selection recorder will pick the object under the mouse pointer with
-    // some help from you, all you have to do is:
-
-    // 1) Set this to the number of objects you will be drawing.
-    int numObjects = 0;
-
-    // 2) Start the selection process
-    m_selectionRecorder.enterSelectionMode(x, y, numObjects);
-
-    // 3) Draw your objects, calling m_selectionRecorder.setObjectIndex() before drawing each one.
-
-    // 4) Find out which object you selected, if any (-1 means no selection).
-    m_selectionIndex = m_selectionRecorder.exitSelectionMode();
-}

@@ -57,6 +57,8 @@ void Settings::loadSettingsOrDefaults()
     cameraRotU = 0;
     cameraRotV = 0;
     cameraRotN = 0;
+
+    lsystemDepth = 0;
 }
 
 void Settings::saveSettings()

@@ -82,7 +82,7 @@
     <initial v="F" />
     <rule sym="F" replace="FF-[-/F+F+F\]+[/+F-F-F]" />
     <matblock>
-      <diffuse r="1" g="1" b="1"/>
+      <diffuse r="1" g=".2" b=".2"/>
       <texture file="../textures/tex/bark.png"/>
     </matblock>
   </lsystem>
@@ -91,10 +91,34 @@
     <id v="shrub" />
     <angle v="25" />
     <initial v="F" />
-    <rule sym="F" replace="F[-&amp;\X][\++&amp;X]||F[--&amp;/X][+&amp;X]" />
+    <rule sym="F" replace="F[-&amp;\X],[\,++,&amp;X],||F[--&amp;,/X][+,&amp;X]" />
     <rule sym="X" replace="F[+X][-X]F[+X][-X]FX" />
     <matblock>
-      <diffuse r="1" g="1" b="1"/>
+      <diffuse r=".3" g=".5" b=".9"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".9" g=".2" b=".2"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".9" g=".8" b=".7"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".2" g=".9" b=".3"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".9" g=".9" b=".1"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".1" g=".9" b=".9"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".76" g=".4" b=".5"/>
       <texture file="../textures/tex/bark.png"/>
     </matblock>
   </lsystem>
@@ -191,6 +215,18 @@
         <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
       </object>
     </transblock>
+  </object>
+
+  <object type="tree" name="skyBox">
+  	<transblock>
+  		<scale x="-1" y="1" z="1"/>
+  		<object type="primitive" name="cube">
+  			<diffuse r="1" g="1" b="1"/>
+  			<ambient r="1" g="1" b="1"/>
+  			<specular r="0" g="0" b="0"/>
+  			<texture file="../textures/tex/skybox.jpg" u="4" v="4"/>
+  		</object>
+  	</transblock>
   </object>
 
   <object type="tree" name="longWall">
