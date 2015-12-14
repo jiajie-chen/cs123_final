@@ -66,8 +66,9 @@
 
   <lsystem>
     <id v="test" />
-    <initial v="F" />
-    <rule sym="F" replace="XF" />
+    <initial v="X" />
+    <rule sym="X" replace="F[+X]-X" />
+    <rule sym="F" replace="FF" />
     <matblock>
       <diffuse r="1" g="1" b="0"/>
     </matblock>
