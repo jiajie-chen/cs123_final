@@ -119,6 +119,8 @@ void SceneviewScene::renderGeometry()
                                            glGetAttribLocation(m_shader, "texCoord")
                                            );
                 m_lshapes[rules] = lshape;
+
+                m_lsystems[prim.primitive.lsystemID]->makeLSystem(prim.primitive.lsystemDepth);
             }
 
             // apply transforms
