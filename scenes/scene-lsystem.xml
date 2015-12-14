@@ -1,13 +1,13 @@
 <scenefile>
   <globaldata>
-    <diffusecoeff v="1"/>
+    <diffusecoeff v=".6"/>
     <specularcoeff v="0.5"/>
-    <ambientcoeff v="1"/>
+    <ambientcoeff v="2"/>
   </globaldata>
 
   <cameradata>
-    <pos x="-30" y="5" z="0"/>
-    <look x="1" y="0" z="0"/>
+    <pos x="0" y="5" z="40"/>
+    <look x="0" y="0" z="-1"/>
     <up x="0" y="1" z="0"/>
     <heightangle v="45"/>
   </cameradata>
@@ -15,46 +15,159 @@
   <lightdata>
     <id v="1"/>
     <position x="-20" y="20" z="35"/>
-    <color r="1" g=".2" b=".4"/>
+    <color r=".8" g=".8" b=".8"/>
   </lightdata>
   <lightdata>
     <id v="2"/>
-    <position x="-10" y="20" z="35"/>
-    <color r="1" g=".6" b=".3"/>
+    <position x="-10" y="20" z="-35"/>
+    <color r=".8" g=".8" b=".8"/>
   </lightdata>
   <lightdata>
     <id v="3"/>
     <position x="-0" y="20" z="35"/>
-    <color r="1" g=".6" b=".7"/>
+    <color r="1" g=".3" b=".1"/>
   </lightdata>
   <lightdata>
     <id v="4"/>
-    <position x="10" y="20" z="35"/>
-    <color r="1" g=".2" b=".1"/>
+    <position x="10" y="20" z="-35"/>
+    <color r=".1" g=".2" b=".7"/>
+  </lightdata>
+  <lightdata>
+    <id v="5"/>
+    <position x="20" y="20" z="35"/>
+    <color r=".8" g=".2" b=".4"/>
+  </lightdata>
+
+  <lightdata>
+    <id v="6"/>
+    <position x="-30" y="20" z="35"/>
+    <color r=".8" g=".2" b=".4"/>
+  </lightdata>
+  <lightdata>
+    <id v="7"/>
+    <position x="-40" y="20" z="-35"/>
+    <color r=".2" g=".1" b=".8"/>
+  </lightdata>
+  <lightdata>
+    <id v="8"/>
+    <position x="-50" y="20" z="35"/>
+    <color r="1" g=".3" b=".1"/>
+  </lightdata>
+  <lightdata>
+    <id v="9"/>
+    <position x="-60" y="20" z="-35"/>
+    <color r=".1" g=".2" b=".7"/>
+  </lightdata>
+  <lightdata>
+    <id v="10"/>
+    <position x="-70" y="20" z="35"/>
+    <color r=".8" g=".2" b=".4"/>
   </lightdata>
 
   <lsystem>
     <id v="test" />
-    <initial v="F" />
-    <rule sym="F" replace="XF" />
+    <angle v="45" />
+    <initial v="X" />
+    <rule sym="X" replace="F[/[+X]-X]" />
+    <rule sym="F" replace="FF" />
     <matblock>
-      <diffuse r="1" g="1" b="0"/>
+      <diffuse r=".74" g=".47" b=".27"/>
+      <texture file="../textures/tex/bark.png"/>
     </matblock>
   </lsystem>
 
   <lsystem>
-    <id v="ayy" />
+    <id v="bush" />
+    <angle v="25" />
     <initial v="F" />
-    <rule sym="F" replace="FF" />
+    <rule sym="F" replace="FF-[-/F+F+F\]+[/+F-F-F]" />
+    <matblock>
+      <diffuse r="1" g=".2" b=".2"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
   </lsystem>
 
-  <object type="tree" name="lsystem-test">
+  <lsystem>
+    <id v="shrub" />
+    <angle v="25" />
+    <initial v="F" />
+    <rule sym="F" replace="F[-&amp;\X],[\,++,&amp;X],||F[--&amp;,/X][+,&amp;X]" />
+    <rule sym="X" replace="F[+X][-X]F[+X][-X]FX" />
+    <matblock>
+      <diffuse r=".3" g=".5" b=".9"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".9" g=".2" b=".2"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".9" g=".8" b=".7"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".2" g=".9" b=".3"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".9" g=".9" b=".1"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".1" g=".9" b=".9"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".76" g=".4" b=".5"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+  </lsystem>
+
+  <lsystem>
+    <id v="tree" />
+    <angle v="15" />
+    <initial v="FA" />
+    <rule sym="B" replace="[^^F//////A.]" />
+    <rule sym="A" replace="^FB///B/////B" />
+    <matblock>
+      <diffuse r="1" g="1" b="1"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+    <matblock>
+      <diffuse r="1" g="0" b="0"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+  </lsystem>
+
+  <object type="tree" name="pillar">
     <transblock>
-      <translate x="10" y="10" z="0"/>
-      <object type="primitive" name="cone" >
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="textures/tex/wall.png" u="1" v="1"/>
-        <bumpmap file="textures/bump/bark.png" u="1" v="1"/>
+      <scale x="25" y="25" z="25"/>
+      <translate x="0" y="20" z="0"/>
+      <object type="tree">
+        <transblock>
+          <scale x="1" y="10" z="1"/>
+          <object type="primitive" name="cylinder">
+            <diffuse r="1" g="1" b="1"/>
+            <texture file="../textures/tex/pillar.jpg" u="1" v="1"/>
+            <bumpmap file="../textures/bump/pillar.jpg" u="1" v="1"/>
+          </object>
+        </transblock>
+        <transblock>
+          <scale x="1" y="0.1" z="1"/>
+          <translate x="0" y="5" z="0"/>
+          <object type="primitive" name="sphere">
+            <diffuse r="1" g="1" b="1"/>
+            <texture file="../textures/tex/marble.jpg" u="1" v="1"/>
+          </object>
+        </transblock>
+        <transblock>
+          <scale x="1" y="0.1" z="1"/>
+          <translate x="0" y="-5" z="0"/>
+          <object type="primitive" name="sphere">
+            <diffuse r="1" g="1" b="1"/>
+            <texture file="../textures/tex/marble.jpg" u="1" v="1"/>
+          </object>
+        </transblock>
       </object>
     </transblock>
   </object>
