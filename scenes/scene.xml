@@ -64,6 +64,15 @@
     <color r=".8" g=".2" b=".4"/>
   </lightdata>
 
+  <lsystem>
+    <id v="test" />
+    <initial v="F" />
+    <rule sym="F" replace="XF" />
+    <matblock>
+      <diffuse r="1" g="1" b="0"/>
+    </matblock>
+  </lsystem>
+
   <object type="tree" name="wallTile">
     <transblock>
       <translate x="0" y=".5" z=".5"/>
@@ -202,7 +211,7 @@
   <object type="tree" name="row">
     <transblock>
       <translate x="0" y="0" z="0"/>
-      <object type="primitive" name="lsystem" >
+      <object type="primitive" name="lsystem" id="test" depth="3">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
@@ -210,7 +219,7 @@
     </transblock>
     <transblock>
       <translate x="0" y="0" z="-10"/>
-      <object type="primitive" name="lsystem" >
+      <object type="primitive" name="lsystem" id="test" depth="3">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
@@ -218,7 +227,7 @@
     </transblock>
     <transblock>
       <translate x="0" y="0" z="-20"/>
-      <object type="primitive" name="lsystem" >
+      <object type="primitive" name="lsystem" id="test" depth="3">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>

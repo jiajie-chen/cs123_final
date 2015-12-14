@@ -92,9 +92,8 @@ std::string LSystemGenerator::makeLSystem(int depth)
     // iterate through lsystem for depth
     for (int i = 0; i < depth; i++) {
         // go through the current system by symbol and generate next iteration
+        std::string nextSystem;
         for (char &replace : currSystem) {
-            std::string nextSystem;
-
             // if that symbol is in the replacement rules, replace, else put back
             if (m_rules.find(replace) != m_rules.end()) {
                 nextSystem += m_rules[replace];
@@ -102,8 +101,10 @@ std::string LSystemGenerator::makeLSystem(int depth)
                 nextSystem += replace;
             }
         }
+        currSystem = nextSystem;
     }
 
+    std::cout << currSystem << std::endl;
     return currSystem;
 }
 

@@ -169,12 +169,25 @@ void LShape::addStateToShape(int materialIdx){
 std::vector<triangle *> LShape::getCylinder(float length, float width) {
     std::vector<triangle *> triangles = std::vector<triangle *>();
     double angleStep = 2 * (M_PI / M_SHAPE_P1);
-    double stackStep = 1.0 / M_SHAPE_P2;
+    double stackStep = 2 * length / M_SHAPE_P2;
     float u1,v1,u2,v2,u3,v3;
 
     float dRad = 2*3.14159f/M_SHAPE_P2;
 
+    glm::vec3 center = glm::vec3(0.0f, 0.5f, 0.0f);
+    glm::vec3 left = glm::vec3(0.0f, 0.5f, 0.5f);
+    glm::vec3 norm = glm::vec3(0.0f, 1.0f, 0.0f);
     for (int i = 0 ; i < M_SHAPE_P1; i++) {
+        glm::vec3 right = glm::rotateY(left, dRad);
+        GLfloat uL = 0.5f + left.x;
+        GLfloat vL = 0.5f + left.z;
+
+        GLfloat uR = 0.5f + right.x;
+        GLfloat vR = 0.5f + right.z;
+
+        GLfloat uC = 0.5f;
+        GLfloat vC = 0.5f;
+
         // top and bottom first
         double topx1 = cos(angleStep * i) * width;
         double topy1 = length;
@@ -194,13 +207,13 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
         u3 = 0;
         v3 = 0;
 
-        normal *topn1 = new normal(topx1, topy1, topz1);
-        normal *topn2 = new normal(topx2, topy2, topz2);
-        normal *topn3 = new normal(topx3, -topy3, topz3);
+        normal *topn1 = new normal(0, 1, 0);
+        normal *topn2 = new normal(0, 1, 0);
+        normal *topn3 = new normal(0, 1, 0);
 
-        normal *botn1 = new normal(topx1, -topy1, topz1);
-        normal *botn2 = new normal(topx2, -topy2, topz2);
-        normal *botn3 = new normal(topx3, -topy3, topz3);
+        normal *botn1 = new normal(0, -1, 0);
+        normal *botn2 = new normal(0, -1, 0);
+        normal *botn3 = new normal(0, -1, 0);
 
         vertex *topv1 = new vertex(topx1, topy1, topz1, topn1, u1, v1);
         vertex *topv2 = new vertex(topx2, topy2, topz2, topn2, u2, v2);
@@ -213,15 +226,19 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
         triangles.push_back(new triangle(topv3, topv2, topv1, m_current_state->ctm));
         triangles.push_back(new triangle(botv1, botv2, botv3,  m_current_state->ctm));
 
-        // tesselate the sides
+        left = right;
+    }
 
-        float a1 = i * stackStep;
-        float a2 = (i + 1) * stackStep;
+        // tesselate the sides
+     for (int i = 0 ; i < M_SHAPE_P1; i++) {
+
+        float a1 = i * stackStep - length;
+        float a2 = (i + 1) * stackStep - length;
         GLfloat vMin = 1.f - static_cast<float>(i+1)/M_SHAPE_P2;
         GLfloat vMax = 1.f - static_cast<float>(i)/M_SHAPE_P2;
 
-        glm::vec3 ul = glm::vec3(0.0f,   a2, length);
-        glm::vec3 bl = glm::vec3(0.0f,   a1, length);
+        glm::vec3 ul = glm::vec3(0.0f,   a2, width);
+        glm::vec3 bl = glm::vec3(0.0f,   a1, width);
         glm::vec3 lN = glm::vec3(0.0f, 0.0f, 1.0f);
 
         for (int j = 0; j < M_SHAPE_P2; j++) {
