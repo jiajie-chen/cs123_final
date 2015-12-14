@@ -140,7 +140,10 @@ LShape::LShape(std::string rules,
     //*********END PARSING RULES***********\\
 
     // pass to opengl, now ready to call draw()
-    prepareShapes();
+    for (LMaterialShape *lmshape : m_shapes) {
+        prepareShape(lmshape);
+    }
+    //prepareShapes();
 
 }
 
@@ -167,7 +170,6 @@ void LShape::addStateToShape(int materialIdx){
     combinedTris.insert(combinedTris.end(), lmshape->m_triangles.begin(), lmshape->m_triangles.end() );
     combinedTris.insert(combinedTris.end(), newTris.begin(), newTris.end());
     lmshape->m_triangles = combinedTris;
-    // can't believe ^ is how you combine two vectors...
 }
 
 
@@ -298,56 +300,54 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
     return triangles;
 }
 
-// go from triangles to vertexData for OpenGLShape to consume.
-void LShape::prepareShapes(){
+void LShape::prepareShape(LMaterialShape * lmshape){
     int vertexSize = sizeof(GLfloat) * 3; // *dimensions
     int texSize = sizeof(GLfloat) * 2; //*texcoords
     int stride = 2 * vertexSize + texSize;
     int posn = 0;
-    for (LMaterialShape *lmshape : m_shapes) {
-        float numVerts = lmshape->m_triangles.size() * 3;
-        cout << "preparing shape with diffuse r: "<< lmshape->material.cDiffuse.r << endl;
-        cout << "verts: " << numVerts << endl;
-        int dataSize = numVerts * stride;
-        GLfloat vertexData[dataSize];
-        for (int i = 0; i < lmshape->m_triangles.size(); i++) {
-             triangle* tri = lmshape->m_triangles[i];
-             vertexData[posn++] = tri->v1->x;
-             vertexData[posn++] = tri->v1->y;
-             vertexData[posn++] = tri->v1->z;
-             vertexData[posn++] = tri->v1->n->x;
-             vertexData[posn++] = tri->v1->n->y;
-             vertexData[posn++] = tri->v1->n->z;
-             vertexData[posn++] = tri->v1->u;
-             vertexData[posn++] = tri->v1->v;
 
-             vertexData[posn++] = tri->v2->x;
-             vertexData[posn++] = tri->v2->y;
-             vertexData[posn++] = tri->v2->z;
-             vertexData[posn++] = tri->v2->n->x;
-             vertexData[posn++] = tri->v2->n->y;
-             vertexData[posn++] = tri->v2->n->z;
-             vertexData[posn++] = tri->v2->u;
-             vertexData[posn++] = tri->v2->v;
+    float numVerts = lmshape->m_triangles.size() * 3;
+    cout << "preparing shape with diffuse r: "<< lmshape->material.cDiffuse.r << endl;
+    cout << "verts: " << numVerts << endl;
+    int dataSize = numVerts * stride;
+    GLfloat vertexData[dataSize];
+    for (int i = 0; i < lmshape->m_triangles.size(); i++) {
+         triangle* tri = lmshape->m_triangles[i];
+         vertexData[posn++] = tri->v1->x;
+         vertexData[posn++] = tri->v1->y;
+         vertexData[posn++] = tri->v1->z;
+         vertexData[posn++] = tri->v1->n->x;
+         vertexData[posn++] = tri->v1->n->y;
+         vertexData[posn++] = tri->v1->n->z;
+         vertexData[posn++] = tri->v1->u;
+         vertexData[posn++] = tri->v1->v;
 
-             vertexData[posn++] = tri->v3->x;
-             vertexData[posn++] = tri->v3->y;
-             vertexData[posn++] = tri->v3->z;
-             vertexData[posn++] = tri->v3->n->x;
-             vertexData[posn++] = tri->v3->n->y;
-             vertexData[posn++] = tri->v3->n->z;
-             vertexData[posn++] = tri->v3->u;
-             vertexData[posn++] = tri->v3->v;
-         }
-        // bind array data
-        lmshape->shape->setVertexData(vertexData, dataSize, GL_TRIANGLES, numVerts);
-        // set vertex attribute
-        lmshape->shape->setAttribute(m_vertexIndex, 3, GL_FLOAT, GL_FALSE, stride, 0);
-        // set normal attribute
-        lmshape->shape->setAttribute(m_normalIndex, 3, GL_FLOAT, GL_TRUE, stride, vertexSize);
-        // set texCoord attribute
-        lmshape->shape->setAttribute(m_texCoordIndex, 2, GL_FLOAT, GL_FALSE, stride, 2 * vertexSize);
-    }
+         vertexData[posn++] = tri->v2->x;
+         vertexData[posn++] = tri->v2->y;
+         vertexData[posn++] = tri->v2->z;
+         vertexData[posn++] = tri->v2->n->x;
+         vertexData[posn++] = tri->v2->n->y;
+         vertexData[posn++] = tri->v2->n->z;
+         vertexData[posn++] = tri->v2->u;
+         vertexData[posn++] = tri->v2->v;
+
+         vertexData[posn++] = tri->v3->x;
+         vertexData[posn++] = tri->v3->y;
+         vertexData[posn++] = tri->v3->z;
+         vertexData[posn++] = tri->v3->n->x;
+         vertexData[posn++] = tri->v3->n->y;
+         vertexData[posn++] = tri->v3->n->z;
+         vertexData[posn++] = tri->v3->u;
+         vertexData[posn++] = tri->v3->v;
+     }
+    // bind array data
+    lmshape->shape->setVertexData(vertexData, dataSize, GL_TRIANGLES, numVerts);
+    // set vertex attribute
+    lmshape->shape->setAttribute(m_vertexIndex, 3, GL_FLOAT, GL_FALSE, stride, 0);
+    // set normal attribute
+    lmshape->shape->setAttribute(m_normalIndex, 3, GL_FLOAT, GL_TRUE, stride, vertexSize);
+    // set texCoord attribute
+    lmshape->shape->setAttribute(m_texCoordIndex, 2, GL_FLOAT, GL_FALSE, stride, 2 * vertexSize);
 }
 
 std::vector<LMaterialShape*> LShape::getShapes() {

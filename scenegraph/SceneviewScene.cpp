@@ -105,12 +105,10 @@ void SceneviewScene::renderGeometry()
     // know about OpenGL and leverage your Shapes classes to get the job done.
     //
     for (CS123SceneFlattenedNode prim : m_primitives) {
-        // fake lsystem parser start
         if (prim.primitive.type == PRIMITIVE_LSYSTEM) {
             std::string rules = m_lsystems[prim.primitive.lsystemID]->makeLSystem(prim.primitive.lsystemDepth);//"FFFF[+++FFF[]------FFF";
+            cout << rules << endl;
             if( m_lshapes.find(rules) == m_lshapes.end()) {
-                //CS123SceneMaterial material = prim.primitive.material;
-                //std::vector<CS123SceneMaterial> materials = std::vector<CS123SceneMaterial>();
                 std::vector<CS123SceneMaterial> materials = m_lsystems[prim.primitive.lsystemID]->getMaterials();
                 LShape *lshape = new LShape(rules,
                                            materials,
@@ -123,7 +121,7 @@ void SceneviewScene::renderGeometry()
 
             // apply transforms
             for (LMaterialShape *lmshape : m_lshapes[rules]->getShapes()) {
-                cout << "drawing shape with diffuse r: "<< lmshape->material.cDiffuse.r << endl;
+                //m_lshapes[rules]->prepareShape(lmshape);
                 CS123SceneMaterial adjustedMat = lmshape->material;
                 adjustedMat.cAmbient.r *= m_global.ka;
                 adjustedMat.cAmbient.g *= m_global.ka;
@@ -141,7 +139,6 @@ void SceneviewScene::renderGeometry()
                         glm::value_ptr(prim.ctm));
                 lmshape->shape->draw();
             }
-        // fake lsystem parser end
         }
         else {
             CS123SceneMaterial adjustedMat = prim.primitive.material;
