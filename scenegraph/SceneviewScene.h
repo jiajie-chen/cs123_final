@@ -4,6 +4,7 @@
 #include "OpenGLScene.h"
 #include "SelectionRecorder.h"
 #include <memory>
+#include "shape/LShape.h"
 
 class Shape;
 
@@ -42,6 +43,7 @@ protected:
     virtual void renderGeometry();
 
     std::vector<Shape *> m_shapes;
+    std::map<std::string, LShape *> m_lshapes;
 
 public:
     // Use this method to set an internal selection, based on the (x, y) position of the mouse

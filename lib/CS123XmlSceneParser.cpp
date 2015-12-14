@@ -1114,6 +1114,11 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
     else if (primType == "cube") primitive->type = PRIMITIVE_CUBE;
     else if (primType == "cylinder") primitive->type = PRIMITIVE_CYLINDER;
     else if (primType == "cone") primitive->type = PRIMITIVE_CONE;
+    else if (primType == "lsystem")
+    {
+        primitive->type = PRIMITIVE_LSYSTEM;
+
+    }
     else if (primType == "mesh")
     {
         primitive->type = PRIMITIVE_MESH;

@@ -9,6 +9,7 @@
 #include "shape/CubeShape.h"
 #include "shape/CylinderShape.h"
 #include "shape/SphereShape.h"
+#include "shape/LShape.h"
 
 SceneviewScene::SceneviewScene()
 {
@@ -103,23 +104,68 @@ void SceneviewScene::renderGeometry()
     // know about OpenGL and leverage your Shapes classes to get the job done.
     //
     for (CS123SceneFlattenedNode prim : m_primitives) {
-        CS123SceneMaterial adjustedMat = prim.primitive.material;
+        // fake lsystem parser start
+        if (prim.primitive.type == PRIMITIVE_LSYSTEM) {
+            std::string rules = "F";
+            if( m_lshapes.find(rules) == m_lshapes.end()) {
+                CS123SceneMaterial material = prim.primitive.material;
+                std::vector<CS123SceneMaterial> materials = std::vector<CS123SceneMaterial>();
+                materials.push_back(material);
+                LShape *lshape = new LShape(rules,
+                                           materials,
+                                           glGetAttribLocation(m_shader, "position"),
+                                           glGetAttribLocation(m_shader, "normal"),
+                                           glGetAttribLocation(m_shader, "texCoord")
+                                           );
+                m_lshapes[rules] = lshape;
+            }
 
-        adjustedMat.cAmbient.r *= m_global.ka;
-        adjustedMat.cAmbient.g *= m_global.ka;
-        adjustedMat.cAmbient.b *= m_global.ka;
+            // apply transforms
+            for (LMaterialShape *lmshape : m_lshapes[rules]->getShapes()) {
+                CS123SceneMaterial adjustedMat = lmshape->material;
+                adjustedMat.cAmbient.r *= m_global.ka;
+                adjustedMat.cAmbient.g *= m_global.ka;
+                adjustedMat.cAmbient.b *= m_global.ka;
 
-        adjustedMat.cDiffuse.r *= m_global.kd;
-        adjustedMat.cDiffuse.g *= m_global.kd;
-        adjustedMat.cDiffuse.b *= m_global.kd;
+                adjustedMat.cDiffuse.r *= m_global.kd;
+                adjustedMat.cDiffuse.g *= m_global.kd;
+                adjustedMat.cDiffuse.b *= m_global.kd;
 
-        applyMaterial(adjustedMat);
 
-        // apply transforms
-        glUniformMatrix4fv(m_uniformLocs["m"], 1, GL_FALSE,
-                glm::value_ptr(prim.ctm));
-        m_shapes[prim.primitive.type]->draw();
+                applyMaterial(adjustedMat);
+
+                // apply transforms
+                glUniformMatrix4fv(m_uniformLocs["m"], 1, GL_FALSE,
+                        glm::value_ptr(prim.ctm));
+                lmshape->shape->draw();
+            }
+        // fake lsystem parser end
+        }
+        else {
+            CS123SceneMaterial adjustedMat = prim.primitive.material;
+
+            adjustedMat.cAmbient.r *= m_global.ka;
+            adjustedMat.cAmbient.g *= m_global.ka;
+            adjustedMat.cAmbient.b *= m_global.ka;
+
+            adjustedMat.cDiffuse.r *= m_global.kd;
+            adjustedMat.cDiffuse.g *= m_global.kd;
+            adjustedMat.cDiffuse.b *= m_global.kd;
+
+            applyMaterial(adjustedMat);
+
+            // apply transforms
+            glUniformMatrix4fv(m_uniformLocs["m"], 1, GL_FALSE,
+                    glm::value_ptr(prim.ctm));
+            m_shapes[prim.primitive.type]->draw();
+        }
     }
+
+    for (CS123FlattenedLSystem prim : m_lsystemPrims) {
+        // actually call the lsystem generator and construct LShape.
+
+    }
+
 }
 
 
