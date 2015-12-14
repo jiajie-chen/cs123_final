@@ -85,11 +85,6 @@ void Scene::parseTree(Scene *sceneToFill, const CS123SceneNode &node, const glm:
         sceneToFill->addPrimitive(*p, currCTM);
     }
 
-    std::vector<CS123LSystemPrimitive *> lPrims = node.lsystems;
-    for (CS123LSystemPrimitive *p : lPrims) {
-        sceneToFill->addLSystemPrimitive(*p, currCTM);
-    }
-
     // recur through children
     std::vector<CS123SceneNode *> children = node.children;
     for (CS123SceneNode *c : children) {
@@ -159,15 +154,6 @@ void Scene::addPrimitive(const CS123ScenePrimitive &scenePrimitive, const glm::m
     }
 
     m_primitives.push_back(n);
-}
-
-void Scene::addLSystemPrimitive(const CS123LSystemPrimitive &lsystemPrimitive, const glm::mat4x4 &matrix)
-{
-    CS123FlattenedLSystem n = CS123FlattenedLSystem();
-    n.ctm = matrix;
-    n.primitive = lsystemPrimitive;
-
-    m_lsystemPrims.push_back(n);
 }
 
 void Scene::addLight(const CS123SceneLightData &sceneLight)

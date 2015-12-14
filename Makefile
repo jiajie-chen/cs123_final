@@ -69,7 +69,8 @@ SOURCES       = camera/OrbitingCamera.cpp \
 		shape/ConeShape.cpp \
 		shape/SphereShape.cpp \
 		lsystem/LSystemGenerator.cpp \
-		camera/POVCamera.cpp qrc_resources.cpp \
+		camera/POVCamera.cpp \
+		shape/LShape.cpp qrc_resources.cpp \
 		moc_SupportCanvas3D.cpp \
 		moc_mainwindow.cpp \
 		moc_Databinding.cpp \
@@ -99,6 +100,7 @@ OBJECTS       = OrbitingCamera.o \
 		SphereShape.o \
 		LSystemGenerator.o \
 		POVCamera.o \
+		LShape.o \
 		qrc_resources.o \
 		moc_SupportCanvas3D.o \
 		moc_mainwindow.o \
@@ -342,7 +344,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/CS1231.0.0 || mkdir -p .tmp/CS1231.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/CS1231.0.0/ && $(COPY_FILE) --parents resources.qrc .tmp/CS1231.0.0/ && $(COPY_FILE) --parents camera/OrbitingCamera.h camera/CamtransCamera.h camera/Camera.h scenegraph/SelectionRecorder.h lib/CS123XmlSceneParser.h lib/CS123SceneData.h lib/CS123ISceneParser.h lib/CS123Common.h lib/ResourceLoader.h scenegraph/ShapesScene.h scenegraph/SceneviewScene.h scenegraph/Scene.h scenegraph/OpenGLScene.h ui/SupportCanvas3D.h ui/Settings.h ui/mainwindow.h ui/Databinding.h ui/Canvas3D.h ui_mainwindow.h glew-1.10.0/include/GL/glew.h shape/OpenGLShape.h shape/Shape.h shape/CubeShape.h shape/CylinderShape.h lib/ErrorChecker.h shape/ConeShape.h shape/SphereShape.h lsystem/LSystemGenerator.h lsystem/LSystemData.h camera/POVCamera.h .tmp/CS1231.0.0/ && $(COPY_FILE) --parents camera/OrbitingCamera.cpp camera/CamtransCamera.cpp scenegraph/SelectionRecorder.cpp lib/CS123XmlSceneParser.cpp lib/ResourceLoader.cpp scenegraph/ShapesScene.cpp scenegraph/SceneviewScene.cpp scenegraph/Scene.cpp scenegraph/OpenGLScene.cpp ui/SupportCanvas3D.cpp ui/Settings.cpp ui/mainwindow.cpp ui/Databinding.cpp ui/Canvas3D.cpp main.cpp glew-1.10.0/src/glew.c shape/OpenGLShape.cpp shape/Shape.cpp shape/CubeShape.cpp shape/CylinderShape.cpp lib/ErrorChecker.cpp shape/ConeShape.cpp shape/SphereShape.cpp lsystem/LSystemGenerator.cpp camera/POVCamera.cpp .tmp/CS1231.0.0/ && $(COPY_FILE) --parents ui/mainwindow.ui .tmp/CS1231.0.0/ && (cd `dirname .tmp/CS1231.0.0` && $(TAR) CS1231.0.0.tar CS1231.0.0 && $(COMPRESS) CS1231.0.0.tar) && $(MOVE) `dirname .tmp/CS1231.0.0`/CS1231.0.0.tar.gz . && $(DEL_FILE) -r .tmp/CS1231.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/CS1231.0.0/ && $(COPY_FILE) --parents resources.qrc .tmp/CS1231.0.0/ && $(COPY_FILE) --parents camera/OrbitingCamera.h camera/CamtransCamera.h camera/Camera.h scenegraph/SelectionRecorder.h lib/CS123XmlSceneParser.h lib/CS123SceneData.h lib/CS123ISceneParser.h lib/CS123Common.h lib/ResourceLoader.h scenegraph/ShapesScene.h scenegraph/SceneviewScene.h scenegraph/Scene.h scenegraph/OpenGLScene.h ui/SupportCanvas3D.h ui/Settings.h ui/mainwindow.h ui/Databinding.h ui/Canvas3D.h ui_mainwindow.h glew-1.10.0/include/GL/glew.h shape/OpenGLShape.h shape/Shape.h shape/CubeShape.h shape/CylinderShape.h lib/ErrorChecker.h shape/ConeShape.h shape/SphereShape.h lsystem/LSystemGenerator.h lsystem/LSystemData.h camera/POVCamera.h shape/LShape.h .tmp/CS1231.0.0/ && $(COPY_FILE) --parents camera/OrbitingCamera.cpp camera/CamtransCamera.cpp scenegraph/SelectionRecorder.cpp lib/CS123XmlSceneParser.cpp lib/ResourceLoader.cpp scenegraph/ShapesScene.cpp scenegraph/SceneviewScene.cpp scenegraph/Scene.cpp scenegraph/OpenGLScene.cpp ui/SupportCanvas3D.cpp ui/Settings.cpp ui/mainwindow.cpp ui/Databinding.cpp ui/Canvas3D.cpp main.cpp glew-1.10.0/src/glew.c shape/OpenGLShape.cpp shape/Shape.cpp shape/CubeShape.cpp shape/CylinderShape.cpp lib/ErrorChecker.cpp shape/ConeShape.cpp shape/SphereShape.cpp lsystem/LSystemGenerator.cpp camera/POVCamera.cpp shape/LShape.cpp .tmp/CS1231.0.0/ && $(COPY_FILE) --parents ui/mainwindow.ui .tmp/CS1231.0.0/ && (cd `dirname .tmp/CS1231.0.0` && $(TAR) CS1231.0.0.tar CS1231.0.0 && $(COMPRESS) CS1231.0.0.tar) && $(MOVE) `dirname .tmp/CS1231.0.0`/CS1231.0.0.tar.gz . && $(DEL_FILE) -r .tmp/CS1231.0.0
 
 
 clean:compiler_clean 
@@ -367,9 +369,9 @@ compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_resources.cpp
 qrc_resources.cpp: resources.qrc \
-		scenes/ctc_isect.xml \
+		shaders/shader.vert \
 		shaders/shader.frag \
-		shaders/shader.vert
+		scenes/ctc_isect.xml
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name resources resources.qrc -o qrc_resources.cpp
 
 compiler_moc_header_make_all: moc_SupportCanvas3D.cpp moc_mainwindow.cpp moc_Databinding.cpp moc_Canvas3D.cpp
@@ -3021,7 +3023,9 @@ Scene.o: scenegraph/Scene.cpp scenegraph/Scene.h \
 		lib/CS123SceneData.h \
 		camera/Camera.h \
 		lib/CS123ISceneParser.h \
-		/usr/include/qt5/QtCore/QtGlobal
+		/usr/include/qt5/QtCore/QtGlobal \
+		lsystem/LSystemData.h \
+		lsystem/LSystemGenerator.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Scene.o scenegraph/Scene.cpp
 
 OpenGLScene.o: scenegraph/OpenGLScene.cpp scenegraph/OpenGLScene.h \
@@ -4572,6 +4576,9 @@ main.o: main.cpp /usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
 		/usr/include/qt5/QtGui/qguiapplication.h \
 		/usr/include/qt5/QtGui/qinputmethod.h \
+		/usr/include/qt5/QtCore/QTimer \
+		/usr/include/qt5/QtCore/qtimer.h \
+		/usr/include/qt5/QtCore/qbasictimer.h \
 		ui/mainwindow.h \
 		/usr/include/qt5/QtCore/QVariant \
 		/usr/include/qt5/QtWidgets/QButtonGroup \
@@ -5694,6 +5701,221 @@ POVCamera.o: camera/POVCamera.cpp camera/POVCamera.h \
 		glm/gtx/rotate_vector.hpp \
 		glm/gtx/rotate_vector.inl
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o POVCamera.o camera/POVCamera.cpp
+
+LShape.o: shape/LShape.cpp shape/LShape.h \
+		lsystem/LSystemGenerator.h \
+		lib/CS123SceneData.h \
+		lib/CS123Common.h \
+		glew-1.10.0/include/GL/glew.h \
+		/usr/include/qt5/QtWidgets/QMessageBox \
+		/usr/include/qt5/QtWidgets/qmessagebox.h \
+		/usr/include/qt5/QtWidgets/qdialog.h \
+		/usr/include/qt5/QtWidgets/qwidget.h \
+		/usr/include/qt5/QtGui/qwindowdefs.h \
+		/usr/include/qt5/QtCore/qglobal.h \
+		/usr/include/qt5/QtCore/qconfig.h \
+		/usr/include/qt5/QtCore/qfeatures.h \
+		/usr/include/qt5/QtCore/qsystemdetection.h \
+		/usr/include/qt5/QtCore/qprocessordetection.h \
+		/usr/include/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/qt5/QtCore/qglobalstatic.h \
+		/usr/include/qt5/QtCore/qatomic.h \
+		/usr/include/qt5/QtCore/qbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/qt5/QtCore/qgenericatomic.h \
+		/usr/include/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/qt5/QtCore/qatomic_integrity.h \
+		/usr/include/qt5/QtCore/qoldbasicatomic.h \
+		/usr/include/qt5/QtCore/qatomic_vxworks.h \
+		/usr/include/qt5/QtCore/qatomic_power.h \
+		/usr/include/qt5/QtCore/qatomic_alpha.h \
+		/usr/include/qt5/QtCore/qatomic_armv7.h \
+		/usr/include/qt5/QtCore/qatomic_armv6.h \
+		/usr/include/qt5/QtCore/qatomic_armv5.h \
+		/usr/include/qt5/QtCore/qatomic_bfin.h \
+		/usr/include/qt5/QtCore/qatomic_ia64.h \
+		/usr/include/qt5/QtCore/qatomic_mips.h \
+		/usr/include/qt5/QtCore/qatomic_s390.h \
+		/usr/include/qt5/QtCore/qatomic_sh4a.h \
+		/usr/include/qt5/QtCore/qatomic_sparc.h \
+		/usr/include/qt5/QtCore/qatomic_gcc.h \
+		/usr/include/qt5/QtCore/qatomic_x86.h \
+		/usr/include/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/qt5/QtCore/qatomic_unix.h \
+		/usr/include/qt5/QtCore/qmutex.h \
+		/usr/include/qt5/QtCore/qlogging.h \
+		/usr/include/qt5/QtCore/qflags.h \
+		/usr/include/qt5/QtCore/qtypeinfo.h \
+		/usr/include/qt5/QtCore/qtypetraits.h \
+		/usr/include/qt5/QtCore/qsysinfo.h \
+		/usr/include/qt5/QtCore/qobjectdefs.h \
+		/usr/include/qt5/QtCore/qnamespace.h \
+		/usr/include/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/qt5/QtCore/qobject.h \
+		/usr/include/qt5/QtCore/qstring.h \
+		/usr/include/qt5/QtCore/qchar.h \
+		/usr/include/qt5/QtCore/qbytearray.h \
+		/usr/include/qt5/QtCore/qrefcount.h \
+		/usr/include/qt5/QtCore/qarraydata.h \
+		/usr/include/qt5/QtCore/qstringbuilder.h \
+		/usr/include/qt5/QtCore/qlist.h \
+		/usr/include/qt5/QtCore/qalgorithms.h \
+		/usr/include/qt5/QtCore/qiterator.h \
+		/usr/include/qt5/QtCore/qcoreevent.h \
+		/usr/include/qt5/QtCore/qscopedpointer.h \
+		/usr/include/qt5/QtCore/qmetatype.h \
+		/usr/include/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/qt5/QtCore/qisenum.h \
+		/usr/include/qt5/QtCore/qobject_impl.h \
+		/usr/include/qt5/QtCore/qmargins.h \
+		/usr/include/qt5/QtCore/qrect.h \
+		/usr/include/qt5/QtCore/qsize.h \
+		/usr/include/qt5/QtCore/qpoint.h \
+		/usr/include/qt5/QtGui/qpaintdevice.h \
+		/usr/include/qt5/QtGui/qpalette.h \
+		/usr/include/qt5/QtGui/qcolor.h \
+		/usr/include/qt5/QtGui/qrgb.h \
+		/usr/include/qt5/QtCore/qstringlist.h \
+		/usr/include/qt5/QtCore/qdatastream.h \
+		/usr/include/qt5/QtCore/qiodevice.h \
+		/usr/include/qt5/QtCore/qpair.h \
+		/usr/include/qt5/QtCore/qregexp.h \
+		/usr/include/qt5/QtCore/qstringmatcher.h \
+		/usr/include/qt5/QtGui/qbrush.h \
+		/usr/include/qt5/QtCore/qvector.h \
+		/usr/include/qt5/QtGui/qmatrix.h \
+		/usr/include/qt5/QtGui/qpolygon.h \
+		/usr/include/qt5/QtGui/qregion.h \
+		/usr/include/qt5/QtCore/qline.h \
+		/usr/include/qt5/QtGui/qtransform.h \
+		/usr/include/qt5/QtGui/qpainterpath.h \
+		/usr/include/qt5/QtGui/qimage.h \
+		/usr/include/qt5/QtGui/qpixmap.h \
+		/usr/include/qt5/QtCore/qsharedpointer.h \
+		/usr/include/qt5/QtCore/qshareddata.h \
+		/usr/include/qt5/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt5/QtCore/qhash.h \
+		/usr/include/qt5/QtGui/qfont.h \
+		/usr/include/qt5/QtGui/qfontmetrics.h \
+		/usr/include/qt5/QtGui/qfontinfo.h \
+		/usr/include/qt5/QtWidgets/qsizepolicy.h \
+		/usr/include/qt5/QtGui/qcursor.h \
+		/usr/include/qt5/QtGui/qkeysequence.h \
+		/usr/include/qt5/QtGui/qevent.h \
+		/usr/include/qt5/QtCore/qvariant.h \
+		/usr/include/qt5/QtCore/qmap.h \
+		/usr/include/qt5/QtCore/qdebug.h \
+		/usr/include/qt5/QtCore/qtextstream.h \
+		/usr/include/qt5/QtCore/qlocale.h \
+		/usr/include/qt5/QtCore/qset.h \
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/qt5/QtCore/qurl.h \
+		/usr/include/qt5/QtCore/qurlquery.h \
+		/usr/include/qt5/QtCore/qfile.h \
+		/usr/include/qt5/QtCore/qfiledevice.h \
+		/usr/include/qt5/QtGui/qvector2d.h \
+		/usr/include/qt5/QtGui/qtouchdevice.h \
+		glm/glm.hpp \
+		glm/detail/_fixes.hpp \
+		glm/fwd.hpp \
+		glm/detail/type_int.hpp \
+		glm/detail/setup.hpp \
+		glm/detail/type_float.hpp \
+		glm/detail/type_vec.hpp \
+		glm/detail/precision.hpp \
+		glm/detail/type_mat.hpp \
+		glm/vec2.hpp \
+		glm/detail/type_vec2.hpp \
+		glm/detail/_swizzle.hpp \
+		glm/detail/_swizzle_func.hpp \
+		glm/detail/type_vec2.inl \
+		glm/vec3.hpp \
+		glm/detail/type_vec3.hpp \
+		glm/detail/type_vec3.inl \
+		glm/vec4.hpp \
+		glm/detail/type_vec4.hpp \
+		glm/detail/type_vec4.inl \
+		glm/mat2x2.hpp \
+		glm/detail/type_mat2x2.hpp \
+		glm/detail/type_mat2x2.inl \
+		glm/mat2x3.hpp \
+		glm/detail/type_mat2x3.hpp \
+		glm/detail/type_mat2x3.inl \
+		glm/mat2x4.hpp \
+		glm/detail/type_mat2x4.hpp \
+		glm/detail/type_mat2x4.inl \
+		glm/mat3x2.hpp \
+		glm/detail/type_mat3x2.hpp \
+		glm/detail/type_mat3x2.inl \
+		glm/mat3x3.hpp \
+		glm/detail/type_mat3x3.hpp \
+		glm/detail/type_mat3x3.inl \
+		glm/mat3x4.hpp \
+		glm/detail/type_mat3x4.hpp \
+		glm/detail/type_mat3x4.inl \
+		glm/mat4x2.hpp \
+		glm/detail/type_mat4x2.hpp \
+		glm/detail/type_mat4x2.inl \
+		glm/mat4x3.hpp \
+		glm/detail/type_mat4x3.hpp \
+		glm/detail/type_mat4x3.inl \
+		glm/mat4x4.hpp \
+		glm/detail/type_mat4x4.hpp \
+		glm/detail/type_mat4x4.inl \
+		glm/trigonometric.hpp \
+		glm/detail/func_trigonometric.hpp \
+		glm/detail/func_trigonometric.inl \
+		glm/detail/_vectorize.hpp \
+		glm/detail/type_vec1.hpp \
+		glm/detail/type_vec1.inl \
+		glm/exponential.hpp \
+		glm/detail/func_exponential.hpp \
+		glm/detail/func_exponential.inl \
+		glm/detail/func_vector_relational.hpp \
+		glm/detail/func_vector_relational.inl \
+		glm/common.hpp \
+		glm/detail/func_common.hpp \
+		glm/detail/func_common.inl \
+		glm/packing.hpp \
+		glm/detail/func_packing.hpp \
+		glm/detail/func_packing.inl \
+		glm/detail/type_half.hpp \
+		glm/detail/type_half.inl \
+		glm/geometric.hpp \
+		glm/detail/func_geometric.hpp \
+		glm/detail/func_geometric.inl \
+		glm/matrix.hpp \
+		glm/detail/func_matrix.hpp \
+		glm/detail/func_matrix.inl \
+		glm/vector_relational.hpp \
+		glm/integer.hpp \
+		glm/detail/func_integer.hpp \
+		glm/detail/func_integer.inl \
+		glm/gtx/string_cast.hpp \
+		glm/gtx/integer.hpp \
+		glm/gtx/integer.inl \
+		glm/gtx/quaternion.hpp \
+		glm/gtc/constants.hpp \
+		glm/gtc/constants.inl \
+		glm/gtc/quaternion.hpp \
+		glm/gtx/quaternion.inl \
+		glm/gtx/norm.hpp \
+		glm/gtx/norm.inl \
+		glm/gtx/string_cast.inl \
+		glm/gtx/transform.hpp \
+		glm/gtc/matrix_transform.hpp \
+		glm/gtc/matrix_transform.inl \
+		glm/gtx/transform.inl \
+		glm/gtc/type_ptr.hpp \
+		glm/gtc/type_ptr.inl \
+		shape/OpenGLShape.h \
+		scenegraph/OpenGLScene.h \
+		scenegraph/Scene.h \
+		glm/gtx/rotate_vector.hpp \
+		glm/gtx/rotate_vector.inl
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o LShape.o shape/LShape.cpp
 
 qrc_resources.o: qrc_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
