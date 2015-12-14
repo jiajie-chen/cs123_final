@@ -53,11 +53,11 @@ LShape::LShape(std::string rules,
             ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length,0));
         break;
         case '+':
-            //turn left by UP_THETA
+            //turn right by UP_THETA
             ctm2 *= glm::rotate(glm::mat4x4(1.0), m_angle, m_current_state->up);
         break;
         case '-':
-            //turn right by -UP_THETA
+            //turn left by -UP_THETA
             ctm2 *= glm::rotate(glm::mat4x4(1.0), -m_angle, m_current_state->up);
         break;
         case '&':
