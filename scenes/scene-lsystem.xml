@@ -33,6 +33,21 @@
     <color r="1" g=".2" b=".1"/>
   </lightdata>
 
+  <lsystem>
+    <id v="test" />
+    <initial v="F" />
+    <rule sym="F" replace="FF" />
+    <matblock>
+      <diffuse r="1" g="1" b="0"/>
+    </matblock>
+  </lsystem>
+
+  <lsystem>
+    <id v="test" />
+    <initial v="F" />
+    <rule sym="F" replace="FF" />
+  </lsystem>
+
   <object type="tree" name="tile">
     <transblock>
       <translate x="0" y=".5" z=".5"/>
@@ -245,6 +260,10 @@
         <diffuse r="1" g="1" b="1"/>
         <texture file="textures/tex/ceiling.png" u="1" v="1"/>
         <bumpmap file="textures/bump/bark.png" u="1" v="1"/>
+      </object>
+      <object type="lsystem">
+        <id v="x" />
+        <depth v=5 />
       </object>
     </transblock>
     <transblock>
