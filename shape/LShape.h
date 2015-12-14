@@ -187,10 +187,11 @@ struct state {
 struct LMaterialShape {
     OpenGLShape *shape;
     std::vector<triangle *> m_triangles;
+    GLfloat *vertexData;
     int numVertices;
     CS123SceneMaterial material;
     LMaterialShape(CS123SceneMaterial material)
-        : shape(new OpenGLShape()), m_triangles(std::vector<triangle *>()), material(material) {}
+        : shape(new OpenGLShape()), m_triangles(std::vector<triangle *>()), material(material), vertexData(nullptr) {}
     ~LMaterialShape() {
         delete shape;
         for(triangle *t : m_triangles) {
@@ -205,7 +206,7 @@ class LShape
 public:
     LShape(std::string rules, std::vector<CS123SceneMaterial> materials, GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
     virtual ~LShape();
-
+    void prepareShape(LMaterialShape * lmshape);
     std::vector<LMaterialShape*> getShapes();
 
 
@@ -213,7 +214,6 @@ private:
     std::vector<LMaterialShape*> m_shapes;
     std::list<state *> m_state_stack;
     state *m_current_state;
-    void prepareShapes();
     void addStateToShape(int materialIdx);
     std::vector<triangle *> getCylinder(float length, float width);
 
