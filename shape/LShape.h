@@ -46,7 +46,7 @@ struct normal {
     }
 
      void transform(glm::mat4x4 cfm) {
-         glm::vec4 v = cfm * glm::vec4(x, y, z, 0);
+         glm::vec4 v = cfm * glm::vec4(x, y, z, 1);
          x = v.x;
          y = v.y;
          z = v.z;
@@ -168,8 +168,8 @@ struct state {
       left(glm::vec3(-1,0,0)),
       up(glm::vec3(0,0, 1)),
       ctm(glm::mat4x4(1.0)),
-      length(1),
-      width(1),
+      length(.5),
+      width(.1),
       materialIdx(0){}
 };
 
@@ -182,6 +182,9 @@ struct LMaterialShape {
         : shape(new OpenGLShape()), m_triangles(std::vector<triangle *>()), material(material) {}
     ~LMaterialShape() {
         delete shape;
+        for(triangle *t : m_triangles) {
+            delete t;
+        }
         m_triangles.clear();
     }
 };
@@ -197,7 +200,7 @@ public:
 
 private:
     std::vector<LMaterialShape*> m_shapes;
-    std::vector<state *> m_state_stack;
+    std::list<state *> m_state_stack;
     state *m_current_state;
     void prepareShapes();
     void addStateToShape(int materialIdx);

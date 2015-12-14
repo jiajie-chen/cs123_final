@@ -103,8 +103,6 @@ std::string LSystemGenerator::makeLSystem(int depth)
         }
         currSystem = nextSystem;
     }
-
-    std::cout << currSystem << std::endl;
     return currSystem;
 }
 
@@ -117,7 +115,7 @@ CS123SceneMaterial LSystemGenerator::getMaterial(int index)
     return m_defaultMat;
 }
 
-int LSystemGenerator::getNumMaterials()
+std::vector<CS123SceneMaterial> LSystemGenerator::getMaterials()
 {
-    return m_mats.size();
+    return m_mats;
 }
