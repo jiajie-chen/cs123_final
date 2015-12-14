@@ -117,6 +117,10 @@ struct triangle {
     triangle(): v1(NULL), v2(NULL), v3(NULL) {}
     triangle(vertex* vec1, vertex* vec2, vertex* vec3)
         : v1(vec1), v2(vec2), v3(vec3) {}
+    triangle(vertex* vec1, vertex* vec2, vertex* vec3, glm::mat4x4 ctm)
+        : v1(vec1), v2(vec2), v3(vec3) {
+        this->transform(ctm);
+    }
     ~triangle() {
         delete v1;
         delete v2;

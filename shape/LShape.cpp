@@ -43,13 +43,13 @@ LShape::LShape(std::string rules,
         case 'F':
             //adds a geometric representation of the current state to the appropriate openglshape in m_shapes
             addStateToShape(m_current_state->materialIdx);
-            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length,0));
+            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length * 2,0));
             //ctm2 *= glm::translate(glm::mat4x4(1.0), m_current_state->heading * m_current_state->length);
             //m_current_state->position += m_current_state->heading*m_current_state->length;
         break;
         case 'f':
             //move forward
-            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length,0));
+            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length * 2,0));
             //ctm2 *= glm::translate(glm::mat4x4(1.0), m_current_state->heading * m_current_state->length);
             //m_current_state->position += m_current_state->heading*m_current_state->length;
         break;
@@ -217,15 +217,8 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
         vertex *botv2 = new vertex(topx2, -topy2, topz2, botn2, u2, v2);
         vertex *botv3 = new vertex(topx3, -topy3, topz3, botn3, u3, v3);
 
-        triangle * t1 = new triangle(topv1, topv2, topv3);
-        triangle * t2 = new triangle(botv1, botv2, botv3);
-
-        // apply the transformation for this state to the triangles
-        t1->transform(m_current_state->ctm);
-        t2->transform(m_current_state->ctm);
-
-        triangles.push_back(t1);
-        triangles.push_back(t2);
+        triangles.push_back(new triangle(topv3, topv2, topv1, m_current_state->ctm));
+        triangles.push_back(new triangle(botv1, botv2, botv3,  m_current_state->ctm));
 
         // tesselate the sides
         for (int j = 0; j < M_SHAPE_P2; j++) {
@@ -284,15 +277,9 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
             vertex *vert5 = new vertex(x5, y5, z5, n5, u5, v5);
             vertex *vert6 = new vertex(x6, y6, z6, n6, u6, v6);
 
-            t1 = new triangle(vert1, vert2, vert3);
-            t2 = new triangle(vert4, vert5, vert6);
-
             // apply the transformation for this state to the triangles
-            t1->transform(m_current_state->ctm);
-            t2->transform(m_current_state->ctm);
-
-            triangles.push_back(t1);
-            triangles.push_back(t2);
+            triangles.push_back(new triangle(vert3, vert2, vert1, m_current_state->ctm));
+            triangles.push_back(new triangle(vert6, vert5, vert4, m_current_state->ctm));
         }
     }
     return triangles;
