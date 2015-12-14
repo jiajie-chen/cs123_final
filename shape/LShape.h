@@ -153,7 +153,6 @@ struct triangle {
 };
 
 struct state {
-    glm::vec3 position;
     glm::vec3 heading;
     glm::vec3 left;
     glm::vec3 up;
@@ -163,14 +162,21 @@ struct state {
     int materialIdx;
 
     state() :
-      position(glm::vec3(0,0,0)),
-      heading(glm::vec3(0,-1,0)),
+      heading(glm::vec3(0,-1,0)), // default heading to y axis
       left(glm::vec3(-1,0,0)),
       up(glm::vec3(0,0, 1)),
       ctm(glm::mat4x4(1.0)),
       length(.5),
       width(.1),
       materialIdx(0){}
+    state(state &s):
+        heading(s.heading),
+        left(s.left),
+        up(s.up),
+        ctm(s.ctm),
+        length(s.length),
+        width(s.width),
+        materialIdx(s.materialIdx){}
 };
 
 struct LMaterialShape {
