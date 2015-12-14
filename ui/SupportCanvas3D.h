@@ -35,6 +35,8 @@ public:
     // Returns a pointer to this Canvas3D's default camera, based on the application settings.
     Camera *getCamera();
 
+    POVCamera *getPOVCamera();
+
     // Returns a pointer to the orbiting camera.
     OrbitingCamera *getOrbitingCamera();
 

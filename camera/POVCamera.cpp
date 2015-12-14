@@ -79,6 +79,14 @@ void POVCamera::translate(glm::vec3 v)
     updateMatrices();
 }
 
+void POVCamera::orientLook(glm::vec3 eye, glm::vec3 look)
+{
+    m_eye = eye;
+    m_look = look;
+
+    updateMatrices();
+}
+
 void POVCamera::updateMatrices()
 {
     float farPlane = std::max(settings.cameraFar, settings.cameraNear + 100.f * FLT_EPSILON);

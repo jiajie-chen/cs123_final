@@ -6,6 +6,7 @@
 #include "scenegraph/SceneviewScene.h"
 #include "camera/CamtransCamera.h"
 #include "CS123XmlSceneParser.h"
+#include "POVCamera.h"
 #include <QSettings>
 #include <math.h>
 #include <QFileDialog>
@@ -51,12 +52,8 @@ MainWindow::MainWindow(QWidget *parent) :
     actions.push_back(ui->dock->toggleViewAction()); \
     actions.back()->setShortcut(QKeySequence(key));
 
-    SETUP_ACTION(camtransDock,  "CTRL+1");
-
     ui->menuToolbars->addActions(actions);
 #undef SETUP_ACTION
-
-    ui->camtransDock->raise();
 
     dataBind();
 
@@ -103,7 +100,7 @@ void MainWindow::dataBind()
     BIND( FloatBinding::bindDial(ui->rotU,   settings.cameraRotU, -20, 20, true) )
     BIND( FloatBinding::bindDial(ui->rotV,   settings.cameraRotV, -20, 20, true) )
     BIND( FloatBinding::bindDial(ui->rotW,   settings.cameraRotN, -180, 180, false) )
-    */
+
     BIND( FloatBinding::bindSliderAndTextbox(
               ui->cameraFovSlider, ui->cameraFovTextbox, settings.cameraFov, 1, 179) )
     BIND( FloatBinding::bindSliderAndTextbox(
@@ -111,6 +108,7 @@ void MainWindow::dataBind()
     BIND( FloatBinding::bindSliderAndTextbox(
               ui->cameraFarSlider, ui->cameraFarTextbox, settings.cameraFar, 0.1, 128) )
     BIND( BoolBinding::bindCheckbox(ui->cameraOrbitCheckbox, settings.useOrbitCamera) )
+            */
 
 #undef BIND
 
@@ -151,7 +149,6 @@ void MainWindow::updateAspectRatio()
     // 3D canvas isn't visible (the 3D canvas isn't resized when it isn't visible)
     QSize activeTabSize = ui->canvas3D->size();
     float aspectRatio = (float)activeTabSize.width() / (float)activeTabSize.height();
-    ui->cameraAspectRatio->setText(QString("Aspect ratio: %1").arg(aspectRatio));
 }
 
 
@@ -218,13 +215,8 @@ void MainWindow::fileOpen(QString file_path)
                     camera.look[3] = 0;
                     camera.up[3] = 0;
 
-                    CamtransCamera *cam = m_canvas3D->getCamtransCamera();
-                    cam->orientLook(camera.pos, camera.look, camera.up);
-                    cam->setHeightAngle(camera.heightAngle);
-                }
-
-                if (settings.useOrbitCamera) {
-                    ui->cameraOrbitCheckbox->setChecked(true);
+                    POVCamera *cam = m_canvas3D->getPOVCamera();
+                    cam->orientLook(glm::vec3(camera.pos), glm::vec3(camera.look));
                 }
 
                 activateCanvas3D();
@@ -281,7 +273,6 @@ void MainWindow::renderImage()
 void MainWindow::setAllEnabled(bool enabled)
 {
     QList<QWidget *> widgets;
-    widgets += ui->camtransDock;
 
     QList<QAction *> actions;
     actions += ui->actionOpen;

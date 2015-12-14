@@ -19,6 +19,9 @@ public:
     virtual void mouseScrolled(int delta);
     virtual void translate(glm::vec3 v);
 
+    void orientLook(glm::vec3 eye, glm::vec3 look);
+    void setHeightAngle(float heightAngle);
+
     void updateMatrices();
 
 private:

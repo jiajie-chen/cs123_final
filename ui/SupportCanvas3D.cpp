@@ -32,17 +32,12 @@ SupportCanvas3D::~SupportCanvas3D()
 
 Camera *SupportCanvas3D::getCamera()
 {
-    switch (settings.getCameraMode())
-    {
-    case CAMERAMODE_CAMTRANS:
-        return m_defaultPerspectiveCamera;
+    return m_defaultPOVCamera;
+}
 
-    case CAMERAMODE_ORBIT:
-        return m_defaultPOVCamera;
-
-    default:
-        return NULL;
-    }
+POVCamera *SupportCanvas3D::getPOVCamera()
+{
+    return m_defaultPOVCamera;
 }
 
 OrbitingCamera *SupportCanvas3D::getOrbitingCamera()
