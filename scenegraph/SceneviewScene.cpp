@@ -108,7 +108,6 @@ void SceneviewScene::renderGeometry()
         // fake lsystem parser start
         if (prim.primitive.type == PRIMITIVE_LSYSTEM) {
             std::string rules = m_lsystems[prim.primitive.lsystemID]->makeLSystem(prim.primitive.lsystemDepth);//"FFFF[+++FFF[]------FFF";
-            //rules ="FF[+FF[+FF[+FF]-FF]-FF]-FF" ;//"FFFF[+FF[+F[+X]-X]-F[+X]-X]-FF[+F[+X]-X]-F[+X]-X"
             if( m_lshapes.find(rules) == m_lshapes.end()) {
                 //CS123SceneMaterial material = prim.primitive.material;
                 //std::vector<CS123SceneMaterial> materials = std::vector<CS123SceneMaterial>();

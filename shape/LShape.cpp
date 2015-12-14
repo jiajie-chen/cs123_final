@@ -2,8 +2,8 @@
 #include "vector"
 #include "lsystem/LSystemGenerator.h"
 
-#define M_SHAPE_P1 20
-#define M_SHAPE_P2 20
+#define M_SHAPE_P1 8
+#define M_SHAPE_P2 8
 
 #define UP_THETA (float) M_PI/4
 #define LEFT_THETA (float)M_PI/4
@@ -96,7 +96,7 @@ LShape::LShape(std::string rules,
             // decrease width by D_WIDTH
             m_current_state->width -= D_WIDTH;
         break;
-        case '<':
+        case ',':
             // increment the materialIdx (material selection is handled by the lsystem generator)
             // loop around at the ends
             m_current_state->materialIdx++;
@@ -104,10 +104,9 @@ LShape::LShape(std::string rules,
                 m_current_state->materialIdx = 0;
             }
         break;
-        case '>':
+        case '.':
             // decrement the materialIdx
             m_current_state->materialIdx--;
-
             if (m_current_state->materialIdx < 0){
                 m_current_state->materialIdx = numMaterials-1;
             }
@@ -116,7 +115,7 @@ LShape::LShape(std::string rules,
             // push the current state onto the stack, make a new state starting from here
             cout << "pushing state #" << m_current_state->id << endl;
             glm::mat4x4 old_ctm = m_current_state->ctm;
-            m_state_stack.push_front(m_current_state);
+            m_state_stack.push_back(m_current_state);
             m_current_state = new state(*m_current_state);
             cout << "new state #" << m_current_state->id << endl;
         }
