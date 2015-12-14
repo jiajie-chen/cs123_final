@@ -63,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Reset the contents of both canvas widgets (make a new 500x500 image for the 2D one)
     m_canvas3D->update();
+    m_canvas3D->showFullScreen();
 }
 
 MainWindow::~MainWindow()
