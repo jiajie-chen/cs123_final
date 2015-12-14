@@ -66,13 +66,13 @@
 
   <lsystem>
     <id v="test" />
-    <angle v="45" />
+    <angle v="35" />
     <initial v="X" />
     <rule sym="X" replace="F[/[+X]-X]" />
     <rule sym="F" replace="FF" />
     <matblock>
-      <diffuse r=".74" g=".47" b=".27"/>
-      <texture file="../textures/tex/coral.jpg"/>
+      <diffuse r=".64" g=".47" b=".27"/>
+      <texture file="../textures/tex/bark.jpg"/>
       <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
   </lsystem>
