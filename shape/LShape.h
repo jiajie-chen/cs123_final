@@ -187,11 +187,10 @@ struct state {
 struct LMaterialShape {
     OpenGLShape *shape;
     std::vector<triangle *> m_triangles;
-    GLfloat *vertexData;
     int numVertices;
     CS123SceneMaterial material;
     LMaterialShape(CS123SceneMaterial material)
-        : shape(new OpenGLShape()), m_triangles(std::vector<triangle *>()), material(material), vertexData(nullptr) {}
+        : shape(new OpenGLShape()), m_triangles(std::vector<triangle *>()), material(material) {}
     ~LMaterialShape() {
         delete shape;
         for(triangle *t : m_triangles) {
