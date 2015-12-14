@@ -169,7 +169,7 @@ struct state {
       up(glm::vec3(0,0, 1)),
       ctm(glm::mat4x4(1.0)),
       length(.5),
-      width(.1),
+      width(.05),
       materialIdx(0){}
     state(state &s):
         id(s.id+1),
@@ -204,7 +204,7 @@ struct LMaterialShape {
 class LShape
 {
 public:
-    LShape(std::string rules, std::vector<CS123SceneMaterial> materials, GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
+    LShape(std::string rules, float angle, std::vector<CS123SceneMaterial> materials, GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
     virtual ~LShape();
     void prepareShape(LMaterialShape * lmshape);
     std::vector<LMaterialShape*> getShapes();
@@ -222,6 +222,7 @@ private:
     GLuint m_normalIndex;
     GLuint m_texCoordIndex;
 
+    float m_angle;
 };
 
 #endif // LShape_H

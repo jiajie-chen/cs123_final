@@ -66,6 +66,7 @@
 
   <lsystem>
     <id v="test" />
+    <angle v="45" />
     <initial v="X" />
     <rule sym="X" replace="F[/[+X]-X]" />
     <rule sym="F" replace="FF" />
@@ -77,6 +78,7 @@
 
   <lsystem>
     <id v="bush" />
+    <angle v="25" />
     <initial v="F" />
     <rule sym="F" replace="FF-[-/F+F+F\]+[/+F-F-F]" />
     <matblock>
@@ -87,6 +89,7 @@
 
   <lsystem>
     <id v="shrub" />
+    <angle v="25" />
     <initial v="F" />
     <rule sym="F" replace="F[-&amp;\X][\++&amp;X]||F[--&amp;/X][+&amp;X]" />
     <rule sym="X" replace="F[+X][-X]F[+X][-X]FX" />
@@ -97,7 +100,20 @@
   </lsystem>
 
   <lsystem>
+    <id v="tree" />
+    <angle v="15" />
+    <initial v="FA" />
+    <rule sym="B" replace="[^^F//////A]" />
+    <rule sym="A" replace="^FB///B/////B" />
+    <matblock>
+      <diffuse r="1" g="1" b="1"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+  </lsystem>
+
+  <lsystem>
     <id v="multi" />
+    <angle v="45" />
     <initial v="F" />
     <rule sym="F" replace="F,F" />
     <matblock>
@@ -293,7 +309,7 @@
     <transblock>
       <translate x="2" y="-1" z="-7"/>
       <scale x="1.5" y="2" z="1.5"/>
-      <object type="primitive" name="lsystem" id="test" depth="3">
+      <object type="primitive" name="lsystem" id="tree" depth="8">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>

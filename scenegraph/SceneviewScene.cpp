@@ -107,10 +107,11 @@ void SceneviewScene::renderGeometry()
     for (CS123SceneFlattenedNode prim : m_primitives) {
         if (prim.primitive.type == PRIMITIVE_LSYSTEM) {
             std::string rules = m_lsystems[prim.primitive.lsystemID]->makeLSystem(prim.primitive.lsystemDepth);//"FFFF[+++FFF[]------FFF";
-            cout << rules << endl;
+            // cout << rules << endl;
             if( m_lshapes.find(rules) == m_lshapes.end()) {
                 std::vector<CS123SceneMaterial> materials = m_lsystems[prim.primitive.lsystemID]->getMaterials();
                 LShape *lshape = new LShape(rules,
+                                            m_lsystems[prim.primitive.lsystemID]->getAngle(),
                                            materials,
                                            glGetAttribLocation(m_shader, "position"),
                                            glGetAttribLocation(m_shader, "normal"),

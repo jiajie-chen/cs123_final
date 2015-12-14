@@ -3,6 +3,7 @@
 #include "LSystemData.h"
 
 LSystemGenerator::LSystemGenerator(const LSystemData &data) :
+    m_angle(data.angle),
     m_initial(data.initial),
     m_rules(data.rules),
     m_mats()
@@ -106,6 +107,11 @@ std::string LSystemGenerator::makeLSystem(int depth)
 
     // std::cout << currSystem << std::endl;
     return currSystem;
+}
+
+float LSystemGenerator::getAngle()
+{
+    return m_angle;
 }
 
 CS123SceneMaterial LSystemGenerator::getMaterial(int index)

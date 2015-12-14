@@ -9,6 +9,7 @@
 
 struct LSystemData
 {
+   float angle;
    std::string initial;
    std::map<char, std::string> rules;
    std::vector<CS123SceneMaterial> mats;

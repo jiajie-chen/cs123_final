@@ -721,6 +721,15 @@ bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
                 return false;
             }
         }
+        else if (e.tagName() == "angle")
+        {
+            if (!e.hasAttribute("v"))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+            lsystem->angle = glm::radians(e.attribute("v").toFloat());
+        }
         else if (e.tagName() == "initial")
         {
             if (!e.hasAttribute("v"))

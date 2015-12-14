@@ -2,8 +2,8 @@
 #include "vector"
 #include "lsystem/LSystemGenerator.h"
 
-#define M_SHAPE_P1 8
-#define M_SHAPE_P2 8
+#define M_SHAPE_P1 5
+#define M_SHAPE_P2 5
 
 #define UP_THETA (float) M_PI/4
 #define LEFT_THETA (float)M_PI/4
@@ -12,10 +12,12 @@
 #define D_WIDTH (float)1.0f
 
 LShape::LShape(std::string rules,
+               float angle,
                std::vector<CS123SceneMaterial> materials,
                GLuint vertexAttribIndex,
                GLuint normalAttribIndex,
                GLuint texCoordAttribIndex) :
+    m_angle(angle),
     m_vertexIndex(vertexAttribIndex),
     m_normalIndex(normalAttribIndex),
     m_texCoordIndex(texCoordAttribIndex)
@@ -52,27 +54,27 @@ LShape::LShape(std::string rules,
         break;
         case '+':
             //turn left by UP_THETA
-            ctm2 *= glm::rotate(glm::mat4x4(1.0), UP_THETA, m_current_state->up);
+            ctm2 *= glm::rotate(glm::mat4x4(1.0), m_angle, m_current_state->up);
         break;
         case '-':
             //turn right by -UP_THETA
-            ctm2 *= glm::rotate(glm::mat4x4(1.0), -UP_THETA, m_current_state->up);
+            ctm2 *= glm::rotate(glm::mat4x4(1.0), -m_angle, m_current_state->up);
         break;
         case '&':
             // pitch down by LEFT_THETA
-            ctm2 *= glm::rotate(glm::mat4x4(1.0), LEFT_THETA, m_current_state->left);
+            ctm2 *= glm::rotate(glm::mat4x4(1.0), m_angle, m_current_state->left);
         break;
         case '^':
             // pitch up by LEFT_THETA
-             ctm2 *= glm::rotate(glm::mat4x4(1.0), -LEFT_THETA, m_current_state->left);
+             ctm2 *= glm::rotate(glm::mat4x4(1.0), -m_angle, m_current_state->left);
         break;
         case '\\':
             // roll left by H_THETA
-             ctm2 *= glm::rotate(glm::mat4x4(1.0), H_THETA, m_current_state->heading);
+             ctm2 *= glm::rotate(glm::mat4x4(1.0), m_angle, m_current_state->heading);
         break;
         case '/':
             // roll right by -H_THETA
-            ctm2 *= glm::rotate(glm::mat4x4(1.0), -H_THETA, m_current_state->heading);
+            ctm2 *= glm::rotate(glm::mat4x4(1.0), -m_angle, m_current_state->heading);
         break;
         case '|':
             // rotate 180ºaround up.

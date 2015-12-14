@@ -14,11 +14,13 @@ public:
     LSystemGenerator(const LSystemData &data);
     ~LSystemGenerator();
 
+    float getAngle();
     std::string makeLSystem(int depth);
     CS123SceneMaterial getMaterial(int index);
     std::vector<CS123SceneMaterial> getMaterials();
 
 private:
+    float m_angle;
     std::string m_initial;
     std::map<char, std::string> m_rules;
     std::vector<CS123SceneMaterial> m_mats;
