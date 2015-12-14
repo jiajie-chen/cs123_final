@@ -67,8 +67,29 @@
   <lsystem>
     <id v="test" />
     <initial v="X" />
-    <rule sym="X" replace="F[^[+X]-X]&amp;" />
+    <rule sym="X" replace="F[/[+X]-X]" />
     <rule sym="F" replace="FF" />
+    <matblock>
+      <diffuse r="1" g="1" b="1"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+  </lsystem>
+
+  <lsystem>
+    <id v="bush" />
+    <initial v="F" />
+    <rule sym="F" replace="FF-[-/F+F+F\]+[/+F-F-F]" />
+    <matblock>
+      <diffuse r="1" g="1" b="1"/>
+      <texture file="../textures/tex/bark.png"/>
+    </matblock>
+  </lsystem>
+
+  <lsystem>
+    <id v="shrub" />
+    <initial v="F" />
+    <rule sym="F" replace="F[-&amp;\X][\++&amp;X]||F[--&amp;/X][+&amp;X]" />
+    <rule sym="X" replace="F[+X][-X]F[+X][-X]FX" />
     <matblock>
       <diffuse r="1" g="1" b="1"/>
       <texture file="../textures/tex/bark.png"/>
@@ -236,7 +257,7 @@
       <translate x="0" y="-1" z="0"/>
       <scale x="4.6" y="4.9" z="4.9"/>
       <rotate x="0" y="1" z="0" angle="90"/>
-      <object type="primitive" name="lsystem" id="test" depth="3">
+      <object type="primitive" name="lsystem" id="test" depth="4">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
@@ -245,7 +266,7 @@
     <transblock>
       <translate x="2" y="-1" z="-45"/>
       <scale x="4.2" y="4.3" z="4.1"/>
-      <object type="primitive" name="lsystem" id="test" depth="3">
+      <object type="primitive" name="lsystem" id="shrub" depth="2">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
@@ -263,7 +284,7 @@
     <transblock>
       <translate x="-4" y="-1" z="-15"/>
       <scale x="1.5" y="1.5" z="1.5"/>
-      <object type="primitive" name="lsystem" id="test" depth="3">
+      <object type="primitive" name="lsystem" id="bush" depth="2">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
