@@ -106,7 +106,7 @@ void SceneviewScene::renderGeometry()
     for (CS123SceneFlattenedNode prim : m_primitives) {
         // fake lsystem parser start
         if (prim.primitive.type == PRIMITIVE_LSYSTEM) {
-            std::string rules = "F";
+            std::string rules = "FFFF[+++FFF[]------FFF";
             if( m_lshapes.find(rules) == m_lshapes.end()) {
                 CS123SceneMaterial material = prim.primitive.material;
                 std::vector<CS123SceneMaterial> materials = std::vector<CS123SceneMaterial>();

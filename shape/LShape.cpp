@@ -8,8 +8,8 @@
 #define UP_THETA (float) M_PI/12
 #define LEFT_THETA (float)M_PI/15.0f
 #define H_THETA (float) M_PI/12.0f
-#define D_LENGTH (float)1.0f
-#define D_WIDTH (float)1.0f
+#define D_LENGTH (float)0.2f
+#define D_WIDTH (float)0.2f
 
 LShape::LShape(std::string rules,
                std::vector<CS123SceneMaterial> materials,
@@ -21,7 +21,6 @@ LShape::LShape(std::string rules,
     m_texCoordIndex(texCoordAttribIndex)
 
 {
-
     m_current_state = new state();
     m_state_stack = std::vector<state *>();
     m_shapes = std::vector<LMaterialShape*>();
@@ -43,45 +42,31 @@ LShape::LShape(std::string rules,
         case 'F':
             //adds a geometric representation of the current state to the appropriate openglshape in m_shapes
             addStateToShape(m_current_state->materialIdx);
-            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length * 2,0));
-            //ctm2 *= glm::translate(glm::mat4x4(1.0), m_current_state->heading * m_current_state->length);
-            //m_current_state->position += m_current_state->heading*m_current_state->length;
+            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length, 0));
         break;
         case 'f':
             //move forward
-            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length * 2,0));
-            //ctm2 *= glm::translate(glm::mat4x4(1.0), m_current_state->heading * m_current_state->length);
-            //m_current_state->position += m_current_state->heading*m_current_state->length;
+            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length,0));
         break;
         case '+':
             //turn left by UP_THETA
             ctm2 *= glm::rotate(glm::mat4x4(1.0), UP_THETA, m_current_state->up);
-            //m_current_state->heading = glm::rotate(m_current_state->heading, UP_THETA, m_current_state->up);
-            //m_current_state->left = glm::rotate(m_current_state->left, UP_THETA, m_current_state->up);
         break;
         case '-':
             //turn right by -UP_THETA
             ctm2 *= glm::rotate(glm::mat4x4(1.0), -UP_THETA, m_current_state->up);
-            //m_current_state->heading = glm::rotate(m_current_state->heading, -UP_THETA, m_current_state->up);
-            //m_current_state->left = glm::rotate(m_current_state->left, -UP_THETA, m_current_state->up);
         break;
         case '&':
             // pitch down by LEFT_THETA
             ctm2 *= glm::rotate(glm::mat4x4(1.0), LEFT_THETA, m_current_state->left);
-           //m_current_state->heading = glm::rotate(m_current_state->heading, LEFT_THETA, m_current_state->left);
-            //m_current_state->up = glm::rotate(m_current_state->up, LEFT_THETA, m_current_state->left);
         break;
         case '^':
             // pitch up by LEFT_THETA
              ctm2 *= glm::rotate(glm::mat4x4(1.0), -LEFT_THETA, m_current_state->left);
-            //m_current_state->heading = glm::rotate(m_current_state->heading, -LEFT_THETA, m_current_state->left);
-            //m_current_state->up = glm::rotate(m_current_state->up, -LEFT_THETA, m_current_state->left);
         break;
         case '\\':
             // roll left by H_THETA
              ctm2 *= glm::rotate(glm::mat4x4(1.0), H_THETA, m_current_state->heading);
-            //m_current_state->left = glm::rotate(m_current_state->left, H_THETA, m_current_state->heading);
-            //m_current_state->up = glm::rotate(m_current_state->up, H_THETA, m_current_state->heading);
         break;
         case '/':
             // roll right by -H_THETA
@@ -154,7 +139,13 @@ LShape::LShape(std::string rules,
 }
 
 LShape::~LShape() {
+    for (state * s : m_state_stack){
+        delete s;
+    }
     m_state_stack.clear();
+    for (LMaterialShape *s : m_shapes){
+        delete s;
+    }
     m_shapes.clear();
 }
 
