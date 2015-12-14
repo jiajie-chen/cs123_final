@@ -1,8 +1,8 @@
 <scenefile>
   <globaldata>
-    <diffusecoeff v=".3"/>
+    <diffusecoeff v=".6"/>
     <specularcoeff v="0.5"/>
-    <ambientcoeff v="1"/>
+    <ambientcoeff v="2"/>
   </globaldata>
 
   <cameradata>
@@ -204,7 +204,8 @@
       <translate x="0" y="13" z="0"/>
       <scale x="5" y="4" z="5"/>
       <object type="primitive" name="cylinder">
-        <diffuse r="1" g="1" b="1"/>
+        <diffuse r="1" g="1" b="1" a=".2"/>
+        <texture file="../textures/tex/lamp.png" u="1" v="1"/>
       </object>
     </transblock>
   </object>
