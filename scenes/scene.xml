@@ -466,11 +466,13 @@
       <object type="master" name="shortWall"/>
     </transblock>
     <transblock>
-      <translate x="-10" y="18" z="11"/>
+      <translate x="-10" y="25" z="11"/>
+      <scale x="1" y="1.5" z="1"/> 
       <object type="master" name="pillar"/>
     </transblock>
     <transblock>
-      <translate x="-10" y="18" z="-11"/>
+      <translate x="-10" y="25" z="-11"/>
+      <scale x="1" y="1.5" z="1"/> 
       <object type="master" name="pillar"/>
     </transblock>
     <transblock>
