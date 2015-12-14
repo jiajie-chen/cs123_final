@@ -86,10 +86,17 @@ f: move forward
 [: push state onto stack
 ]: pop state from stack
 
+Example Completed Ruleset: 
 
 
-Once the rules for an LSystem are generated, we pass them to a special shape type (does not actually extend the base shape class) LShape. An LShape parses the rules and builds the geometry on the fly. Whenever the command to add geometry with the current parameters is encountered, the triangles for a custom shape (cylinder with a rounded end) are added to a cumlative vector of triangles and transformed as per the current state. A CFM is used to keep track of the relative position of each 'state' and is applied to the triangles before being stored. The LShape is backed by OpenGLShapes representing the geometry of each material in the structure (branches and leaves, for example). After parsing, the LShape prepares it's individual shapes for rendering by packing the triangle data into vertex buffers for each material-subshape. The rendering is handled in SceneviewScene as in the projects.   
+Once the rules for an LSystem are generated, we pass them to a special shape type (does not actually extend the base shape class) LShape. An LShape parses the rules and builds the geometry on the fly. Whenever the command to add geometry with the current parameters is encountered, the triangles for a custom shape (cylinder with a rounded end) are added to a cumlative vector of triangles and transformed as per the current state. A CFM is used to keep track of the relative position of each 'state' and is applied to the triangles before being stored. The LShape is backed by OpenGLShapes representing the geometry of each material in the structure (branches and leaves, for example). After parsing and building up triangle arrays, the LShape prepares it's individual shapes for rendering by packing the triangle data into vertex buffers for each material-subshape. The rendering is handled in SceneviewScene as in the projects. 
+
+-We keep a cache of completed rulesets to precomputed shapes to avoid recomputing complex lsystems. 
+
+
 
        ====================== CAMERA =========================
 TODO:
+
+
 

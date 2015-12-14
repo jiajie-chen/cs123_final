@@ -40,7 +40,6 @@ LShape::LShape(std::string rules,
     // loop through the rules and execute each
     for(char& command : rules) {
         glm::mat4x4 ctm2 = glm::mat4x4(1.0);
-        //cout << "evaluating rule " << command <<endl;
         switch(command){
         case 'F':
         case 'X':
@@ -49,7 +48,7 @@ LShape::LShape(std::string rules,
             ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length, 0));
         break;
         case 'f':
-            //move forward
+            //move forward without placing shapes
             ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length,0));
         break;
         case '+':
@@ -78,8 +77,7 @@ LShape::LShape(std::string rules,
         break;
         case '|':
             // rotate 180ºaround up.
-
-            //lmao can't definte M_PI/float because it makes it a double
+            //lmao can't define M_PI/float because it makes it a double
             ctm2 *= glm::rotate(glm::mat4x4(1.0),(float) M_PI, m_current_state->up);
         break;
         case '"':
@@ -114,11 +112,9 @@ LShape::LShape(std::string rules,
         break;
         case '[': {
             // push the current state onto the stack, make a new state starting from here
-            cout << "pushing state #" << m_current_state->id << endl;
             glm::mat4x4 old_ctm = m_current_state->ctm;
             m_state_stack.push_back(m_current_state);
             m_current_state = new state(*m_current_state);
-            cout << "new state #" << m_current_state->id << endl;
         }
         break;
         case ']':
@@ -126,9 +122,7 @@ LShape::LShape(std::string rules,
             if (m_state_stack.empty()) {
                 cout << "LShape: attempted to pop from empty stack" << endl;
             } else {
-                cout << "popping from state #"<<m_current_state->id << endl;
                 m_current_state = m_state_stack.back();
-                cout << "new state #" << m_current_state->id << endl;
                 m_state_stack.pop_back();
             }
         break;
@@ -301,6 +295,7 @@ std::vector<triangle *> LShape::getGeometry(float length, float width) {
     return triangles;
 }
 
+// prepare a specific LMaterialShape for drawing
 void LShape::prepareShape(LMaterialShape * lmshape){
     int vertexSize = sizeof(GLfloat) * 3; // *dimensions
     int texSize = sizeof(GLfloat) * 2; //*texcoords
