@@ -204,18 +204,24 @@
       <translate x="0" y="0" z="0"/>
       <object type="primitive" name="lsystem" >
         <diffuse r="1" g="1" b="1"/>
+        <texture file="../textures/tex/leaf.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
       <translate x="0" y="0" z="-10"/>
       <object type="primitive" name="lsystem" >
         <diffuse r="1" g="1" b="1"/>
+        <texture file="../textures/tex/leaf.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
       <translate x="0" y="0" z="-20"/>
       <object type="primitive" name="lsystem" >
         <diffuse r="1" g="1" b="1"/>
+        <texture file="../textures/tex/leaf.png" u="1" v="1"/>
+        <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>

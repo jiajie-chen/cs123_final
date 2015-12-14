@@ -58,13 +58,10 @@ mat3 cotangent_frame(vec3 N, vec3 p, vec2 uv)
     return mat3( T * invmax, B * invmax, N );
 }
 
-vec3 perturb_normal( vec3 N, vec3 V, vec2 texcoord )
-{
-    // assume N, the interpolated vertex normal and
-    // V, the view vector (vertex to eye)
-   vec3 map = texture(bump, texcoord ).xyz;
-   map = map * 255./127. - 128./127.;
-    mat3 TBN = cotangent_frame(N, -V, texcoord);
+vec3 perturb_normal( vec3 N, vec3 V ) {
+   vec3 map = texture(bump, texc).xyz;
+   map = map * 2 - 1;
+    mat3 TBN = cotangent_frame(N, -V, texc);
     return normalize(TBN * map);
 }
 
@@ -141,7 +138,7 @@ vec3 perturb_normal( vec3 N, vec3 V, vec2 texcoord )
      vec3 N = normalize(normal_cameraSpace.xyz);
      vec3 eyeDirection = -vec3(position_cameraSpace); // TODO: incorrect
      vec3 V = normalize(eyeDirection);
-     vec4 bumpedNormal_cameraSpace = vec4(perturb_normal(N, V, texc), 0);
+     vec4 bumpedNormal_cameraSpace = vec4(perturb_normal(N, V), 0);
      vec3 color;
 
 

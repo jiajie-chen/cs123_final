@@ -179,9 +179,11 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
     std::vector<triangle *> triangles = std::vector<triangle *>();
     double angleStep = 2 * (M_PI / M_SHAPE_P1);
     double stackStep = 1.0 / M_SHAPE_P2;
-    float u1,v1,u2,v2,u3,v3,u4,v4,u5,v5,u6,v6;
+    float u1,v1,u2,v2,u3,v3;
 
-    for (int i = 0 ; i < M_SHAPE_P2; i++) {
+    float dRad = 2*3.14159f/M_SHAPE_P2;
+
+    for (int i = 0 ; i < M_SHAPE_P1; i++) {
         // top and bottom first
         double topx1 = cos(angleStep * i) * width;
         double topy1 = length;
@@ -221,65 +223,48 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
         triangles.push_back(new triangle(botv1, botv2, botv3,  m_current_state->ctm));
 
         // tesselate the sides
+
+        float a1 = i * stackStep;
+        float a2 = (i + 1) * stackStep;
+        GLfloat vMin = 1.f - static_cast<float>(i+1)/M_SHAPE_P2;
+        GLfloat vMax = 1.f - static_cast<float>(i)/M_SHAPE_P2;
+
+        glm::vec3 ul = glm::vec3(0.0f,   a2, length);
+        glm::vec3 bl = glm::vec3(0.0f,   a1, length);
+        glm::vec3 lN = glm::vec3(0.0f, 0.0f, 1.0f);
+
         for (int j = 0; j < M_SHAPE_P2; j++) {
-            float uStride = 1.f / M_SHAPE_P2;
-            float vStride = 1.f / M_SHAPE_P2;
 
-            double x1 = cos(angleStep * i) * width;
-            double y1 = (j * stackStep) - length;
-            double z1 = sin(angleStep * i) * width;
-            u1 = j * uStride;
-            v1 = i * vStride;
+            glm::vec3 ur = glm::rotateY(ul, dRad);
+            glm::vec3 br = glm::rotateY(bl, dRad);
+            glm::vec3 rN = glm::rotateY(lN, dRad);
 
-            double x2 = cos(angleStep * (i+1)) * width;
-            double y2 = (j  * stackStep) - length;
-            double z2 = sin(angleStep * (i+1)) * width;
-            u2 = j * uStride;
-            v2 = (i + 1) * vStride;
+            GLfloat uMin = static_cast<float>(j)/M_SHAPE_P2;
+            GLfloat uMax = static_cast<float>(j+1)/M_SHAPE_P2;
 
-            double x3 = cos(angleStep * (i+1)) * width;
-            double y3 = ((j+1) * stackStep) - length;
-            double z3 = sin(angleStep * (i+1)) * width;
-            u3 = (j + 1) * uStride;
-            v3 = (i + 1) * vStride;
+            normal *n1 = new normal(lN.x, lN.y, lN.z);
+            normal *n2 = new normal(rN.x, rN.y, rN.z);
+            normal *n3 = new normal(rN.x, rN.y, rN.z);
 
-            double x4 = cos(angleStep * i) * width;
-            double y4 = ((j+1) * stackStep) - length;
-            double z4 = sin(angleStep * i) * width;
-            u4 = (j + 1) * uStride;
-            v4 = i * vStride;
+            normal *n4 = new normal(lN.x, lN.y, lN.z);
+            normal *n5 = new normal(rN.x, rN.y, rN.z);
+            normal *n6 = new normal(lN.x, lN.y, lN.z);
 
-            double x5 = cos(angleStep * i) * width;
-            double y5 = (j * stackStep) - length;
-            double z5 = sin(angleStep * i) * width;
-            u5 = j * uStride;
-            v5 = i * vStride;
+            vertex *vert1 = new vertex(ul.x, ul.y, ul.z, n1, uMin, vMin);
+            vertex *vert2 = new vertex(ur.x, ur.y, ur.z, n2, uMax, vMin);
+            vertex *vert3 = new vertex(br.x, br.y, br.z, n3, uMax, vMax);
 
-            double x6 = cos(angleStep * (i+1)) * width;
-            double y6 = ((j+1) * stackStep) - length;
-            double z6 = sin(angleStep * (i+1)) * width;
-            u6 = (j + 1) * uStride;
-            v6 = (i + 1) * vStride;
-
-            normal *n1 = new normal(x1, y1, z1);
-            normal *n2 = new normal(x2, y2, z2);
-            normal *n3 = new normal(x3, y3, z3);
-
-            normal *n4 = new normal(x4, y4, z4);
-            normal *n5 = new normal(x5, y5, z5);
-            normal *n6 = new normal(x6, y6, z6);
-
-            vertex *vert1 = new vertex(x1, y1, z1, n1, u1, v1);
-            vertex *vert2 = new vertex(x2, y2, z2, n2, u2, v2);
-            vertex *vert3 = new vertex(x3, y3, z3, n3, u3, v3);
-
-            vertex *vert4 = new vertex(x4, y4, z4, n4, u4, v4);
-            vertex *vert5 = new vertex(x5, y5, z5, n5, u5, v5);
-            vertex *vert6 = new vertex(x6, y6, z6, n6, u6, v6);
+            vertex *vert4 = new vertex(bl.x, bl.y, bl.z, n4, uMin, vMax);
+            vertex *vert5 = new vertex(br.x, br.y, br.z, n5, uMax, vMax);
+            vertex *vert6 = new vertex(ul.x, ul.y, ul.z, n6, uMin, vMin);
 
             // apply the transformation for this state to the triangles
             triangles.push_back(new triangle(vert3, vert2, vert1, m_current_state->ctm));
-            triangles.push_back(new triangle(vert6, vert5, vert4, m_current_state->ctm));
+            triangles.push_back(new triangle(vert4, vert5, vert6, m_current_state->ctm));
+
+            ul = ur;
+            bl = br;
+            lN = rN;
         }
     }
     return triangles;
@@ -291,38 +276,39 @@ void LShape::prepareShapes(){
     int vertexSize = sizeof(GLfloat) * 3; // *dimensions
     int texSize = sizeof(GLfloat) * 2; //*texcoords
     int stride = 2 * vertexSize + texSize;
+    int posn = 0;
     for (LMaterialShape *lmshape : m_shapes) {
         float numVerts = lmshape->m_triangles.size() * 3;
         int dataSize = numVerts * stride;
         GLfloat vertexData[dataSize];
-        for (int i = 0; i < lmshape->m_triangles.size() / 3; i++) {
+        for (int i = 0; i < lmshape->m_triangles.size(); i++) {
              triangle* tri = lmshape->m_triangles[i];
-             vertexData[i* stride * 3 + 0] = tri->v1->x;
-             vertexData[i* stride * 3 + 1] = tri->v1->y;
-             vertexData[i* stride * 3 + 2] = tri->v1->z;
-             vertexData[i* stride * 3 + 3] = tri->v1->n->x;
-             vertexData[i* stride * 3 + 4] = tri->v1->n->y;
-             vertexData[i* stride * 3 + 5] = tri->v1->n->z;
-             vertexData[i* stride * 3 + 6] = tri->v1->u;
-             vertexData[i* stride * 3 + 7] = tri->v1->v;
+             vertexData[posn++] = tri->v1->x;
+             vertexData[posn++] = tri->v1->y;
+             vertexData[posn++] = tri->v1->z;
+             vertexData[posn++] = tri->v1->n->x;
+             vertexData[posn++] = tri->v1->n->y;
+             vertexData[posn++] = tri->v1->n->z;
+             vertexData[posn++] = tri->v1->u;
+             vertexData[posn++] = tri->v1->v;
 
-             vertexData[i* stride * 3 + 8] = tri->v2->x;
-             vertexData[i* stride * 3 + 9] = tri->v2->y;
-             vertexData[i* stride * 3 + 10] = tri->v2->z;
-             vertexData[i* stride * 3 + 11] = tri->v2->n->x;
-             vertexData[i* stride * 3 + 12] = tri->v2->n->y;
-             vertexData[i* stride * 3 + 13] = tri->v2->n->z;
-             vertexData[i* stride * 3 + 14] = tri->v2->u;
-             vertexData[i* stride * 3 + 15] = tri->v2->v;
+             vertexData[posn++] = tri->v2->x;
+             vertexData[posn++] = tri->v2->y;
+             vertexData[posn++] = tri->v2->z;
+             vertexData[posn++] = tri->v2->n->x;
+             vertexData[posn++] = tri->v2->n->y;
+             vertexData[posn++] = tri->v2->n->z;
+             vertexData[posn++] = tri->v2->u;
+             vertexData[posn++] = tri->v2->v;
 
-             vertexData[i* stride * 3 + 16] = tri->v3->x;
-             vertexData[i* stride * 3 + 17] = tri->v3->y;
-             vertexData[i* stride * 3 + 18] = tri->v3->z;
-             vertexData[i* stride * 3 + 19] = tri->v3->n->x;
-             vertexData[i* stride * 3 + 20] = tri->v3->n->y;
-             vertexData[i* stride * 3 + 21] = tri->v3->n->z;
-             vertexData[i* stride * 3 + 22] = tri->v3->u;
-             vertexData[i* stride * 3 + 23] = tri->v3->v;
+             vertexData[posn++] = tri->v3->x;
+             vertexData[posn++] = tri->v3->y;
+             vertexData[posn++] = tri->v3->z;
+             vertexData[posn++] = tri->v3->n->x;
+             vertexData[posn++] = tri->v3->n->y;
+             vertexData[posn++] = tri->v3->n->z;
+             vertexData[posn++] = tri->v3->u;
+             vertexData[posn++] = tri->v3->v;
          }
         // bind array data
         lmshape->shape->setVertexData(vertexData, dataSize, GL_TRIANGLES, numVerts);
