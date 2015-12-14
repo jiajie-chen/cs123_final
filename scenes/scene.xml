@@ -101,6 +101,44 @@
   </lsystem>
 
   <lsystem>
+    <id v="crazy" />
+    <angle v="35" />
+    <initial v="FX" />
+    <rule sym="X" replace="F[/~]\[[^++\]F--]F-&amp;&amp;X" />
+    <rule sym="F" replace="F," />
+    <matblock>
+      <diffuse r=".3" g=".5" b="1"/>
+      <texture file="../textures/tex/bark2.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".5" g=".3" b="..7"/>
+      <texture file="../textures/tex/bark2.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".7" g=".5" b=".5"/>
+      <texture file="../textures/tex/bark2.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
+    </matblock>
+    <matblock>
+      <diffuse r="1" g=".7" b=".3"/>
+      <texture file="../textures/tex/bark2.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".7" g="1" b=".5"/>
+      <texture file="../textures/tex/bark2.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
+    </matblock>
+    <matblock>
+      <diffuse r=".3" g=".7" b=".3"/>
+      <texture file="../textures/tex/bark2.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
+    </matblock>
+  </lsystem>
+
+  <lsystem>
     <id v="shrub" />
     <angle v="25" />
     <initial v="F" />
@@ -203,8 +241,8 @@
         <diffuse r="0.6" g="0.6" b="0.6"/>
         <ambient r="0.3" g="0.3" b="0.3"/>
         <specular r="0" g="0" b="0"/>
-        <texture file="../textures/tex/marble.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
+        <texture file="../textures/tex/floor.png" u="4" v="4"/>
+        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
@@ -213,8 +251,8 @@
         <diffuse r="0.6" g="0.6" b="0.6"/>
         <ambient r="0.3" g="0.3" b="0.3"/>
         <specular r="0" g="0" b="0"/>
-        <texture file="../textures/tex/tile.jpg" u="4" v="4"/>
-        <bumpmap file="../textures/bump/vandam.gif" u="4" v="4"/>
+        <texture file="../textures/tex/floor.png" u="4" v="4"/>
+        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
@@ -224,6 +262,7 @@
         <ambient r="0.3" g="0.3" b="0.3"/>
         <specular r="0" g="0" b="0"/>
         <texture file="../textures/tex/floor.png" u="4" v="4"/>
+        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
@@ -231,9 +270,9 @@
       <object type="primitive" name="cube">
         <diffuse r="0.6" g="0.6" b="0.6"/>
         <ambient r="0.3" g="0.3" b="0.3"/>
-        <specular r="0" g="0" b="0"/>
-        <texture file="../textures/tex/dark2.jpg" u="4" v="4"/>
-        <bumpmap file="../textures/bump/vandam.gif" u="4" v="4"/>
+        <specular r="1" g="1" b="1"/>
+        <texture file="../textures/tex/floor.png" u="4" v="4"/>
+        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
       </object>
     </transblock>
   </object>
@@ -486,14 +525,29 @@
       <object type="master" name="longWall"/>
     </transblock>
     <transblock>
+      <translate x="-25" y="10" z="0"/>
+      <scale x="5" y="4" z="4"/>
+      <object type="primitive" name="lsystem" id="crazy" depth="60">
+        <diffuse r="1" g="1" b="1"/>
+      </object>
+    </transblock>
+    <transblock>
+      <translate x="-25" y="10" z="0"/>
+      <rotate x="0" y="1" z="0" angle="90"/>
+      <scale x="5" y="4" z="4"/>
+      <object type="primitive" name="lsystem" id="crazy" depth="60">
+        <diffuse r="1" g="1" b="1"/>
+      </object>
+    </transblock>
+    <transblock>
       <translate x="0" y="1" z="0"/>
       <object type="tree">
         <transblock>
-          <translate x="-15" y="0" z="0"/>
+          <translate x="-15" y="0" z="10"/>
           <object type="master" name="row"/>
         </transblock>
         <transblock>
-          <rotate x="0" y="1" z="0" angle="180"/>
+          <rotate x="0" y="1" z="15" angle="180"/>
           <translate x="-2" y="0" z="5"/>
           <object type="master" name="row"/>
         </transblock>
@@ -543,6 +597,5 @@
       </object>
     </transblock>
   </object>
-
 
 </scenefile>
