@@ -124,6 +124,7 @@ void SceneviewScene::renderGeometry()
 
             // apply transforms
             for (LMaterialShape *lmshape : m_lshapes[rules]->getShapes()) {
+                //cout << "drawing shape with diffuse r: "<< lmshape->material.cDiffuse.r << endl;
                 CS123SceneMaterial adjustedMat = lmshape->material;
                 adjustedMat.cAmbient.r *= m_global.ka;
                 adjustedMat.cAmbient.g *= m_global.ka;

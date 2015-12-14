@@ -116,9 +116,10 @@ LShape::LShape(std::string rules,
         break;
         case '[': {
             // push the current state onto the stack, make a new state starting from here
+            cout << "pushing state #" << m_current_state->id << endl;
             glm::mat4x4 old_ctm = m_current_state->ctm;
             m_state_stack.push_front(m_current_state);
-            m_current_state = new state(m_current_state);
+            m_current_state = new state(*m_current_state);
         }
         break;
         case ']':
@@ -127,6 +128,7 @@ LShape::LShape(std::string rules,
                 cout << "LShape: attempted to pop from empty stack" << endl;
             } else {
                 m_current_state = m_state_stack.back();
+                cout << "poping state #" << m_current_state->id << endl;
                 m_state_stack.pop_back();
             }
         break;
@@ -299,13 +301,14 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
 
 // go from triangles to vertexData for OpenGLShape to consume.
 void LShape::prepareShapes(){
-
     int vertexSize = sizeof(GLfloat) * 3; // *dimensions
     int texSize = sizeof(GLfloat) * 2; //*texcoords
     int stride = 2 * vertexSize + texSize;
     int posn = 0;
     for (LMaterialShape *lmshape : m_shapes) {
         float numVerts = lmshape->m_triangles.size() * 3;
+        cout << "preparing shape with diffuse r: "<< lmshape->material.cDiffuse.r << endl;
+        cout << "verts: " << numVerts << endl;
         int dataSize = numVerts * stride;
         GLfloat vertexData[dataSize];
         for (int i = 0; i < lmshape->m_triangles.size(); i++) {

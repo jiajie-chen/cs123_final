@@ -153,6 +153,7 @@ struct triangle {
 };
 
 struct state {
+    int id;
     glm::vec3 heading;
     glm::vec3 left;
     glm::vec3 up;
@@ -162,6 +163,7 @@ struct state {
     int materialIdx;
 
     state() :
+      id(0),
       heading(glm::vec3(0,-1,0)), // default heading to y axis
       left(glm::vec3(-1,0,0)),
       up(glm::vec3(0,0, 1)),
@@ -170,6 +172,7 @@ struct state {
       width(.1),
       materialIdx(0){}
     state(state &s):
+        id(s.id++),
         heading(s.heading),
         left(s.left),
         up(s.up),
