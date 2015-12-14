@@ -47,14 +47,6 @@ uniform vec4 allBlack = vec4(1);
     vec3 normal = alsoNormal;
     vec4 bumpedNormal_cameraSpace = normal_cameraSpace;
 
-    // lol arrow mode
-    /*
-    if (useArrowOffsets) {
-        // Figure out the axis to use in order for the triangle to be billboarded correctly
-        vec3 offsetAxis = normalize(cross(vec3(position_cameraSpace), vec3(normal_cameraSpace)));
-        position_cameraSpace += arrowOffset * vec4(offsetAxis, 0);
-    }
-    */
     if (useLighting) {
         color = ambient_color.xyz; // Add ambient component
 
@@ -87,8 +79,6 @@ uniform vec4 allBlack = vec4(1);
 
     texColor = clamp(texColor + vec3(1-useTexture), vec3(0), vec3(1));
     fragColor = vec4((color * texColor), 1);
-    //vec3 bumpColor = texture(bump, texc).rgb;
-    //fragColor = vec4(bumpColor, 1);
 }
 
  void main() {
