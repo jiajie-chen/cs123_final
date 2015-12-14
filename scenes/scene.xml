@@ -182,7 +182,7 @@
         <ambient r="0.3" g="0.3" b="0.3"/>
         <specular r="0" g="0" b="0"/>
         <texture file="../textures/tex/floor.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/vandam.gif" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
@@ -202,7 +202,7 @@
         <ambient r="0.3" g="0.3" b="0.3"/>
         <specular r="0" g="0" b="0"/>
         <texture file="../textures/tex/floor.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/vandam.gif" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>

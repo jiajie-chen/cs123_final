@@ -309,8 +309,6 @@ void LShape::prepareShape(LMaterialShape * lmshape){
     int posn = 0;
 
     float numVerts = lmshape->m_triangles.size() * 3;
-    cout << "preparing shape with diffuse r: "<< lmshape->material.cDiffuse.r << endl;
-    cout << "verts: " << numVerts << endl;
     int dataSize = numVerts * stride;
     GLfloat vertexData[dataSize];
     for (int i = 0; i < lmshape->m_triangles.size(); i++) {
