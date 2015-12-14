@@ -232,7 +232,7 @@
 
   <object type="tree" name="row">
     <transblock>
-      <translate x="0" y="0" z="0"/>
+      <translate x="0" y="-1" z="0"/>
       <object type="primitive" name="lsystem" id="test" depth="3">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
@@ -240,7 +240,7 @@
       </object>
     </transblock>
     <transblock>
-      <translate x="0" y="0" z="-10"/>
+      <translate x="0" y="-1" z="-10"/>
       <object type="primitive" name="lsystem" id="test" depth="3">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
@@ -248,7 +248,7 @@
       </object>
     </transblock>
     <transblock>
-      <translate x="0" y="0" z="-20"/>
+      <translate x="0" y="-1" z="-20"/>
       <object type="primitive" name="lsystem" id="multi" depth="3">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
