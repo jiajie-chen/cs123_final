@@ -103,24 +103,15 @@
     <id v="tree" />
     <angle v="15" />
     <initial v="FA" />
-    <rule sym="B" replace="[^^F//////A]" />
+    <rule sym="B" replace="[^^F//////A.]" />
     <rule sym="A" replace="^FB///B/////B" />
     <matblock>
       <diffuse r="1" g="1" b="1"/>
       <texture file="../textures/tex/bark.png"/>
     </matblock>
-  </lsystem>
-
-  <lsystem>
-    <id v="multi" />
-    <angle v="45" />
-    <initial v="F" />
-    <rule sym="F" replace="F,F" />
     <matblock>
-      <diffuse r="1" g="1" b="0"/>
-    </matblock>
-    <matblock>
-      <diffuse r="0" g="1" b="1"/>
+      <diffuse r="1" g="0" b="0"/>
+      <texture file="../textures/tex/bark.png"/>
     </matblock>
   </lsystem>
 
