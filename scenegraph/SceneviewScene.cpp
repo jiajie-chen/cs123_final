@@ -108,7 +108,7 @@ void SceneviewScene::renderGeometry()
         // fake lsystem parser start
         if (prim.primitive.type == PRIMITIVE_LSYSTEM) {
             std::string rules = m_lsystems[prim.primitive.lsystemID]->makeLSystem(prim.primitive.lsystemDepth);//"FFFF[+++FFF[]------FFF";
-            //rules ="FFFF[+FF[]-FF]FF" ;//"FFFF[+FF[+F[+X]-X]-F[+X]-X]-FF[+F[+X]-X]-F[+X]-X"
+            //rules ="FF[+FF[+FF[+FF]-FF]-FF]-FF" ;//"FFFF[+FF[+F[+X]-X]-F[+X]-X]-FF[+F[+X]-X]-F[+X]-X"
             if( m_lshapes.find(rules) == m_lshapes.end()) {
                 //CS123SceneMaterial material = prim.primitive.material;
                 //std::vector<CS123SceneMaterial> materials = std::vector<CS123SceneMaterial>();
@@ -120,12 +120,11 @@ void SceneviewScene::renderGeometry()
                                            glGetAttribLocation(m_shader, "texCoord")
                                            );
                 m_lshapes[rules] = lshape;
-
-
             }
 
             // apply transforms
             for (LMaterialShape *lmshape : m_lshapes[rules]->getShapes()) {
+                cout << "drawing shape with diffuse r: "<< lmshape->material.cDiffuse.r << endl;
                 CS123SceneMaterial adjustedMat = lmshape->material;
                 adjustedMat.cAmbient.r *= m_global.ka;
                 adjustedMat.cAmbient.g *= m_global.ka;

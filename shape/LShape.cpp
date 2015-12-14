@@ -2,8 +2,8 @@
 #include "vector"
 #include "lsystem/LSystemGenerator.h"
 
-#define M_SHAPE_P1 10
-#define M_SHAPE_P2 10
+#define M_SHAPE_P1 20
+#define M_SHAPE_P2 20
 
 #define UP_THETA (float) M_PI/4
 #define LEFT_THETA (float)M_PI/4
@@ -38,8 +38,10 @@ LShape::LShape(std::string rules,
     // loop through the rules and execute each
     for(char& command : rules) {
         glm::mat4x4 ctm2 = glm::mat4x4(1.0);
+        //cout << "evaluating rule " << command <<endl;
         switch(command){
         case 'F':
+        case 'X':
             //adds a geometric representation of the current state to the appropriate openglshape in m_shapes
             addStateToShape(m_current_state->materialIdx);
             ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length, 0));
@@ -71,16 +73,12 @@ LShape::LShape(std::string rules,
         case '/':
             // roll right by -H_THETA
             ctm2 *= glm::rotate(glm::mat4x4(1.0), -H_THETA, m_current_state->heading);
-            //m_current_state->left = glm::rotate(m_current_state->left, -H_THETA, m_current_state->heading);
-            //m_current_state->up = glm::rotate(m_current_state->up, -H_THETA, m_current_state->heading);
         break;
         case '|':
             // rotate 180ºaround up.
 
             //lmao can't definte M_PI/float because it makes it a double
             ctm2 *= glm::rotate(glm::mat4x4(1.0),(float) M_PI, m_current_state->up);
-            //m_current_state->heading = glm::rotate(m_current_state->heading, (float)M_PI, m_current_state->up);
-            //m_current_state->left = glm::rotate(m_current_state->left, (float) M_PI, m_current_state->up);
         break;
         case '"':
             // increase length by D_LENGTH
@@ -116,16 +114,23 @@ LShape::LShape(std::string rules,
         break;
         case '[': {
             // push the current state onto the stack, make a new state starting from here
+            cout << "pushing state #" << m_current_state->id << endl;
             glm::mat4x4 old_ctm = m_current_state->ctm;
             m_state_stack.push_front(m_current_state);
-            m_current_state = new state();
-            m_current_state->ctm = old_ctm;
+            m_current_state = new state(*m_current_state);
+            cout << "new state #" << m_current_state->id << endl;
         }
         break;
         case ']':
             // pop the state stack and set to the current state
-            m_current_state = m_state_stack.back();
-            m_state_stack.pop_back();
+            if (m_state_stack.empty()) {
+                cout << "LShape: attempted to pop from empty stack" << endl;
+            } else {
+                cout << "popping from state #"<<m_current_state->id << endl;
+                m_current_state = m_state_stack.back();
+                cout << "new state #" << m_current_state->id << endl;
+                m_state_stack.pop_back();
+            }
         break;
         default:
         break;
@@ -171,64 +176,78 @@ void LShape::addStateToShape(int materialIdx){
 std::vector<triangle *> LShape::getCylinder(float length, float width) {
     std::vector<triangle *> triangles = std::vector<triangle *>();
     double angleStep = 2 * (M_PI / M_SHAPE_P1);
-    double stackStep = 2 * length / M_SHAPE_P2;
-    float u1,v1,u2,v2,u3,v3;
+    double stackStep =  length / M_SHAPE_P2;
 
+
+    float dLon = angleStep;
+    float dLat
+            = angleStep / 2;
     float dRad = angleStep;
-
-    glm::vec3 center = glm::vec3(0.0f, 0.5f, 0.0f);
-    glm::vec3 left = glm::vec3(0.0f, 0.5f, 0.5f);
-    glm::vec3 norm = glm::vec3(0.0f, 1.0f, 0.0f);
     for (int i = 0 ; i < M_SHAPE_P1; i++) {
-        glm::vec3 right = glm::rotateY(left, dRad);
-        GLfloat uL = 0.5f + left.x;
-        GLfloat vL = 0.5f + left.z;
+        // go by slices
+        GLfloat vMin = 1.f / M_SHAPE_P1 * i;
+        GLfloat vMax = 1.f / M_SHAPE_P1 * (i + 1);
+        for (int j = 0; j < M_SHAPE_P2; j++) {
+            float urX = width * glm::sin(dLat*i) * glm::cos(dLon*j);
+            float urY = width * glm::cos(dLat*i);
+            float urZ = width * glm::sin(dLat*i) * glm::sin(dLon*j);
 
-        GLfloat uR = 0.5f + right.x;
-        GLfloat vR = 0.5f + right.z;
+            float brX = width * glm::sin(dLat*(i+1)) * glm::cos(dLon*j);
+            float brY = width * glm::cos(dLat*(i+1));
+            float brZ = width * glm::sin(dLat*(i+1)) * glm::sin(dLon*j);
 
-        GLfloat uC = 0.5f;
-        GLfloat vC = 0.5f;
+            float ulX = width * glm::sin(dLat*i) * glm::cos(dLon*(j+1));
+            float ulY = width * glm::cos(dLat*i);
+            float ulZ = width * glm::sin(dLat*i) * glm::sin(dLon*(j+1));
 
-        // top and bottom first
-        double topx1 = cos(angleStep * i) * width;
-        double topy1 = length;
-        double topz1 = sin(angleStep * i) * width;
-        u1 = 0;
-        v1 = 0;
+            float blX = width * glm::sin(dLat*(i+1)) * glm::cos(dLon*(j+1));
+            float blY = width * glm::cos(dLat*(i+1));
+            float blZ = width * glm::sin(dLat*(i+1)) * glm::sin(dLon*(j+1));
 
-        double topx2 = cos(angleStep * (i+1)) * width;
-        double topy2 = length;
-        double topz2 = sin(angleStep * (i+1)) * width;
-        u2 = 0;
-        v2 = 0;
+            glm::vec3 ul = glm::vec3(ulX, ulY, ulZ);
+            glm::vec3 bl = glm::vec3(blX, blY, blZ);
+            glm::vec3 ur = glm::vec3(urX, urY, urZ);
+            glm::vec3 br = glm::vec3(brX, brY, brZ);
 
-        double topx3 = 0;
-        double topy3 = length;
-        double topz3 = 0;
-        u3 = 0;
-        v3 = 0;
+            GLfloat uMin = 1.f - (1.f / M_SHAPE_P2 * (j+1));
+            GLfloat uMax = 1.f - (1.f / M_SHAPE_P2 * j);
 
-        normal *topn1 = new normal(0, 1, 0);
-        normal *topn2 = new normal(0, 1, 0);
-        normal *topn3 = new normal(0, 1, 0);
+            normal *n1 = new normal(ul.x, ul.y, ul.z);
+            normal *n2 = new normal(ur.x, ur.y, ur.z);
+            normal *n3 = new normal(br.x, br.y, br.z);
 
-        normal *botn1 = new normal(0, -1, 0);
-        normal *botn2 = new normal(0, -1, 0);
-        normal *botn3 = new normal(0, -1, 0);
+            normal *n4 = new normal(bl.x, bl.y, bl.z);
+            normal *n5 = new normal(br.x, br.y, br.z);
+            normal *n6 = new normal(ul.x, ul.y, ul.z);
 
-        vertex *topv1 = new vertex(topx1, topy1, topz1, topn1, u1, v1);
-        vertex *topv2 = new vertex(topx2, topy2, topz2, topn2, u2, v2);
-        vertex *topv3 = new vertex(topx3, topy3, topz3, topn3, u3, v3);
+            vertex *vert1 = new vertex(ul.x, ul.y, ul.z, n1, uMin, vMin);
+            vertex *vert2 = new vertex(ur.x, ur.y, ur.z, n2, uMax, vMin);
+            vertex *vert3 = new vertex(br.x, br.y, br.z, n3, uMax, vMax);
 
-        vertex *botv1 = new vertex(topx1, -topy1, topz1, botn1, u1, v1);
-        vertex *botv2 = new vertex(topx2, -topy2, topz2, botn2, u2, v2);
-        vertex *botv3 = new vertex(topx3, -topy3, topz3, botn3, u3, v3);
+            vertex *vert4 = new vertex(bl.x, bl.y, bl.z, n4, uMin, vMax);
+            vertex *vert5 = new vertex(br.x, br.y, br.z, n5, uMax, vMax);
+            vertex *vert6 = new vertex(ul.x, ul.y, ul.z, n6, uMin, vMin);
 
-        triangles.push_back(new triangle(topv3, topv2, topv1, m_current_state->ctm));
-        triangles.push_back(new triangle(botv1, botv2, botv3,  m_current_state->ctm));
+            glm::mat4x4 translate = glm::translate(glm::mat4x4(), glm::vec3(0.f, length, 0.f));
 
-        left = right;
+            vert1->transform(translate);
+            vert2->transform(translate);
+            vert3
+                    ->\
+              transform(translate);
+            vert4->
+
+                    transform(translate);
+            vert5
+                    ->transform(translate);
+            vert6
+                    ->transform(translate);
+
+            // apply the transformation for this state to the triangles
+            triangles.push_back(new triangle(vert3, vert2, vert1, m_current_state->ctm));
+            triangles.push_back(new triangle(vert4, vert5, vert6, m_current_state->ctm));
+
+        }
     }
 
         // tesselate the sides
@@ -282,13 +301,14 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
 
 // go from triangles to vertexData for OpenGLShape to consume.
 void LShape::prepareShapes(){
-
     int vertexSize = sizeof(GLfloat) * 3; // *dimensions
     int texSize = sizeof(GLfloat) * 2; //*texcoords
     int stride = 2 * vertexSize + texSize;
     int posn = 0;
     for (LMaterialShape *lmshape : m_shapes) {
         float numVerts = lmshape->m_triangles.size() * 3;
+        cout << "preparing shape with diffuse r: "<< lmshape->material.cDiffuse.r << endl;
+        cout << "verts: " << numVerts << endl;
         int dataSize = numVerts * stride;
         GLfloat vertexData[dataSize];
         for (int i = 0; i < lmshape->m_triangles.size(); i++) {

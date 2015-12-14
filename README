@@ -1,0 +1,72 @@
+████████╗██╗  ██╗███████╗    ██████╗ ██╗   ██╗███╗   ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗ 
+╚══██╔══╝██║  ██║██╔════╝    ██╔══██╗██║   ██║████╗  ██║██╔════╝ ██╔════╝██╔═══██╗████╗  ██║ 
+   ██║   ███████║█████╗      ██║  ██║██║   ██║██╔██╗ ██║██║  ███╗█████╗  ██║   ██║██╔██╗ ██║ 
+   ██║   ██╔══██║██╔══╝      ██║  ██║██║   ██║██║╚██╗██║██║   ██║██╔══╝  ██║   ██║██║╚██╗██║ 
+   ██║   ██║  ██║███████╗    ██████╔╝╚██████╔╝██║ ╚████║╚██████╔╝███████╗╚██████╔╝██║ ╚████║ 
+   ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝ 
+                                                                                             
+ ██████╗ ███████╗    ██╗      ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗          
+██╔═══██╗██╔════╝    ██║      ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║          
+██║   ██║█████╗      ██║█████╗███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║          
+██║   ██║██╔══╝      ██║╚════╝╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║          
+╚██████╔╝██║         ███████╗ ███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║          
+ ╚═════╝ ╚═╝         ╚══════╝ ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝          
+                                                                                             
+ ██████╗ ███████╗███╗   ██╗███████╗██████╗  █████╗ ████████╗███████╗██████╗                  
+██╔════╝ ██╔════╝████╗  ██║██╔════╝██╔══██╗██╔══██╗╚══██╔══╝██╔════╝██╔══██╗                 
+██║  ███╗█████╗  ██╔██╗ ██║█████╗  ██████╔╝███████║   ██║   █████╗  ██║  ██║                 
+██║   ██║██╔══╝  ██║╚██╗██║██╔══╝  ██╔══██╗██╔══██║   ██║   ██╔══╝  ██║  ██║                 
+╚██████╔╝███████╗██║ ╚████║███████╗██║  ██║██║  ██║   ██║   ███████╗██████╔╝                 
+ ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═════╝                  
+                                                                                             
+██████╗ ██╗      █████╗ ███╗   ██╗████████╗███████╗     █████╗ ███╗   ██╗██████╗             
+██╔══██╗██║     ██╔══██╗████╗  ██║╚══██╔══╝██╔════╝    ██╔══██╗████╗  ██║██╔══██╗            
+██████╔╝██║     ███████║██╔██╗ ██║   ██║   ███████╗    ███████║██╔██╗ ██║██║  ██║            
+██╔═══╝ ██║     ██╔══██║██║╚██╗██║   ██║   ╚════██║    ██╔══██║██║╚██╗██║██║  ██║            
+██║     ███████╗██║  ██║██║ ╚████║   ██║   ███████║    ██║  ██║██║ ╚████║██████╔╝            
+╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝    ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝             
+                                                                                             
+███╗   ██╗ ██████╗ ██████╗ ███╗   ███╗ █████╗ ██╗         ███╗   ███╗ █████╗ ██████╗ ███████╗
+████╗  ██║██╔═══██╗██╔══██╗████╗ ████║██╔══██╗██║         ████╗ ████║██╔══██╗██╔══██╗██╔════╝
+██╔██╗ ██║██║   ██║██████╔╝██╔████╔██║███████║██║         ██╔████╔██║███████║██████╔╝███████╗
+██║╚██╗██║██║   ██║██╔══██╗██║╚██╔╝██║██╔══██║██║         ██║╚██╔╝██║██╔══██║██╔═══╝ ╚════██║
+██║ ╚████║╚██████╔╝██║  ██║██║ ╚═╝ ██║██║  ██║███████╗    ██║ ╚═╝ ██║██║  ██║██║     ███████║
+╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝     ╚══════╝
+                                                                                             
+
+This project was made by Jiajie Chen, Joseph Bellavia, and Will Thompson.
+We worked very hard on this project.
+Please let us pass the class.
+
+
+       =================== TEXTURE MAPS ======================
+Texture map coordinates (u,v) are computed for each vertex by the CPU.
+Once computed, they are passed the the vertex and fragment shaders which
+interpolate the (u, v) coordinates of each fragment.  A lookup is performed
+on the texture Sampler2D and the base color is assigned to the fragment.
+This color is then adjusted based on lighting and normal maps.
+
+
+       =================== NORMAL MAPS =======================
+Normal map coordinates (u,v) are always lined up with texture map
+coordinates to prevent these two from separating, which would cause the two
+maps to display at different intervals, which would be undesirable.  The lookup
+is performed in the same way as the texture map lookup.  Once it has been looked up,
+the three channels (rgb) are treated as (xyz) values which will be used to
+adjust the normal used for lighting calculation at that fragment.
+
+In order to adjust the normal, the shader must first compute two tangents to
+the surface and the actual surface normal for the fragment, all of which are
+mutually perpendicular to each other.  This set of normals and tangents, along
+with the xyz on the normal map are then used to determine the value of the
+normal after adjustment.  After the normal has been adjusted, lighting calculations
+are performed using this new normal, which has been perturbed according to the rules
+above.
+
+
+       ==================== L-SYSTEMS ========================
+TODO:
+
+       ====================== CAMERA =========================
+TODO:
+
