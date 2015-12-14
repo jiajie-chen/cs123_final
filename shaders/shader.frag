@@ -43,8 +43,6 @@ uniform vec4 allBlack = vec4(1);
 // used for object that are not normal-mapped
  void main2(){
     vec3 color;
-    vec3 position = alsoPosition;
-    vec3 normal = alsoNormal;
     vec4 bumpedNormal_cameraSpace = normal_cameraSpace;
 
     if (useLighting) {
@@ -90,7 +88,7 @@ uniform vec4 allBlack = vec4(1);
 
      vec3 map = texture(bump, texc).xyz;
      map = map * 2 - 1;
-     vec3 eye_cameraSpace = normalize(-vec3(position_cameraSpace)); // TODO: incorrect
+     vec3 eye_cameraSpace = normalize(-vec3(position_worldSpace)); // TODO: incorrect
      // get edge vectors of the pixel triangle
      vec3 dp1 = dFdx( eye_cameraSpace );
      vec3 dp2 = dFdy( eye_cameraSpace );
@@ -98,16 +96,16 @@ uniform vec4 allBlack = vec4(1);
      vec2 duv2 = dFdy( texc );
 
      // solve the linear system
-     vec3 dp2perp = cross( dp2, vec3(normal_cameraSpace) );
-     vec3 dp1perp = cross( vec3(normal_cameraSpace), dp1 );
+     vec3 dp2perp = cross( dp2, vec3(normal_worldSpace) );
+     vec3 dp1perp = cross( vec3(normal_worldSpace), dp1 );
      vec3 T = dp2perp * duv1.x + dp1perp * duv2.x;
      vec3 B = dp2perp * duv1.y + dp1perp * duv2.y;
 
      // construct a scale-invariant frame
      float invmax = inversesqrt( max( dot(T,T), dot(B,B) ) );
-     mat3 TBN =  mat3( T * invmax, B * invmax, normal_cameraSpace );
+     mat3 TBN =  mat3( T * invmax, B * invmax, normal_worldSpace );
 
-     vec4 bumpedNormal_cameraSpace = vec4(normalize(TBN * map), 0);
+     vec4 bumpedNormal_cameraSpace = v * vec4(normalize(TBN * map), 0);
      vec3 color;
 
 
