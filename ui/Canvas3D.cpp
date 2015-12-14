@@ -31,7 +31,7 @@ void Canvas3D::initializeGL()
     if (GLEW_OK != err)
     {
       // Problem: glewInit failed, something is seriously wrong.
-      fprintf(stderr, "Error initializing glew: %s\n", glewGetErrorString(err));
+      //fprintf(stderr, "Error initializing glew: %s\n", glewGetErrorString(err));
     }
 
     // Initialize scene
