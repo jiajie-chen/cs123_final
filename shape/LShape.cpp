@@ -164,7 +164,7 @@ LShape::~LShape() {
 void LShape::addStateToShape(int materialIdx){
     LMaterialShape *lmshape = m_shapes.at(materialIdx);
     // get the triangles for the new shape
-    std::vector<triangle *> newTris = getCylinder(m_current_state->length, m_current_state->width);
+    std::vector<triangle *> newTris = getGeometry(m_current_state->length, m_current_state->width);
 
     // store the combined triangles in the LMaterialShape
     std::vector<triangle *> combinedTris;
@@ -176,7 +176,7 @@ void LShape::addStateToShape(int materialIdx){
 
 
 // returns the triangles for the cylinder representation of the current state
-std::vector<triangle *> LShape::getCylinder(float length, float width) {
+std::vector<triangle *> LShape::getGeometry(float length, float width) {
     std::vector<triangle *> triangles = std::vector<triangle *>();
     double angleStep = 2 * (M_PI / M_SHAPE_P1);
     double stackStep =  length / M_SHAPE_P2;

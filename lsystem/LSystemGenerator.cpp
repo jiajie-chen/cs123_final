@@ -86,8 +86,9 @@ LSystemGenerator::~LSystemGenerator()
     }
 }
 
-std::string LSystemGenerator::makeLSystem(int depth)
+std::string LSystemGenerator::makeLSystem(int current_depth, int max_depth)
 {
+    int depth = fmin(current_depth, max_depth);
     std::string currSystem = m_initial;
 
     // iterate through lsystem for depth
