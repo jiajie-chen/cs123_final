@@ -285,10 +285,6 @@
   </object>
 
   <object type="tree" name="shortWall">
-    <transblock>
-      <scale x="1" y="25" z="23"/>
-      <object type="master" name="wallTile"/>
-    </transblock>
   </object>
 
   <object type="tree" name="medWall">
