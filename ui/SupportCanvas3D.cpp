@@ -213,6 +213,10 @@ void SupportCanvas3D::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
+        QCursor c = cursor();
+        c.setShape(Qt::BlankCursor);
+        setCursor(c);
+
         getCamera()->mouseDown(event->x(), event->y());
         m_isDragging = !m_isDragging;
         this->setMouseTracking(m_isDragging);
@@ -225,7 +229,10 @@ void SupportCanvas3D::mouseMoveEvent(QMouseEvent *event)
     if (m_isDragging)
     {
         getCamera()->mouseDragged(event->x(), event->y());
+
         update();
+        //QCursor c = cursor();
+        //c.setPos(mapToGlobal(QPoint(width() / 2, height() / 2)));
     }
 }
 

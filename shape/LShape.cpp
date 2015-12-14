@@ -124,8 +124,12 @@ LShape::LShape(std::string rules,
         break;
         case ']':
             // pop the state stack and set to the current state
-            m_current_state = m_state_stack.back();
-            m_state_stack.pop_back();
+            if (m_state_stack.empty()) {
+                cout << "LShape: attempted to pop from empty stack" << endl;
+            } else {
+                m_current_state = m_state_stack.back();
+                m_state_stack.pop_back();
+            }
         break;
         default:
         break;

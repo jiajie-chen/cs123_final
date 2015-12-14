@@ -120,8 +120,6 @@ void SceneviewScene::renderGeometry()
                                            glGetAttribLocation(m_shader, "texCoord")
                                            );
                 m_lshapes[rules] = lshape;
-
-
             }
 
             // apply transforms
