@@ -74,6 +74,18 @@
     </matblock>
   </lsystem>
 
+  <lsystem>
+    <id v="multi" />
+    <initial v="F" />
+    <rule sym="F" replace="F'F" />
+    <matblock>
+      <diffuse r="1" g="1" b="0"/>
+    </matblock>
+    <matblock>
+      <diffuse r="0" g="1" b="1"/>
+    </matblock>
+  </lsystem>
+
   <object type="tree" name="wallTile">
     <transblock>
       <translate x="0" y=".5" z=".5"/>
@@ -113,33 +125,41 @@
     <transblock>
       <translate x=".5" y="0" z=".5"/>
       <object type="primitive" name="cube">
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/floor.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
+        <diffuse r="0.6" g="0.6" b="0.6"/>
+        <ambient r="0.3" g="0.3" b="0.3"/>
+        <specular r="0" g="0" b="0"/>
+        <texture file="../textures/tex/seamless_dirt.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
       <translate x="-.5" y="0" z=".5"/>
       <object type="primitive" name="cube">
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/floor.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
+        <diffuse r="0.6" g="0.6" b="0.6"/>
+        <ambient r="0.3" g="0.3" b="0.3"/>
+        <specular r="0" g="0" b="0"/>
+        <texture file="../textures/tex/seamless_dirt.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
       <translate x="-.5" y="0" z="-.5"/>
       <object type="primitive" name="cube">
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/floor.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
+        <diffuse r="0.6" g="0.6" b="0.6"/>
+        <ambient r="0.3" g="0.3" b="0.3"/>
+        <specular r="0" g="0" b="0"/>
+        <texture file="../textures/tex/seamless_dirt.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
       <translate x=".5" y="0" z="-.5"/>
       <object type="primitive" name="cube">
-        <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/floor.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/veiny.jpg" u="4" v="4"/>
+        <diffuse r="0.6" g="0.6" b="0.6"/>
+        <ambient r="0.3" g="0.3" b="0.3"/>
+        <specular r="0" g="0" b="0"/>
+        <texture file="../textures/tex/seamless_dirt.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
       </object>
     </transblock>
   </object>
@@ -213,7 +233,7 @@
   <object type="tree" name="row">
     <transblock>
       <translate x="0" y="0" z="0"/>
-      <object type="primitive" name="lsystem" id="test" depth="3">
+      <object type="primitive" name="lsystem" id="test" depth="10">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
@@ -221,7 +241,7 @@
     </transblock>
     <transblock>
       <translate x="0" y="0" z="-10"/>
-      <object type="primitive" name="lsystem" id="test" depth="3">
+      <object type="primitive" name="lsystem" id="test" depth="5">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
@@ -229,7 +249,7 @@
     </transblock>
     <transblock>
       <translate x="0" y="0" z="-20"/>
-      <object type="primitive" name="lsystem" id="test" depth="3">
+      <object type="primitive" name="lsystem" id="multi" depth="5">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
