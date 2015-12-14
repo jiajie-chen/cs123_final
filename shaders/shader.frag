@@ -175,4 +175,3 @@ vec3 perturb_normal( vec3 N, vec3 V, vec2 texcoord )
      texColor = clamp(texColor + vec3(1-useTexture), vec3(0), vec3(1));
      fragColor = vec4((color * texColor), 1);
  }
-

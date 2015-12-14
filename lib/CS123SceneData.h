@@ -136,11 +136,13 @@ struct CS123ScenePrimitive
    PrimitiveType type;
    std::string meshfile;     // Only applicable to meshes
 
-   // only applicable to lsystems
-   std::string lsystemID;
-   unsigned int lsystemDepth;
-
    CS123SceneMaterial material;
+};
+
+struct CS123LSystemPrimitive
+{
+    std::string lsystemID;
+    unsigned int lsystemDepth;
 };
 
 // Data for transforming a scene object. Aside from the TransformationType, the remaining of the
@@ -169,6 +171,9 @@ struct CS123SceneNode
    // Primitives at this node
    std::vector<CS123ScenePrimitive*> primitives;
 
+   // LSystems at this node
+   std::vector<CS123LSystemPrimitive*> lsystems;
+
    // Children of this node
    std::vector<CS123SceneNode*> children;
 };
@@ -177,6 +182,12 @@ struct CS123SceneNode
 struct CS123SceneFlattenedNode
 {
     CS123ScenePrimitive primitive;
+    glm::mat4x4 ctm;
+};
+
+struct CS123FlattenedLSystem
+{
+    CS123LSystemPrimitive primitive;
     glm::mat4x4 ctm;
 };
 
