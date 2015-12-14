@@ -171,7 +171,7 @@ void LShape::addStateToShape(int materialIdx){
 std::vector<triangle *> LShape::getCylinder(float length, float width) {
     std::vector<triangle *> triangles = std::vector<triangle *>();
     double angleStep = 2 * (M_PI / M_SHAPE_P1);
-    double stackStep = 2 * length / M_SHAPE_P2;
+    double stackStep =  length / M_SHAPE_P2;
 
 
     float dLon = angleStep;
@@ -223,7 +223,7 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
             vertex *vert5 = new vertex(br.x, br.y, br.z, n5, uMax, vMax);
             vertex *vert6 = new vertex(ul.x, ul.y, ul.z, n6, uMin, vMin);
 
-            glm::mat4x4 translate = glm::translate(glm::mat4x4(), glm::vec3(0.f, 2 * length, 0.f));
+            glm::mat4x4 translate = glm::translate(glm::mat4x4(), glm::vec3(0.f, length, 0.f));
 
             vert1->transform(translate);
             vert2->transform(translate);
