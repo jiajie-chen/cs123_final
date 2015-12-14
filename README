@@ -65,7 +65,8 @@ above.
 
 
        ==================== L-SYSTEMS ========================
-We extended CS123XmlSceneParser to handle 'lsystem' blocks that [jj fill this in]
+We extended CS123XmlSceneParser to handle 'lsystem' blocks that represent the rules and the axiom of an LSystem.
+The LSystem info is given to a LSystemGenerator to handle the LSystem materials, and generate iterations of the LSystem after rewriting.
 
 LSystem Rules:
 F, X: move forward & draw
@@ -96,7 +97,9 @@ Once the rules for an LSystem are generated, we pass them to a special shape typ
 
 
        ====================== CAMERA =========================
-TODO:
 
-
-
+We implemented a POVCamera, which is contraollable by mouse and keyboard.
+POVCamera allows the user to control the camera angle with their mouse, and the camera position with their arrow keys.
+POVCamera is set up with the scene's camera data. It is used to view a given scene.
+We make it so the up vector is always on the positive y axis, so it remains upright.
+We also make sure movement is constrained to the xy plane, to avoid going out of distance.
