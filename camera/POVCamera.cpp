@@ -73,8 +73,12 @@ void POVCamera::translate(glm::vec3 v)
     glm::vec3 side = glm::normalize(
                 glm::cross(m_up, m_look));
 
+    float clmapPlane = m_eye.y;
+
     m_eye += v.z * m_look +
              v.x * side;
+
+    m_eye.y = clmapPlane;
 
     updateMatrices();
 }

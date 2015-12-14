@@ -215,6 +215,9 @@ void MainWindow::fileOpen(QString file_path)
                     camera.look[3] = 0;
                     camera.up[3] = 0;
 
+                    settings.cameraFov = 435.0;
+                    settings.cameraFar = 180.0;
+
                     POVCamera *cam = m_canvas3D->getPOVCamera();
                     cam->orientLook(glm::vec3(camera.pos), glm::vec3(camera.look));
                 }
