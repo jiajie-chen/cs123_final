@@ -1,21 +1,15 @@
 #ifndef LSHAPE_H
 #define LSHAPE_H
 #define GLM_FORCE_RADIANS
-#include "Shape.h"
+#include "lsystem/LSystemGenerator.h"
+#include "OpenGLShape.h"
+#include "CS123SceneData.h"
+#include "OpenGLScene.h"
 #include <glm/gtx/rotate_vector.hpp>
 #include <vector>;
 #include <string>
 #include <sstream>
 #include <iostream>
-struct state {
-    glm::vec3 heading;
-    glm::vec3 position;
-    glm::vec3 left;
-    glm::vec3 up;
-    float length;
-    float width;
-    int materialIdx;
-};
 
 struct normal {
     GLfloat x;
@@ -43,6 +37,20 @@ struct normal {
         y = v.y;
         z = v.z;
     }
+
+    void rotateZ(float angle) {
+        glm::vec3 v = glm::rotateZ(glm::vec3(x, y, z), angle);
+        x = v.x;
+        y = v.y;
+        z = v.z;
+    }
+
+     void transform(glm::mat4x4 cfm) {
+         glm::vec4 v = cfm * glm::vec4(x, y, z, 0);
+         x = v.x;
+         y = v.y;
+         z = v.z;
+     }
 };
 
 // vertex struct for easier indexiing and automatic normal creation
@@ -50,11 +58,15 @@ struct vertex {
     GLfloat x;
     GLfloat y;
     GLfloat z;
+
+    GLfloat u;
+    GLfloat v;
+
     normal* n;
 
     vertex() : x(0), y(0), z(0), n(NULL) {}
-    vertex(GLfloat a, GLfloat b, GLfloat c, normal* norm)
-        :x(a), y(b), z(c), n(norm)
+    vertex(GLfloat a, GLfloat b, GLfloat c, normal* norm, GLfloat d, GLfloat e)
+        :x(a), y(b), z(c), n(norm), u(d), v(e)
     {
 
     }
@@ -78,6 +90,22 @@ struct vertex {
         y = v.y;
         z = v.z;
         n->rotateY(angle);
+    }
+
+    void rotateZ(float angle) {
+        glm::vec3 v = glm::rotateZ(glm::vec3(x, y, z), angle);
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        n->rotateZ(angle);
+    }
+
+    void transform(glm::mat4x4 cfm) {
+        glm::vec4 v = cfm * glm::vec4(x, y, z, 0);
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        n->transform(cfm);
     }
 };
 
@@ -106,19 +134,75 @@ struct triangle {
         v2->rotateY(angle);
         v3->rotateY(angle);
     }
+
+    void rotateZ(float angle) {
+        v1->rotateZ(angle);
+        v2->rotateZ(angle);
+        v3->rotateZ(angle);
+    }
+
+    void transform(glm::mat4x4 ctm) {
+        v1->transform(ctm);
+        v2->transform(ctm);
+        v3->transform(ctm);
+    }
 };
 
-class LShape : Shape
+struct state {
+    glm::vec3 position;
+    glm::vec3 heading;
+    glm::vec3 left;
+    glm::vec3 up;
+    glm::mat4x4 ctm;
+    float length;
+    float width;
+    int materialIdx;
+
+    state() :
+      position(glm::vec3(0,0,0)),
+      heading(glm::vec3(0,-1,0)),
+      left(glm::vec3(-1,0,0)),
+      up(glm::vec3(0,0, 1)),
+      ctm(glm::mat4x4(1.0)),
+      length(1),
+      width(1),
+      materialIdx(0){}
+};
+
+struct LMaterialShape {
+    OpenGLShape *shape;
+    std::vector<triangle *> m_triangles;
+    int numVertices;
+    CS123SceneMaterial material;
+    LMaterialShape(CS123SceneMaterial material)
+        : shape(new OpenGLShape()), m_triangles(std::vector<triangle *>()), material(material) {}
+    ~LMaterialShape() {
+        delete shape;
+        m_triangles.clear();
+    }
+};
+
+class LShape
 {
 public:
-    LShape(state start_state, std::string rules, GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
+    LShape(std::string rules, std::vector<CS123SceneMaterial> materials, GLuint vertexAttribIndex, GLuint normalAttribIndex, GLuint texCoordAttribIndex);
     virtual ~LShape();
-    void addStateToShape();
+
+    std::vector<LMaterialShape*> getShapes();
 
 
 private:
-    std::vector<state> m_state_stack;
-    state m_current_state;
+    std::vector<LMaterialShape*> m_shapes;
+    std::vector<state *> m_state_stack;
+    state *m_current_state;
+    void prepareShapes();
+    void addStateToShape(int materialIdx);
+    std::vector<triangle *> getCylinder(float length, float width);
+
+    // gl stuff
+    GLuint m_vertexIndex;
+    GLuint m_normalIndex;
+    GLuint m_texCoordIndex;
 
 };
 
