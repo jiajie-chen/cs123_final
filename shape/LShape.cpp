@@ -8,8 +8,8 @@
 #define UP_THETA (float) M_PI/4
 #define LEFT_THETA (float)M_PI/4
 #define H_THETA (float) M_PI/2
-#define D_LENGTH (float)1.0f
-#define D_WIDTH (float)1.0f
+#define D_LENGTH (float).1f
+#define D_WIDTH (float).1f
 
 LShape::LShape(std::string rules,
                float angle,
