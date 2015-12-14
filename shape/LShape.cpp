@@ -241,8 +241,8 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
         // tesselate the sides
      for (int i = 0 ; i < M_SHAPE_P1; i++) {
 
-        float a1 = i * stackStep - length;
-        float a2 = (i + 1) * stackStep - length;
+        float a1 = i * stackStep;
+        float a2 = (i + 1) * stackStep;
         GLfloat vMin = 1.f - static_cast<float>(i+1)/M_SHAPE_P2;
         GLfloat vMax = 1.f - static_cast<float>(i)/M_SHAPE_P2;
 
