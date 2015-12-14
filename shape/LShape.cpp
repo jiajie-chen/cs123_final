@@ -8,8 +8,8 @@
 #define UP_THETA (float) M_PI/4
 #define LEFT_THETA (float)M_PI/4
 #define H_THETA (float) M_PI/2
-#define D_LENGTH (float)1.0f
-#define D_WIDTH (float)1.0f
+#define D_LENGTH (float).1f
+#define D_WIDTH (float).1f
 
 LShape::LShape(std::string rules,
                float angle,
@@ -309,8 +309,6 @@ void LShape::prepareShape(LMaterialShape * lmshape){
     int posn = 0;
 
     float numVerts = lmshape->m_triangles.size() * 3;
-    cout << "preparing shape with diffuse r: "<< lmshape->material.cDiffuse.r << endl;
-    cout << "verts: " << numVerts << endl;
     int dataSize = numVerts * stride;
     GLfloat vertexData[dataSize];
     for (int i = 0; i < lmshape->m_triangles.size(); i++) {
