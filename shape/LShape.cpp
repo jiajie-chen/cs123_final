@@ -8,11 +8,11 @@
 #define UP_THETA (float) M_PI/12
 #define LEFT_THETA (float)M_PI/15.0f
 #define H_THETA (float) M_PI/12.0f
-#define D_LENGTH (float).01f
-#define D_WIDTH (float).01f
+#define D_LENGTH (float)1.0f
+#define D_WIDTH (float)1.0f
 
 LShape::LShape(std::string rules,
-               std::vector<CS123SceneMaterial *> materials,
+               std::vector<CS123SceneMaterial> materials,
                GLuint vertexAttribIndex,
                GLuint normalAttribIndex,
                GLuint texCoordAttribIndex) :
@@ -21,17 +21,18 @@ LShape::LShape(std::string rules,
     m_texCoordIndex(texCoordAttribIndex)
 
 {
-    // the number of openglshapes to work with
-    int numMaterials = materials.size();
-
-    // init the shapes
-    for (CS123SceneMaterial *m : materials) {
-        m_shapes.push_back(new LMaterialShape(m));
-    }
 
     m_current_state = new state();
     m_state_stack = std::vector<state *>();
     m_shapes = std::vector<LMaterialShape*>();
+
+    // the number of openglshapes to work with
+    int numMaterials = materials.size();
+
+    // init the shapes
+    for (CS123SceneMaterial m : materials) {
+        m_shapes.push_back(new LMaterialShape(m));
+    }
 
     //*********BEGIN PARSING RULES***********\\
 
@@ -42,12 +43,14 @@ LShape::LShape(std::string rules,
         case 'F':
             //adds a geometric representation of the current state to the appropriate openglshape in m_shapes
             addStateToShape(m_current_state->materialIdx);
-            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length, 0));
+            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length,0));
+            //ctm2 *= glm::translate(glm::mat4x4(1.0), m_current_state->heading * m_current_state->length);
             //m_current_state->position += m_current_state->heading*m_current_state->length;
         break;
         case 'f':
             //move forward
-            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length, 0));
+            ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length,0));
+            //ctm2 *= glm::translate(glm::mat4x4(1.0), m_current_state->heading * m_current_state->length);
             //m_current_state->position += m_current_state->heading*m_current_state->length;
         break;
         case '+':
@@ -127,8 +130,11 @@ LShape::LShape(std::string rules,
             }
         break;
         case '[':
-            // push the current state onto the stack
+            // push the current state onto the stack, make a new state starting from here
+            glm::mat4x4 old_ctm = m_current_state->ctm;
             m_state_stack.push_back(m_current_state);
+            m_current_state = new state();
+            m_current_state->ctm = old_ctm;
         break;
         case ']':
             // pop the state stack and set to the current state
@@ -148,6 +154,7 @@ LShape::LShape(std::string rules,
 
 LShape::~LShape() {
     m_state_stack.clear();
+    m_shapes.clear();
 }
 
 // add the geometery for the current state to the appropriate shape
@@ -209,7 +216,7 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
         vertex *botv2 = new vertex(topx2, -topy2, topz2, botn2, u2, v2);
         vertex *botv3 = new vertex(topx3, -topy3, topz3, botn3, u3, v3);
 
-        triangle * t1 = new triangle(topv3, topv2, topv1);
+        triangle * t1 = new triangle(topv1, topv2, topv3);
         triangle * t2 = new triangle(botv1, botv2, botv3);
 
         // apply the transformation for this state to the triangles
@@ -276,8 +283,8 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
             vertex *vert5 = new vertex(x5, y5, z5, n5, u5, v5);
             vertex *vert6 = new vertex(x6, y6, z6, n6, u6, v6);
 
-            t1 = new triangle(vert3, vert2, vert1);
-            t2 = new triangle(vert6, vert5, vert4);
+            t1 = new triangle(vert1, vert2, vert3);
+            t2 = new triangle(vert4, vert5, vert6);
 
             // apply the transformation for this state to the triangles
             t1->transform(m_current_state->ctm);
@@ -340,9 +347,8 @@ void LShape::prepareShapes(){
     }
 }
 
-void LShape::draw(){
-    for (LMaterialShape *lmshape : m_shapes) {
-        lmshape->shape->draw();
-    }
+std::vector<LMaterialShape*> LShape::getShapes() {
+    return m_shapes;
 }
+
 
