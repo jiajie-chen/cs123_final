@@ -101,7 +101,7 @@ struct vertex {
     }
 
     void transform(glm::mat4x4 cfm) {
-        glm::vec4 v = cfm * glm::vec4(x, y, z, 0);
+        glm::vec4 v = cfm * glm::vec4(x, y, z, 1);
         x = v.x;
         y = v.y;
         z = v.z;
