@@ -31,7 +31,7 @@ void Canvas3D::initializeGL()
     if (GLEW_OK != err)
     {
       // Problem: glewInit failed, something is seriously wrong.
-      //fprintf(stderr, "Error initializing glew: %s\n", glewGetErrorString(err));
+      fprintf(stderr, "Error initializing glew: %s\n", glewGetErrorString(err));
     }
 
     // Initialize scene
@@ -71,8 +71,8 @@ void Canvas3D::paintGL()
         // Check for errors from the last frame.
         int err;
         if ((err = glGetError()) != GL_NO_ERROR) {
-            fprintf(stderr, "GL is in an error state before painting.\n");
-            fprintf(stderr, "(GL error code %d)\n", err);
+            //fprintf(stderr, "GL is in an error state before painting.\n");
+            //fprintf(stderr, "(GL error code %d)\n", err);
         }
 
         // Update the scene camera.
