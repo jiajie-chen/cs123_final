@@ -63,12 +63,8 @@ CS123XmlSceneParser::~CS123XmlSceneParser()
             delete (m_nodes[node])->primitives[i]->material.bumpMap;
             delete (m_nodes[node])->primitives[i];
         }
-        for (size_t i = 0; i < (m_nodes[node])->lsystems.size(); i++) {
-            delete (m_nodes[node])->lsystems[i];
-        }
         (m_nodes[node])->transformations.clear();
         (m_nodes[node])->primitives.clear();
-        (m_nodes[node])->lsystems.clear();
         (m_nodes[node])->children.clear();
         delete m_nodes[node];
     }
@@ -1065,14 +1061,6 @@ bool CS123XmlSceneParser::parseTransBlock(const QDomElement &transblock, CS123Sc
                     return false;
                 }
             }
-            else if (e.attribute("type") == "lsystem")
-            {
-                if (!parseLSystemPrimitive(e, node))
-                {
-                    PARSE_ERROR(e);
-                    return false;
-                }
-            }
             else
             {
                 cout << ERROR_AT(e) << "invalid object type: " << e.attribute("type").toStdString()
@@ -1117,7 +1105,25 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
     else if (primType == "lsystem")
     {
         primitive->type = PRIMITIVE_LSYSTEM;
+        if (prim.hasAttribute("id"))
+        {
+            primitive->lsystemID = prim.attribute("id").toStdString();
+        }
+        else
+        {
+            cout << ERROR_AT(prim) << "lsystem must reference a type of lsystem" << endl;
+            return false;
+        }
 
+        if (prim.hasAttribute("depth"))
+        {
+            primitive->lsystemDepth = prim.attribute("depth").toUInt();
+        }
+        else
+        {
+            cout << ERROR_AT(prim) << "lsystem must specify a depth to iterate" << endl;
+            return false;
+        }
     }
     else if (primType == "mesh")
     {
@@ -1237,35 +1243,6 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
         }
         childNode = childNode.nextSibling();
     }
-
-    return true;
-}
-
-bool CS123XmlSceneParser::parseLSystemPrimitive(const QDomElement &prim, CS123SceneNode* node)
-{
-    CS123LSystemPrimitive* primitive = new CS123LSystemPrimitive;
-
-    if (prim.hasAttribute("id"))
-    {
-        primitive->lsystemID = prim.attribute("id").toStdString();
-    }
-    else
-    {
-        cout << "lsystem must reference a type of lsystem" << endl;
-        return false;
-    }
-
-    if (prim.hasAttribute("depth"))
-    {
-        primitive->lsystemDepth = prim.attribute("depth").toUInt();
-    }
-    else
-    {
-        cout << "lsystem must specify a depth to iterate" << endl;
-        return false;
-    }
-
-    node->lsystems.push_back(primitive);
 
     return true;
 }

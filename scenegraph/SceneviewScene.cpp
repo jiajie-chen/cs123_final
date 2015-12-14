@@ -10,6 +10,7 @@
 #include "shape/CylinderShape.h"
 #include "shape/SphereShape.h"
 #include "shape/LShape.h"
+#include "lsystem/LSystemGenerator.h"
 
 SceneviewScene::SceneviewScene()
 {
@@ -159,11 +160,6 @@ void SceneviewScene::renderGeometry()
                     glm::value_ptr(prim.ctm));
             m_shapes[prim.primitive.type]->draw();
         }
-    }
-
-    for (CS123FlattenedLSystem prim : m_lsystemPrims) {
-        // actually call the lsystem generator and construct LShape.
-
     }
 
 }

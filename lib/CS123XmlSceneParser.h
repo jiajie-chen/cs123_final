@@ -61,7 +61,6 @@ class CS123XmlSceneParser : public CS123ISceneParser
       bool parseMatBlock(const QDomElement &matblock, LSystemData* lsystemData);
       bool parseTransBlock(const QDomElement &transblock, CS123SceneNode* node);
       bool parsePrimitive(const QDomElement &prim, CS123SceneNode* node);
-      bool parseLSystemPrimitive(const QDomElement &prim, CS123SceneNode* node);
       
       std::string file_name;
       std::string file_path;

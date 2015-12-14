@@ -6,7 +6,7 @@
 #include "CS123SceneData.h"
 #include "OpenGLScene.h"
 #include <glm/gtx/rotate_vector.hpp>
-#include <vector>;
+#include <vector>
 #include <string>
 #include <sstream>
 #include <iostream>
