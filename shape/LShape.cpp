@@ -99,7 +99,6 @@ LShape::LShape(std::string rules,
             m_current_state->width -= D_WIDTH;
         break;
         case ',':
-            // increment the materialIdx (material selection is handled by the lsystem generator)
             // loop around at the ends
             m_current_state->materialIdx++;
             if (m_current_state->materialIdx > numMaterials - 1){
