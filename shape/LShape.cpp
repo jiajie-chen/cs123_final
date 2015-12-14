@@ -38,8 +38,10 @@ LShape::LShape(std::string rules,
     // loop through the rules and execute each
     for(char& command : rules) {
         glm::mat4x4 ctm2 = glm::mat4x4(1.0);
+        //cout << "evaluating rule " << command <<endl;
         switch(command){
         case 'F':
+        case 'X':
             //adds a geometric representation of the current state to the appropriate openglshape in m_shapes
             addStateToShape(m_current_state->materialIdx);
             ctm2 *= glm::translate(glm::mat4x4(1.0), glm::vec3(0, m_current_state->length, 0));
@@ -71,16 +73,12 @@ LShape::LShape(std::string rules,
         case '/':
             // roll right by -H_THETA
             ctm2 *= glm::rotate(glm::mat4x4(1.0), -H_THETA, m_current_state->heading);
-            //m_current_state->left = glm::rotate(m_current_state->left, -H_THETA, m_current_state->heading);
-            //m_current_state->up = glm::rotate(m_current_state->up, -H_THETA, m_current_state->heading);
         break;
         case '|':
             // rotate 180ºaround up.
 
             //lmao can't definte M_PI/float because it makes it a double
             ctm2 *= glm::rotate(glm::mat4x4(1.0),(float) M_PI, m_current_state->up);
-            //m_current_state->heading = glm::rotate(m_current_state->heading, (float)M_PI, m_current_state->up);
-            //m_current_state->left = glm::rotate(m_current_state->left, (float) M_PI, m_current_state->up);
         break;
         case '"':
             // increase length by D_LENGTH
@@ -120,6 +118,7 @@ LShape::LShape(std::string rules,
             glm::mat4x4 old_ctm = m_current_state->ctm;
             m_state_stack.push_front(m_current_state);
             m_current_state = new state(*m_current_state);
+            cout << "new state #" << m_current_state->id << endl;
         }
         break;
         case ']':
@@ -127,8 +126,9 @@ LShape::LShape(std::string rules,
             if (m_state_stack.empty()) {
                 cout << "LShape: attempted to pop from empty stack" << endl;
             } else {
+                cout << "popping from state #"<<m_current_state->id << endl;
                 m_current_state = m_state_stack.back();
-                cout << "poping state #" << m_current_state->id << endl;
+                cout << "new state #" << m_current_state->id << endl;
                 m_state_stack.pop_back();
             }
         break;

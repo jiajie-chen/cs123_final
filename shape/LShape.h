@@ -172,14 +172,16 @@ struct state {
       width(.1),
       materialIdx(0){}
     state(state &s):
-        id(s.id++),
+        id(s.id+1),
         heading(s.heading),
         left(s.left),
         up(s.up),
         ctm(s.ctm),
         length(s.length),
         width(s.width),
-        materialIdx(s.materialIdx){}
+        materialIdx(s.materialIdx){
+
+    }
 };
 
 struct LMaterialShape {
