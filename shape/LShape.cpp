@@ -129,16 +129,17 @@ LShape::LShape(std::string rules,
                 m_current_state->materialIdx = numMaterials;
             }
         break;
-        case '[':
+        case '[': {
             // push the current state onto the stack, make a new state starting from here
             glm::mat4x4 old_ctm = m_current_state->ctm;
             m_state_stack.push_back(m_current_state);
             m_current_state = new state();
             m_current_state->ctm = old_ctm;
+        }
         break;
         case ']':
             // pop the state stack and set to the current state
-            this->m_current_state = m_state_stack.back();
+            m_current_state = m_state_stack.back();
             m_state_stack.pop_back();
         break;
         }
