@@ -266,6 +266,12 @@ void SupportCanvas3D::keyPressEvent(QKeyEvent *event) {
     case Qt::Key_Down:
     getCamera()->translate(glm::vec3(0, 0, -1.f));
     break;
+    case Qt::Key_BracketLeft:
+    settings.lsystemDepth = settings.lsystemDepth == 0? 0 : settings.lsystemDepth - 1;
+    break;
+    case Qt::Key_BracketRight:
+    settings.lsystemDepth++;
+    break;
     }
     update();
 }

@@ -214,7 +214,7 @@ private:
     std::list<state *> m_state_stack;
     state *m_current_state;
     void addStateToShape(int materialIdx);
-    std::vector<triangle *> getCylinder(float length, float width);
+    std::vector<triangle *> getGeometry(float length, float width);
 
     // gl stuff
     GLuint m_vertexIndex;

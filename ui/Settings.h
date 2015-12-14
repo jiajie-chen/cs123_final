@@ -101,6 +101,8 @@ struct Settings
     int getSceneMode();
     int getCameraMode();
 
+    int lsystemDepth;
+
 };
 
 // The global Settings object, will be initialized by MainWindow
