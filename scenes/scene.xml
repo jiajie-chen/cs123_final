@@ -202,7 +202,7 @@
         <ambient r="0.3" g="0.3" b="0.3"/>
         <specular r="0" g="0" b="0"/>
         <texture file="../textures/tex/tile.jpg" u="4" v="4"/>
-        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/vandam.gif" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
@@ -212,7 +212,6 @@
         <ambient r="0.3" g="0.3" b="0.3"/>
         <specular r="0" g="0" b="0"/>
         <texture file="../textures/tex/floor.png" u="4" v="4"/>
-        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
       </object>
     </transblock>
     <transblock>
@@ -222,7 +221,7 @@
         <ambient r="0.3" g="0.3" b="0.3"/>
         <specular r="0" g="0" b="0"/>
         <texture file="../textures/tex/tile.jpg" u="4" v="4"/>
-        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
+        <bumpmap file="../textures/bump/vandam.gif" u="4" v="4"/>
       </object>
     </transblock>
   </object>
@@ -295,10 +294,6 @@
   </object>
 
   <object type="tree" name="shortWall">
-    <transblock>
-      <scale x="1" y="25" z="23"/>
-      <object type="master" name="wallTile"/>
-    </transblock>
   </object>
 
   <object type="tree" name="medWall">
