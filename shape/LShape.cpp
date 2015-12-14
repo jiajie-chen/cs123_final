@@ -2,8 +2,8 @@
 #include "vector"
 #include "lsystem/LSystemGenerator.h"
 
-#define M_SHAPE_P1 7
-#define M_SHAPE_P2 7
+#define M_SHAPE_P1 5
+#define M_SHAPE_P2 5
 
 #define UP_THETA (float) M_PI/4
 #define LEFT_THETA (float)M_PI/4
