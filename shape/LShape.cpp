@@ -5,11 +5,11 @@
 #define M_SHAPE_P1 10
 #define M_SHAPE_P2 10
 
-#define UP_THETA (float) M_PI/12
-#define LEFT_THETA (float)M_PI/15.0f
-#define H_THETA (float) M_PI/12.0f
-#define D_LENGTH (float)0.2f
-#define D_WIDTH (float)0.2f
+#define UP_THETA (float) M_PI/4
+#define LEFT_THETA (float)M_PI/4
+#define H_THETA (float) M_PI/2
+#define D_LENGTH (float)1.0f
+#define D_WIDTH (float)1.0f
 
 LShape::LShape(std::string rules,
                std::vector<CS123SceneMaterial> materials,
@@ -22,7 +22,7 @@ LShape::LShape(std::string rules,
 
 {
     m_current_state = new state();
-    m_state_stack = std::vector<state *>();
+    m_state_stack = std::list<state *>();
     m_shapes = std::vector<LMaterialShape*>();
 
     // the number of openglshapes to work with
@@ -117,7 +117,7 @@ LShape::LShape(std::string rules,
         case '[': {
             // push the current state onto the stack, make a new state starting from here
             glm::mat4x4 old_ctm = m_current_state->ctm;
-            m_state_stack.push_back(m_current_state);
+            m_state_stack.push_front(m_current_state);
             m_current_state = new state();
             m_current_state->ctm = old_ctm;
         }
@@ -126,6 +126,8 @@ LShape::LShape(std::string rules,
             // pop the state stack and set to the current state
             m_current_state = m_state_stack.back();
             m_state_stack.pop_back();
+        break;
+        default:
         break;
         }
         // update the current state's ctm
@@ -172,7 +174,7 @@ std::vector<triangle *> LShape::getCylinder(float length, float width) {
     double stackStep = 2 * length / M_SHAPE_P2;
     float u1,v1,u2,v2,u3,v3;
 
-    float dRad = 2*3.14159f/M_SHAPE_P2;
+    float dRad = angleStep;
 
     glm::vec3 center = glm::vec3(0.0f, 0.5f, 0.0f);
     glm::vec3 left = glm::vec3(0.0f, 0.5f, 0.5f);

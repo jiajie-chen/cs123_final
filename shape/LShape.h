@@ -168,8 +168,8 @@ struct state {
       left(glm::vec3(-1,0,0)),
       up(glm::vec3(0,0, 1)),
       ctm(glm::mat4x4(1.0)),
-      length(1),
-      width(1),
+      length(.5),
+      width(.1),
       materialIdx(0){}
 };
 
