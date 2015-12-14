@@ -72,7 +72,8 @@
     <rule sym="F" replace="FF" />
     <matblock>
       <diffuse r=".74" g=".47" b=".27"/>
-      <texture file="../textures/tex/bark.png"/>
+      <texture file="../textures/tex/coral.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
   </lsystem>
 
@@ -83,7 +84,8 @@
     <rule sym="F" replace="FF-[-/F+F+F\]+[/+F-F-F]" />
     <matblock>
       <diffuse r="1" g=".2" b=".2"/>
-      <texture file="../textures/tex/bark.png"/>
+      <texture file="../textures/tex/coral.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
   </lsystem>
 
@@ -95,31 +97,38 @@
     <rule sym="X" replace="F[+X][-X]F[+X][-X]FX" />
     <matblock>
       <diffuse r=".3" g=".5" b=".9"/>
-      <texture file="../textures/tex/bark.png"/>
+      <texture file="../textures/tex/coral.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
     <matblock>
       <diffuse r=".9" g=".2" b=".2"/>
-      <texture file="../textures/tex/bark.png"/>
+      <texture file="../textures/tex/coral.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
     <matblock>
       <diffuse r=".9" g=".8" b=".7"/>
-      <texture file="../textures/tex/bark.png"/>
+      <texture file="../textures/tex/coral.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
     <matblock>
       <diffuse r=".2" g=".9" b=".3"/>
-      <texture file="../textures/tex/bark.png"/>
+      <texture file="../textures/tex/coral.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
     <matblock>
       <diffuse r=".9" g=".9" b=".1"/>
-      <texture file="../textures/tex/bark.png"/>
+      <texture file="../textures/tex/coral.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
     <matblock>
       <diffuse r=".1" g=".9" b=".9"/>
-      <texture file="../textures/tex/bark.png"/>
+      <texture file="../textures/tex/coral.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
     <matblock>
       <diffuse r=".76" g=".4" b=".5"/>
-      <texture file="../textures/tex/bark.png"/>
+      <texture file="../textures/tex/coral.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
   </lsystem>
 
@@ -135,7 +144,8 @@
     </matblock>
     <matblock>
       <diffuse r="1" g="0" b="0"/>
-      <texture file="../textures/tex/bark.png"/>
+      <texture file="../textures/tex/coral.jpg"/>
+      <bumpmap file="../textures/bump/coral.jpg"/>
     </matblock>
   </lsystem>
 
@@ -181,7 +191,7 @@
         <diffuse r="0.6" g="0.6" b="0.6"/>
         <ambient r="0.3" g="0.3" b="0.3"/>
         <specular r="0" g="0" b="0"/>
-        <texture file="../textures/tex/floor.png" u="4" v="4"/>
+        <texture file="../textures/tex/marble.png" u="4" v="4"/>
         <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="4" v="4"/>
       </object>
     </transblock>
@@ -327,9 +337,9 @@
   <object type="tree" name="row">
     <transblock>
       <translate x="0" y="-1" z="11"/>
-      <scale x="4.6" y="4.9" z="4.9"/>
+      <scale x="3.6" y="2.9" z="2.9"/>
       <rotate x="0" y="1" z="0" angle="90"/>
-      <object type="primitive" name="lsystem" id="test" depth="4">
+      <object type="primitive" name="lsystem" id="test" depth="5">
         <diffuse r="1" g="1" b="1"/>
         <texture file="../textures/tex/leaf.png" u="1" v="1"/>
         <bumpmap file="../textures/bump/wall.png" u="1" v="1"/>
@@ -410,8 +420,8 @@
       <scale x="50" y="1" z="100"/>
       <object type="primitive" name="cube" >
         <diffuse r="1" g="1" b="1"/>
-        <texture file="../textures/tex/ceiling.png" u="1" v="1"/>
-        <bumpmap file="../textures/bump/veiny.jpg" u="1" v="1"/>
+        <texture file="../textures/tex/marble.jpg" u="1" v="1"/>
+        <bumpmap file="../textures/bump/seamless_dirt_normal.jpg" u="1" v="1"/>
       </object>
     </transblock>
     <transblock>
