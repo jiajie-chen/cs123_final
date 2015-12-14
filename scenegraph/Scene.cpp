@@ -3,6 +3,8 @@
 #include "CS123SceneData.h"
 #include "CS123ISceneParser.h"
 #include <QtGlobal>
+#include "lsystem/LSystemData.h"
+#include "lsystem/LSystemGenerator.h"
 
 
 Scene::Scene() //: m_camera(NULL)
@@ -19,6 +21,11 @@ Scene::~Scene()
         delete (n.primitive.material.textureMap);
         delete (n.primitive.material.bumpMap);
     }
+
+    for (std::map<std::string, LSystemGenerator *>::iterator it = m_lsystems.begin();
+         it != m_lsystems.end(); it++) {
+        delete it->second;
+    }
 }
 
 void Scene::parse(Scene *sceneToFill, CS123ISceneParser *parser)
@@ -33,6 +40,13 @@ void Scene::parse(Scene *sceneToFill, CS123ISceneParser *parser)
         CS123SceneLightData light;
         parser->getLightData(i, light);
         sceneToFill->addLight(light);
+    }
+
+    std::vector<std::string> ids = parser->getIDLSystems();
+    for (std::string id : ids) {
+        LSystemData ls;
+        parser->getLSystemData(id, ls);
+        sceneToFill->addLSystemGenerator(id, ls);
     }
 
     parseTree(sceneToFill, *parser->getRootNode(), glm::mat4x4(1.0));
@@ -69,6 +83,11 @@ void Scene::parseTree(Scene *sceneToFill, const CS123SceneNode &node, const glm:
     std::vector<CS123ScenePrimitive *> prims = node.primitives;
     for (CS123ScenePrimitive *p : prims) {
         sceneToFill->addPrimitive(*p, currCTM);
+    }
+
+    std::vector<CS123LSystemPrimitive *> lPrims = node.lsystems;
+    for (CS123LSystemPrimitive *p : lPrims) {
+        sceneToFill->addLSystemPrimitive(*p, currCTM);
     }
 
     // recur through children
@@ -125,6 +144,7 @@ void Scene::addPrimitive(const CS123ScenePrimitive &scenePrimitive, const glm::m
         QString path(n.primitive.material.bumpMap->filename.c_str());
         QImage image(path);
         if (image.isNull()) {
+            std::cout << "failed loading bump file at: " << n.primitive.material.textureMap->filename << std::endl;
             n.primitive.material.bumpMap->isUsed = 0;
         } else {
             glGenTextures(1, &n.primitive.material.bumpMap->texid);
@@ -141,9 +161,23 @@ void Scene::addPrimitive(const CS123ScenePrimitive &scenePrimitive, const glm::m
     m_primitives.push_back(n);
 }
 
+void Scene::addLSystemPrimitive(const CS123LSystemPrimitive &lsystemPrimitive, const glm::mat4x4 &matrix)
+{
+    CS123FlattenedLSystem n = CS123FlattenedLSystem();
+    n.ctm = matrix;
+    n.primitive = lsystemPrimitive;
+
+    m_lsystemPrims.push_back(n);
+}
+
 void Scene::addLight(const CS123SceneLightData &sceneLight)
 {
     m_lights.push_back(sceneLight);
+}
+
+void Scene::addLSystemGenerator(std::string id, const LSystemData &ls)
+{
+    m_lsystems[id] = new LSystemGenerator(ls);
 }
 
 void Scene::setGlobal(const CS123SceneGlobalData &global)

@@ -43,9 +43,14 @@ CS123XmlSceneParser::~CS123XmlSceneParser()
         delete *lights;
     }
 
-    std::map<std::string, LSystemData*>::iterator lsystems;
-    for (lsystems = m_lsystems.begin(); lsystems != m_lsystems.end(); lsystems++) {
-        delete lsystems->second;
+    std::map<std::string, LSystemData*>::iterator lsIter;
+    for (lsIter = m_lsystems.begin(); lsIter != m_lsystems.end(); lsIter++) {
+        for (std::vector<CS123SceneMaterial>::iterator iter = lsIter->second->mats.begin();
+             iter != lsIter->second->mats.end(); iter++) {
+            delete iter->textureMap;
+            delete iter->bumpMap;
+        }
+        delete lsIter->second;
     }
 
     // Delete all Scene Nodes
@@ -58,8 +63,12 @@ CS123XmlSceneParser::~CS123XmlSceneParser()
             delete (m_nodes[node])->primitives[i]->material.bumpMap;
             delete (m_nodes[node])->primitives[i];
         }
+        for (size_t i = 0; i < (m_nodes[node])->lsystems.size(); i++) {
+            delete (m_nodes[node])->lsystems[i];
+        }
         (m_nodes[node])->transformations.clear();
         (m_nodes[node])->primitives.clear();
+        (m_nodes[node])->lsystems.clear();
         (m_nodes[node])->children.clear();
         delete m_nodes[node];
     }
@@ -98,9 +107,13 @@ bool CS123XmlSceneParser::getLightData(int i, CS123SceneLightData& data) const
     return true;
 }
 
-int CS123XmlSceneParser::getNumLSystems() const
+std::vector<std::string> CS123XmlSceneParser::getIDLSystems() const
 {
-    return m_lsystems.size();
+    std::vector<std::string> toRet;
+    for(std::map<std::string, LSystemData*>::iterator it = m_lsystems.begin(); it != m_lsystems.end(); it++) {
+      toRet.push_back(it->first);
+    }
+    return toRet;
 }
 
 bool CS123XmlSceneParser::getLSystemData(std::string id, LSystemData& data) const
@@ -357,7 +370,7 @@ bool parseMap(const QDomElement &e, CS123SceneFileMap *map, std::string relPath)
     map->repeatV = e.hasAttribute("v") ? e.attribute("v").toFloat() : 1;
     map->isUsed = true;
 
-    std::cout << "parsed texture file at: " << map->filename << std::endl;
+    // std::cout << "parsed texture file at: " << map->filename << std::endl;
 
     return true;
 }
@@ -738,6 +751,13 @@ bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
                 return false;
             }
             lsystem->rules[sym.at(0)] = replace;
+        } else if (e.tagName() == "matblock")
+        {
+            if (!parseMatBlock(e, lsystem))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
         }
         else if (!e.isNull())
         {
@@ -748,6 +768,122 @@ bool CS123XmlSceneParser::parseLSystemData(const QDomElement &lsystemdata)
     }
 
     m_lsystems[id] = lsystem;
+    return true;
+}
+
+bool CS123XmlSceneParser::parseMatBlock(const QDomElement &matblock, LSystemData *lsystemData)
+{
+
+    CS123SceneMaterial mat;
+    memset(&mat, 0, sizeof(CS123SceneMaterial));
+    mat.textureMap = new CS123SceneFileMap;
+    mat.bumpMap = new CS123SceneFileMap;
+    mat.textureMap->isUsed = false;
+    mat.bumpMap->isUsed = false;
+    mat.cDiffuse.r = mat.cDiffuse.g = mat.cDiffuse.b = 1;
+
+    // Iterate over child elements
+    QDomNode childNode = matblock.firstChild();
+    while (!childNode.isNull())
+    {
+        QDomElement e = childNode.toElement();
+        if (e.tagName() == "diffuse")
+        {
+            if (!parseColor(e, mat.cDiffuse))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else if (e.tagName() == "ambient")
+        {
+            if (!parseColor(e, mat.cAmbient))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else if (e.tagName() == "reflective")
+        {
+            if (!parseColor(e, mat.cReflective))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else if (e.tagName() == "specular")
+        {
+            if (!parseColor(e, mat.cSpecular))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else if (e.tagName() == "emissive")
+        {
+            if (!parseColor(e, mat.cEmissive))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else if (e.tagName() == "transparent")
+        {
+            if (!parseColor(e, mat.cTransparent))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else if (e.tagName() == "shininess")
+        {
+            if (!parseSingle(e, mat.shininess, "v"))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else if (e.tagName() == "ior")
+        {
+            if (!parseSingle(e, mat.ior, "v"))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else if (e.tagName() == "texture")
+        {
+            if (!parseMap(e, mat.textureMap, file_path))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else if (e.tagName() == "bumpmap")
+        {
+            if (!parseMap(e, mat.bumpMap, file_path))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else if (e.tagName() == "blend")
+        {
+            if (!parseSingle(e, mat.blend, "v"))
+            {
+                PARSE_ERROR(e);
+                return false;
+            }
+        }
+        else
+        {
+            UNSUPPORTED_ELEMENT(e);
+            return false;
+        }
+        childNode = childNode.nextSibling();
+    }
+
+    lsystemData->mats.push_back(mat);
     return true;
 }
 
@@ -929,6 +1065,14 @@ bool CS123XmlSceneParser::parseTransBlock(const QDomElement &transblock, CS123Sc
                     return false;
                 }
             }
+            else if (e.attribute("type") == "lsystem")
+            {
+                if (!parseLSystemPrimitive(e, node))
+                {
+                    PARSE_ERROR(e);
+                    return false;
+                }
+            }
             else
             {
                 cout << ERROR_AT(e) << "invalid object type: " << e.attribute("type").toStdString()
@@ -970,29 +1114,6 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
     else if (primType == "cube") primitive->type = PRIMITIVE_CUBE;
     else if (primType == "cylinder") primitive->type = PRIMITIVE_CYLINDER;
     else if (primType == "cone") primitive->type = PRIMITIVE_CONE;
-    else if (primType == "lsystem")
-    {
-        primitive->type = PRIMITIVE_LSYSTEM;
-        if (prim.hasAttribute("id"))
-        {
-            primitive->lsystemID = prim.attribute("id").toStdString();
-        }
-        else
-        {
-            cout << "lsystem must reference a type of lsystem" << endl;
-            return false;
-        }
-
-        if (prim.hasAttribute("depth"))
-        {
-            primitive->lsystemDepth = prim.attribute("depth").toUInt();
-        }
-        else
-        {
-            cout << "lsystem must specify a depth to iterate" << endl;
-            return false;
-        }
-    }
     else if (primType == "mesh")
     {
         primitive->type = PRIMITIVE_MESH;
@@ -1115,3 +1236,31 @@ bool CS123XmlSceneParser::parsePrimitive(const QDomElement &prim, CS123SceneNode
     return true;
 }
 
+bool CS123XmlSceneParser::parseLSystemPrimitive(const QDomElement &prim, CS123SceneNode* node)
+{
+    CS123LSystemPrimitive* primitive = new CS123LSystemPrimitive;
+
+    if (prim.hasAttribute("id"))
+    {
+        primitive->lsystemID = prim.attribute("id").toStdString();
+    }
+    else
+    {
+        cout << "lsystem must reference a type of lsystem" << endl;
+        return false;
+    }
+
+    if (prim.hasAttribute("depth"))
+    {
+        primitive->lsystemDepth = prim.attribute("depth").toUInt();
+    }
+    else
+    {
+        cout << "lsystem must specify a depth to iterate" << endl;
+        return false;
+    }
+
+    node->lsystems.push_back(primitive);
+
+    return true;
+}

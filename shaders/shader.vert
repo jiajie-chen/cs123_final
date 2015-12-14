@@ -13,6 +13,8 @@ in vec2 texCoord; // UV texture coordinates
 //in float arrowOffset; // Sideways offset for billboarded normal arrows
 
 out vec2 texc;
+out mat4 view;
+out mat4 model;
 
 // Transformation matrices
 uniform mat4 p;
@@ -32,6 +34,8 @@ void main(){
     alsoNormal = normal;
     gl_Position = p * position_cameraSpace;
 
+    view = v;
+    model = m;
 
 
     // color = abs(normal);

@@ -39,13 +39,18 @@ uniform float shininess;
 uniform bool useLighting;     // Whether to calculate lighting using lighting equation
 uniform vec3 allBlack = vec3(1);
 
+in mat4 view;
+in mat4 model;
+
 
 void main(){
+
     vec3 color;
     vec3 position = alsoPosition;
     vec3 normal = alsoNormal;
     vec4 bumpVec   = normalize(vec4(texture(bump, texc).rgb * 2 - 1, 0));
-    vec4 bumpedNormal_cameraSpace = normal_cameraSpace + bumpVec * useBump;
+    vec4 bumpedNormal = normalize(vec4(normal, 0) + bumpVec * useBump);
+    vec4 bumpedNormal_cameraSpace = normalize(mat4(mat3(transpose(inverse(view * model)))) * bumpedNormal);
 
     // lol arrow mode
     /*
